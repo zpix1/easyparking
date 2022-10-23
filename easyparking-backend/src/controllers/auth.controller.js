@@ -1,13 +1,13 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
+import { sign } from 'jsonwebtoken';
+import { hashSync, compareSync } from 'bcrypt';
+import User from '../models/user';
 
-exports.signup = (req, res) => {
+export function signup(req, res) {
   const user = new User({
     fullName: req.body.fullName,
     email: req.body.email,
     role: req.body.role,
-    password: bcrypt.hashSync(req.body.password, 8),
+    password: hashSync(req.body.password, 8),
   });
 
   user.save((err, user) => {
@@ -21,9 +21,9 @@ exports.signup = (req, res) => {
       });
     }
   });
-};
+}
 
-exports.signin = (req, res) => {
+export function signin(req, res) {
   User.findOne({
     email: req.body.email,
   }).exec((err, user) => {
@@ -40,7 +40,7 @@ exports.signin = (req, res) => {
     }
 
     // comparing passwords
-    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    const passwordIsValid = compareSync(req.body.password, user.password);
     // checking if password was valid and send response accordingly
     if (!passwordIsValid) {
       return res.status(401).send({
@@ -49,7 +49,7 @@ exports.signin = (req, res) => {
       });
     }
     // signing token with user id
-    const token = jwt.sign(
+    const token = sign(
       {
         id: user.id,
       },
@@ -70,4 +70,4 @@ exports.signin = (req, res) => {
       accessToken: token,
     });
   });
-};
+}

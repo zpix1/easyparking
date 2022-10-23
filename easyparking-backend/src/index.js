@@ -1,10 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-
-require('dotenv').config();
+import express, { json, urlencoded } from 'express';
+import { connect } from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
 try {
-  mongoose.connect(process.env.DB, {
+  connect(process.env.DB, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
@@ -18,9 +18,9 @@ process.on('unhandledRejection', (error) => {
 
 const app = express();
 
-app.use(express.json());
+app.use(json());
 app.use(
-  express.urlencoded({
+  urlencoded({
     extended: true,
   }),
 );
