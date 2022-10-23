@@ -1,14 +1,30 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
-const app = express();
-const port = 3000;
+require('dotenv').config();
 
-app.get('/', (req, res) => {
-  res.json({
-    data: 'rofl',
+try {
+  mongoose.connect(process.env.DB, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
   });
+  console.log('Connected to db');
+} catch (error) {
+  console.error('unhandledRejection', error.message);
+}
+process.on('unhandledRejection', (error) => {
+  console.error('unhandledRejection', error.message);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+const app = express();
+
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
+
+app.listen(process.env.PORT || 8080, () => {
+  console.log('Server is live on port 8080');
 });
