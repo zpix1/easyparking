@@ -1,6 +1,8 @@
 import express, { json, urlencoded } from 'express';
 import { connect } from 'mongoose';
 import dotenv from 'dotenv';
+import router from './routes/router.js';
+
 dotenv.config();
 
 try {
@@ -28,3 +30,5 @@ app.use(
 app.listen(process.env.PORT || 8080, () => {
   console.log('Server is live on port 8080');
 });
+
+app.use(router);

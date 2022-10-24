@@ -1,12 +1,10 @@
-import { sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { hashSync, compareSync } from 'bcrypt';
-import User from '../models/user';
+import { User } from '../models/user.js';
 
 export function signup(req, res) {
   const user = new User({
-    fullName: req.body.fullName,
     email: req.body.email,
-    role: req.body.role,
     password: hashSync(req.body.password, 8),
   });
 
@@ -17,7 +15,7 @@ export function signup(req, res) {
       });
     } else {
       res.status(200).send({
-        message: 'User Registered successfully',
+        message: 'User registered successfully',
       });
     }
   });
@@ -35,7 +33,7 @@ export function signin(req, res) {
     }
     if (!user) {
       return res.status(404).send({
-        message: 'User Not found.',
+        message: 'User not found',
       });
     }
 
@@ -45,11 +43,11 @@ export function signin(req, res) {
     if (!passwordIsValid) {
       return res.status(401).send({
         accessToken: null,
-        message: 'Invalid Password!',
+        message: 'Invalid password',
       });
     }
     // signing token with user id
-    const token = sign(
+    const token = jwt.sign(
       {
         id: user.id,
       },
@@ -66,7 +64,7 @@ export function signin(req, res) {
         email: user.email,
         fullName: user.fullName,
       },
-      message: 'Login successfull',
+      message: 'Login successful',
       accessToken: token,
     });
   });

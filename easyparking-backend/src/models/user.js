@@ -19,6 +19,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
   created: {
     type: Date,
@@ -26,4 +27,4 @@ const userSchema = new Schema({
   },
 });
 
-export default model('User', userSchema);
+export const User = model('User', userSchema);
