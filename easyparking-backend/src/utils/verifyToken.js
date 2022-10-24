@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/user.js';
 
 export const verifyToken = (req, res, next) => {
-  console.log(req.headers);
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     jwt.verify(req.headers.authorization.split(' ')[1], process.env.API_SECRET, function (err, decode) {
       if (err) {
