@@ -59,7 +59,6 @@ export function signin(req, res) {
       user: {
         id: user._id,
         email: user.email,
-        fullName: user.fullName,
       },
       message: 'Login successful',
       accessToken: token,
