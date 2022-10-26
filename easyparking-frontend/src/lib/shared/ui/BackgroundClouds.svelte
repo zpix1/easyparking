@@ -1,5 +1,4 @@
 <script>
-    export let size = 'l';
 </script>
 
 <div class="cloud-top" />

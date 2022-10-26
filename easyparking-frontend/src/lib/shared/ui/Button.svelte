@@ -8,7 +8,7 @@
 <style lang="scss">
     button {
         display: block;
-        width: 270px;
+        width: 40%;
         height: 90px;
         border: 5px solid #a09ef0;
         background: #2b2a53;
@@ -31,6 +31,11 @@
             background-position: 0;
             filter: drop-shadow(5px 5px 20px #a09ef0)
                 drop-shadow(-5px -5px 10px #831dd6);
+        }
+    }
+    @media (max-width: 1091px) {
+        button {
+            max-width: 40%;
         }
     }
 </style>

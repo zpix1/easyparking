@@ -25,13 +25,13 @@
 <style lang="scss">
     header {
         position: fixed;
-        width: 100vw;
+        min-width: 100%;
         z-index: 999;
         height: var(--navbar-height-desktop);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px 158px;
+        padding: 15px 150px;
         text-align: center;
         background: #4d4d6d;
         .logo {
@@ -47,12 +47,39 @@
                 cursor: pointer;
             }
         }
-        ul {
+        .links-list {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 0;
             margin: 0;
             list-style: none;
+        }
+    }
+
+    @media (max-width: 1091px) {
+        header {
+            padding: 0px 50px;
+            .logo {
+                a {
+                    font-size: 24px;
+                    line-height: 30px;
+                }
+            }
+        }
+    }
+    @media (max-width: 768px) {
+        header {
+            padding: 0 20px;
+            .logo {
+                a {
+                    font-size: 24px;
+                    line-height: 30px;
+                }
+            }
+            .links-list {
+                flex: 0 1 55%;
+            }
         }
     }
 </style>

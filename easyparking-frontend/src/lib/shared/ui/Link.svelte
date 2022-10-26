@@ -50,4 +50,14 @@
             transition: width 0.3s;
         }
     }
+    @media (max-width: 768px) {
+        a {
+            margin-left: 14px;
+            &.size-l {
+                font-size: 16px;
+                line-height: 30px;
+                font-weight: 400;
+            }
+        }
+    }
 </style>
