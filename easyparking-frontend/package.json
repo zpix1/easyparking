@@ -4,6 +4,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"lint:fix": "npx stylelint **/*.{css,scss,svelte} --fix",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch"
@@ -14,7 +15,13 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@types/cookie": "^0.5.1",
+		"postcss": "^8.4.18",
+		"postcss-html": "^1.5.0",
 		"sass": "^1.55.0",
+		"stylelint": "^14.14.0",
+		"stylelint-config-recommended-scss": "^8.0.0",
+		"stylelint-config-standard": "^29.0.0",
+		"stylelint-scss": "^4.3.0",
 		"svelte": "^3.46.0",
 		"svelte-check": "^2.7.1",
 		"typescript": "^4.7.4",

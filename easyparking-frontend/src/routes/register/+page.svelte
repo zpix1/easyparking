@@ -1,13 +1,11 @@
 <script>
-    import BackgroundClouds from '$lib/shared/ui/BackgroundClouds.svelte';
 </script>
 
 <svelte:head>
     <title>Registration</title>
-    <meta name="description" content="EasyParking" />
+    <meta name="description" content="EasyParking registration" />
 </svelte:head>
 
-<BackgroundClouds />
 <section>register</section>
 
 <style lang="scss">
