@@ -1,14 +1,34 @@
-const express = require('express');
+import express, { json, urlencoded } from 'express';
+import { connect } from 'mongoose';
+import dotenv from 'dotenv';
+import router from './routes/router.js';
+
+dotenv.config();
+
+try {
+  connect(process.env.DB, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  });
+  console.log('Connected to db');
+} catch (error) {
+  console.error('unhandledRejection', error.message);
+}
+process.on('unhandledRejection', (error) => {
+  console.error('unhandledRejection', error.message);
+});
 
 const app = express();
-const port = 3000;
 
-app.get('/', (req, res) => {
-  res.json({
-    data: 'rofl',
-  });
+app.use(json());
+app.use(
+  urlencoded({
+    extended: true,
+  }),
+);
+
+app.listen(process.env.PORT || 8080, () => {
+  console.log('Server is live on port 8080');
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+app.use(router);

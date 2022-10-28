@@ -8,6 +8,7 @@
     "lint": "eslint src/**/*.js --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -19,6 +20,10 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.7"
   }
 }
