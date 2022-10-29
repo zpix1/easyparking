@@ -1,111 +1,206 @@
 {
-  "info": {
-    "_postman_id": "185e841d-2c25-4277-841d-a02764f62405",
-    "name": "EasyParking",
-    "description": "Easy app for easy parking",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "24020502"
-  },
-  "item": [
-    {
-      "name": "Login",
-      "item": [
-        {
-          "name": "Login",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"mem.kek@mem.kek\",\n    \"password\": \"321123\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "localhost:8080/login",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["login"]
-            },
-            "description": "Login with email and password to get accessToken"
-          },
-          "response": []
-        },
-        {
-          "name": "Register",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"mem.kek@mem.kek\",\n    \"password\": \"321123\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "localhost:8080/register",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["register"]
-            },
-            "description": "Register with email and password"
-          },
-          "response": []
-        }
-      ],
-      "description": "Login to get JWT using email and password"
-    },
-    {
-      "name": "Authorized Content",
-      "item": [
-        {
-          "name": "Get hidden content",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "localhost:8080/hiddencontent",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["hiddencontent"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "description": "All things for which you need JWT to use them",
-      "auth": {
-        "type": "bearer",
-        "bearer": [
-          {
-            "key": "token",
-            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTY1YjRmZTVjNzBmMDU5NzY2MTdiNyIsImlhdCI6MTY2NjYwNTA0NCwiZXhwIjoxNjY2NjkxNDQ0fQ.HSljKY9NuMMc4NMUkjaGK0JxZhQVs_8bd1HmjttWudc",
-            "type": "string"
-          }
-        ]
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "185e841d-2c25-4277-841d-a02764f62405",
+		"name": "EasyParking",
+		"description": "Easy app for easy parking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24020502"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"mem.kek@mem.kek\",\n    \"password\": \"321123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						},
+						"description": "Login with email and password to get accessToken"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"mem.kek@mem.kek\",\n    \"password\": \"321123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"register"
+							]
+						},
+						"description": "Register with email and password"
+					},
+					"response": []
+				}
+			],
+			"description": "Login to get JWT using email and password"
+		},
+		{
+			"name": "Authorized Content",
+			"item": [
+				{
+					"name": "Parkings",
+					"item": [
+						{
+							"name": "Favorite",
+							"item": [
+								{
+									"name": "Get Favorites",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"offset\": 3,\n    \"count\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parkings/favorite",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parkings",
+												"favorite"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Favorite",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"parkingId\": \"testParkingId1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parkings/favorite",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parkings",
+												"favorite"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Favorite",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"parkingId\": \"testParkingId1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parkings/favorite",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parkings",
+												"favorite"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			],
+			"description": "All things for which you need JWT to use them",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTY1YjRmZTVjNzBmMDU5NzY2MTdiNyIsImlhdCI6MTY2NzAzOTQzMiwiZXhwIjoxNjY3MTI1ODMyfQ.HErkhRDawCxQqupIvUA6bcbLHkz8Im_YdBaeTzES0Gs",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
 }

@@ -22,9 +22,14 @@ export function signup(req, res) {
 }
 
 export function signin(req, res) {
-  User.findOne({
-    email: req.body.email,
-  }).exec((err, user) => {
+  User.findOne(
+    {
+      email: req.body.email,
+    },
+    {
+      password: true,
+    },
+  ).exec((err, user) => {
     if (err) {
       res.status(500).send({
         message: err,
