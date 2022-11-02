@@ -3,48 +3,42 @@ import { hashSync, compareSync } from 'bcrypt';
 import { User } from '../models/user.js';
 
 export function signup(req, res) {
-  const user = new User({
-    email: req.body.email,
-    password: hashSync(req.body.password, 8),
-  });
-
-  user.save((err, user) => {
-    if (err) {
-      res.status(500).send({
-        message: err,
-      });
-    } else {
-      const token = jwt.sign(
-        {
-          id: user.id,
-        },
-        process.env.API_SECRET,
-        {
-          expiresIn: 86400,
-        },
-      );
-      res.status(200).send({
-        user: {
-          id: user._id,
-          email: user.email,
-        },
-        message: 'User registered succesfully',
-        accessToken: token,
+  User.findOne({ email: req.body.email }).then((user) => {
+    if (user) {
+      return res.status(400).send({
+        message: 'User with this email already exists'
       });
     }
-  });
+
+    const newUser = new User({
+      email: req.body.email,
+      password: hashSync(req.body.password, 8),
+    });
+  
+    newUser.save((err, user) => {
+      if (err) {
+        res.status(500).send({
+          message: err,
+        });
+      } else {
+        signin(req, res);
+      }
+    });
+  })
+
+  
 }
 
 export function signin(req, res) {
   User.findOne(
-      {
-        email: req.body.email,
-      },
-      {
-        password: true,
-        email: true,
-      },
-    ).exec((err, user) => {
+    {
+      email: req.body.email,
+    },
+    {
+      password: true,
+      email: true
+    },
+  ).exec((err, user) => {
     if (err) {
       res.status(500).send({
         message: err,
@@ -68,6 +62,7 @@ export function signin(req, res) {
     const token = jwt.sign(
       {
         id: user.id,
+        email: user.email
       },
       process.env.API_SECRET,
       {
@@ -80,8 +75,17 @@ export function signin(req, res) {
         id: user._id,
         email: user.email,
       },
-      message: 'Login successful',
       accessToken: token,
     });
+  });
+}
+
+
+export function userInfo(req, res) {
+  return res.status(200).send({
+    user: {
+      id: req.user._id,
+      email: req.user.email
+    }
   });
 }

@@ -43,8 +43,8 @@ export async function register(body) {
     } catch (err){
         console.log(err.response.status, err.response.data);
         userLoading.set(false);
-        if(err.response.data.message.code === 11000){
-            registerError.set("User already exists");
+        if(err.response.data.message === 'User with this email already exists'){
+            registerError.set("This user already exists");
         } else {
             registerError.set("Registration error");
         }
@@ -53,8 +53,8 @@ export async function register(body) {
 
 export async function getMe() {
     try{
-        const {data} = await axios.get('/hiddencontent');
-        user.set({id: data.user._id, email: data.user.email});
+        const {data} = await axios.get('/user');
+        user.set({id: data.user.id, email: data.user.email});
     } catch (err){
         console.log(err.response.data.message);
     }
