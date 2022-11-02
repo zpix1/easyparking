@@ -25,6 +25,11 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  favoriteParkings: {
+    type: [String],
+    default: [],
+    select: false,
+  },
 });
 
 export const User = model('User', userSchema);

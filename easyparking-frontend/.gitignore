@@ -1,4 +1,11 @@
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.svelte-kit
 node_modules
 /build
 /.svelte-kit
