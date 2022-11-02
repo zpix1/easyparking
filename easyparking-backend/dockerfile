@@ -1,0 +1,18 @@
+FROM node:16
+
+# Create app directory
+WORKDIR /easyparking-backend
+
+# Install app dependencies
+COPY package*.json ./
+
+# Bundle app source
+COPY . .
+
+RUN npm install
+RUN npm run build
+# Remove dev dependencies
+RUN npm prune --production
+
+EXPOSE 8080
+CMD [ "node", "index.js" ]
