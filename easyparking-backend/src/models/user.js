@@ -27,7 +27,6 @@ const userSchema = new Schema({
   },
   favoriteParkings: {
     type: [String],
-    unique: true,
     default: [],
     select: false,
   },

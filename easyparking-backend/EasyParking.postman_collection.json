@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"mem.kek@mem.kek\",\n    \"password\": \"321123\"\n}",
+							"raw": "{\n    \"email\": \"mem@kek.ru\",\n    \"password\": \"321123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"mem.kek@mem.kek\",\n    \"password\": \"321123\"\n}",
+							"raw": "{\n    \"email\": \"mem@kek\",\n    \"password\": \"3211232\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -168,6 +168,38 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Current",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"offset\": 3,\n    \"count\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"description": "All things for which you need JWT to use them",
@@ -176,7 +208,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNTY1YjRmZTVjNzBmMDU5NzY2MTdiNyIsImlhdCI6MTY2NzAzOTQzMiwiZXhwIjoxNjY3MTI1ODMyfQ.HErkhRDawCxQqupIvUA6bcbLHkz8Im_YdBaeTzES0Gs",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjI0N2IyZTZjNjU1MDBiNGJhOTk2ZSIsImlhdCI6MTY2NzM4NTU0MSwiZXhwIjoxNjY3NDcxOTQxfQ.m_AyOpZE5TvqhOWYmf0moSsMLayXKB-Ndq-KywFAa88",
 						"type": "string"
 					}
 				]

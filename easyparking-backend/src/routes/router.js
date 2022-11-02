@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { signup, signin } from '../controllers/auth.controller.js';
+import { signup, signin, userInfo } from '../controllers/auth.controller.js';
 import { verifyToken } from '../utils/verifyToken.js';
 import parkingRouter from './parkings.js';
 
@@ -8,6 +8,8 @@ const router = Router();
 router.post('/register', signup);
 
 router.post('/login', signin);
+
+router.post('/user', verifyToken, userInfo);
 
 router.use('/parkings', parkingRouter);
 
