@@ -1,7 +1,7 @@
 <script>
     import Navbar from '$lib/widgets/Navbar.svelte';
     import '../../../styles/global.css';
-    const links = [{ page: '/login', name: 'log in' }];
+    const links = [{ page: '', name: '' }];
 </script>
 
 <div class="app">

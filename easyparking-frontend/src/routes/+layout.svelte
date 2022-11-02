@@ -2,6 +2,12 @@
     import BackgroundClouds from '$lib/shared/ui/BackgroundClouds.svelte';
     import Footer from '$lib/widgets/Footer.svelte';
     import '../styles/global.css';
+    import { getMe } from '$lib/entities/User';
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        getMe();
+    });
 </script>
 
 <div class="app">

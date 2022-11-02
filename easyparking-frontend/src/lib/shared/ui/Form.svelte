@@ -1,49 +1,60 @@
 <script>
+    // @ts-nocheck
     import Button from '$lib/shared/ui/Button.svelte';
-    import { adminAuth } from './store';
+    import Loader from '$lib/shared/ui/Loader.svelte';
+    import { userLoading } from '$lib/entities/User';
+    import { formValidation } from '$lib/shared/utils/formValidator';
 
-    const fileds = { password: '' };
-    let adminError = '';
+    export let formType = '';
+    export let totalError = '';
+    export let submitCallback = () => {};
+    export let fields = [];
+    export let fieldsErrors = {};
+    export let fieldsRules = {};
     const submitHandler = () => {
-        if (fileds.password !== import.meta.env.VITE_ADMIN_PASS) {
-            adminError = 'Invalid admin password';
+        const body = {};
+        for (let item of fields) {
+            body[item.type] = item.value;
+        }
+        let [validForm, errorMessages] = formValidation(body, fieldsRules);
+        if (validForm) {
+            submitCallback(body);
         } else {
-            adminError = '';
-            adminAuth();
+            for (let error of errorMessages) {
+                fieldsErrors[error.field] = error.message;
+            }
         }
     };
 </script>
 
-<svelte:head>
-    <title>Admin</title>
-</svelte:head>
-
-<section class="container">
-    <h1>Please log in to get into admin console</h1>
-    <form on:submit|preventDefault={submitHandler}>
+<form on:submit|preventDefault={submitHandler}>
+    {#each fields as field (field.name)}
         <div class="form-field">
-            <label for="password">PASSWORD</label>
-            <input type="password" id="password" bind:value={fileds.password} />
+            <label for={field.type}>{field.name}</label>
+            {#if field.type === 'password'}
+                <input
+                    type="password"
+                    id={field.type}
+                    bind:value={field.value}
+                />
+            {:else}
+                <input type="text" id={field.type} bind:value={field.value} />
+            {/if}
+
+            <div class="error">{fieldsErrors[field.type]}</div>
         </div>
-        <div class="error">{adminError}</div>
-        <Button type="submit">login</Button>
-    </form>
-</section>
+    {/each}
+    <div class="error">{$totalError}</div>
+    <Button type="submit">
+        {#if $userLoading}
+            <Loader />
+        {:else}
+            {formType}
+        {/if}
+    </Button>
+</form>
 
 <style lang="scss">
-    .container {
-        width: 50%;
-        padding: 0px 10px 50px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    h1 {
-        text-align: center;
-        font-size: 64px;
-        line-height: 80px;
-    }
     form {
         min-width: 70%;
         margin: 0 auto;
@@ -81,14 +92,6 @@
     @media (max-width: 1091px) {
     }
     @media (max-width: 768px) {
-        .container {
-            width: 80%;
-            padding: 0px 0px 50px;
-        }
-        h1 {
-            font-size: 40px;
-            line-height: 50px;
-        }
         form {
             min-width: 100%;
             input {
@@ -102,13 +105,6 @@
                         drop-shadow(-2px -2px 5px #831dd6);
                 }
             }
-        }
-    }
-
-    @media (max-width: 426px) {
-        h1 {
-            font-size: 30px;
-            line-height: 38px;
         }
     }
 </style>

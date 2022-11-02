@@ -1,9 +1,13 @@
 <script>
     import Link from '$lib/shared/ui/Link.svelte';
     import logo from '$lib/shared/assets/logo.svg';
+    import { logOut, user } from '$lib/entities/User';
     let menuActive = false;
     export let links = [{ page: '/login', name: 'log in' }];
     export let appName = 'Easy Parking';
+    const handleLogOut = () => {
+        logOut();
+    };
     const toggleMenu = () => {
         menuActive = !menuActive;
     };
@@ -21,14 +25,44 @@
         </a>
     </div>
     <ul class={`links-list ${menuActive ? 'active' : 0}`}>
-        {#each links as link (link.page)}
-            <li>
+        <!-- <li>
+            <Link
+                to={'/nearby'}
+                text={'nearby parkings'}
+                size="l"
+                classNames={'default shifted'}
+            />
+            <Link
+                to={'/starred'}
+                text={'starred'}
+                size="l"
+                classNames={'default shifted'}
+            />
+            {#if JSON.stringify($user) !== '{}'}
+                <button on:click={handleLogOut}>logout</button>
+            {:else}
                 <Link
-                    to={link.page}
-                    text={link.name}
+                    to={'/login'}
+                    text={'log in'}
                     size="l"
                     classNames={'default shifted'}
                 />
+            {/if}
+        </li> -->
+        {#each links as link (link.page)}
+            <li>
+                {#if link.page === '/login' && JSON.stringify($user) !== '{}'}
+                    <button class="logout-btn" on:click={handleLogOut}
+                        >logout</button
+                    >
+                {:else}
+                    <Link
+                        to={link.page}
+                        text={link.name}
+                        size="l"
+                        classNames={'default shifted'}
+                    />
+                {/if}
             </li>
         {/each}
     </ul>
@@ -70,6 +104,41 @@
             margin: 0;
             list-style: none;
         }
+        .logout-btn {
+            position: relative;
+            color: var(--color-text);
+            cursor: pointer;
+            margin-left: 50px;
+            font: var(--font-l);
+            background-color: transparent;
+            border: none;
+            outline: none;
+            &:hover {
+                color: var(--primary-color);
+            }
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                right: 0;
+                bottom: -3px;
+                width: 0;
+                height: 2px;
+                background-color: var(--primary-color);
+                transition: width 0.3s;
+            }
+            &:hover:after {
+                content: '';
+                width: 100%;
+                display: block;
+                position: absolute;
+                left: 0;
+                bottom: -3px;
+                height: 2px;
+                background-color: var(--primary-color);
+                transition: width 0.3s;
+            }
+        }
     }
 
     @media (max-width: 1091px) {
@@ -94,6 +163,13 @@
             }
             .links-list {
                 flex: 0 1 55%;
+            }
+            .logout-btn {
+                margin-left: 50px;
+                white-space: nowrap;
+                font-size: 16px;
+                line-height: 30px;
+                font-weight: normal;
             }
         }
     }
@@ -170,6 +246,12 @@
                         transform: scale(1);
                     }
                 }
+            }
+            .logout-btn {
+                margin-left: 0;
+                font-size: 30px;
+                line-height: 38px;
+                font-weight: normal;
             }
         }
     }

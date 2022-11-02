@@ -14,17 +14,37 @@ export function signup(req, res) {
         message: err,
       });
     } else {
+      const token = jwt.sign(
+        {
+          id: user.id,
+        },
+        process.env.API_SECRET,
+        {
+          expiresIn: 86400,
+        },
+      );
       res.status(200).send({
-        message: 'User registered successfully',
+        user: {
+          id: user._id,
+          email: user.email,
+        },
+        message: 'User registered succesfully',
+        accessToken: token,
       });
     }
   });
 }
 
 export function signin(req, res) {
-  User.findOne({
-    email: req.body.email,
-  }).exec((err, user) => {
+  User.findOne(
+      {
+        email: req.body.email,
+      },
+      {
+        password: true,
+        email: true,
+      },
+    ).exec((err, user) => {
     if (err) {
       res.status(500).send({
         message: err,

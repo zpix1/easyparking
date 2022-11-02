@@ -2,6 +2,7 @@
     import Link from '$lib/shared/ui/Link.svelte';
     import carsHero from '$lib/shared/assets/cars.svg';
     import Navbar from '$lib/widgets/Navbar.svelte';
+    import { user } from '$lib/entities/User';
     const links = [
         { page: '/nearby', name: 'nearby parkings' },
         { page: '/starred', name: 'starred' },
@@ -23,13 +24,27 @@
             time driving around looking for parking vacancy.
         </p>
         <div class="button-wrapper">
-            <Link to="/login" text="login" classNames="btnStyled" size="l" />
-            <Link
-                to="/register"
-                text="register"
-                classNames="btnStyled"
-                size="l"
-            />
+            {#if JSON.stringify($user) === '{}'}
+                <Link
+                    to="/login"
+                    text="login"
+                    classNames="btnStyled"
+                    size="l"
+                />
+                <Link
+                    to="/register"
+                    text="register"
+                    classNames="btnStyled"
+                    size="l"
+                />
+            {:else}
+                <Link
+                    to="/starred"
+                    text="favorite"
+                    classNames="btnStyled"
+                    size="l"
+                />
+            {/if}
         </div>
         <img src={carsHero} alt="cars" />
     </section>
