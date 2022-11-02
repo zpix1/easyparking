@@ -1,0 +1,17 @@
+FROM node:16
+
+# Create app directory
+WORKDIR /easyparking-frontend
+
+# Bundle app source
+COPY . .
+
+RUN npm install
+RUN npm run build
+# Remove dev dependencies
+RUN npm prune --production
+
+EXPOSE 5000
+ENV HOST=0.0.0.0
+
+CMD [ "npm", "start" ]
