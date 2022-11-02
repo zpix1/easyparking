@@ -51,33 +51,33 @@
 </section>
 
 <style lang="scss">
+  .container {
+    width: 50%;
+    padding: 0px 10px 50px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    text-align: center;
+    font-size: 64px;
+    line-height: 80px;
+  }
+  @media (max-width: 768px) {
     .container {
-        width: 50%;
-        padding: 0px 10px 50px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      width: 80%;
+      padding: 0px 0px 50px;
     }
     h1 {
-        text-align: center;
-        font-size: 64px;
-        line-height: 80px;
+      font-size: 40px;
+      line-height: 50px;
     }
-    @media (max-width: 768px) {
-        .container {
-            width: 80%;
-            padding: 0px 0px 50px;
-        }
-        h1 {
-            font-size: 40px;
-            line-height: 50px;
-        }
+  }
+  @media (max-width: 426px) {
+    h1 {
+      font-size: 30px;
+      line-height: 38px;
     }
-    @media (max-width: 426px) {
-        h1 {
-            font-size: 30px;
-            line-height: 38px;
-        }
-    }
+  }
 </style>

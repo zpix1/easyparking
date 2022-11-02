@@ -55,56 +55,56 @@
 </form>
 
 <style lang="scss">
+  form {
+    min-width: 70%;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 30px;
+    .form-field {
+      margin: 22px auto;
+      text-align: left;
+    }
+    input {
+      width: 100%;
+      border-radius: 10px;
+      height: 56px;
+      margin-top: 20px;
+      background: rgba(217, 217, 217, 0.7);
+      font: var(--font-l);
+      font-weight: 900;
+      transition: all 0.5s;
+      &:focus {
+        outline: 3px solid var(--primary-color);
+        filter: drop-shadow(2px 2px 5px #a09ef0)
+          drop-shadow(-2px -2px 5px #831dd6);
+      }
+    }
+    label {
+      font: var(--font-m);
+      font-weight: 600;
+    }
+    .error {
+      text-align: center;
+      font: var(--font-m);
+      color: rgb(237, 110, 110);
+    }
+  }
+  @media (max-width: 1091px) {
+  }
+  @media (max-width: 768px) {
     form {
-        min-width: 70%;
-        margin: 0 auto;
-        text-align: center;
-        margin-bottom: 30px;
-        .form-field {
-            margin: 22px auto;
-            text-align: left;
+      min-width: 100%;
+      input {
+        width: 100%;
+        font: var(--font-m);
+        font-weight: 900;
+        transition: all 0.5s;
+        &:focus {
+          outline: 3px solid var(--primary-color);
+          filter: drop-shadow(2px 2px 5px #a09ef0)
+            drop-shadow(-2px -2px 5px #831dd6);
         }
-        input {
-            width: 100%;
-            border-radius: 10px;
-            height: 56px;
-            margin-top: 20px;
-            background: rgba(217, 217, 217, 0.7);
-            font: var(--font-l);
-            font-weight: 900;
-            transition: all 0.5s;
-            &:focus {
-                outline: 3px solid var(--primary-color);
-                filter: drop-shadow(2px 2px 5px #a09ef0)
-                    drop-shadow(-2px -2px 5px #831dd6);
-            }
-        }
-        label {
-            font: var(--font-m);
-            font-weight: 600;
-        }
-        .error {
-            text-align: center;
-            font: var(--font-m);
-            color: rgb(237, 110, 110);
-        }
+      }
     }
-    @media (max-width: 1091px) {
-    }
-    @media (max-width: 768px) {
-        form {
-            min-width: 100%;
-            input {
-                width: 100%;
-                font: var(--font-m);
-                font-weight: 900;
-                transition: all 0.5s;
-                &:focus {
-                    outline: 3px solid var(--primary-color);
-                    filter: drop-shadow(2px 2px 5px #a09ef0)
-                        drop-shadow(-2px -2px 5px #831dd6);
-                }
-            }
-        }
-    }
+  }
 </style>

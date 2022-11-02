@@ -20,17 +20,17 @@
 </section>
 
 <style lang="scss">
-    .container {
-        width: 50%;
-        padding: 50px 10px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    h1 {
-        font-size: 50px;
-        line-height: 58px;
-        margin-bottom: 50px;
-    }
+  .container {
+    width: 50%;
+    padding: 50px 10px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    font-size: 50px;
+    line-height: 58px;
+    margin-bottom: 50px;
+  }
 </style>

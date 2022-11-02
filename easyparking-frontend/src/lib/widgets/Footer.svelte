@@ -21,17 +21,17 @@
 </footer>
 
 <style lang="scss">
+  footer {
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 158px;
+    background: rgba(29, 27, 58, 0.7);
+  }
+  @media (max-width: 768px) {
     footer {
-        min-width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 22px 158px;
-        background: rgba(29, 27, 58, 0.7);
+      padding: 30px 20px;
     }
-    @media (max-width: 768px) {
-        footer {
-            padding: 30px 20px;
-        }
-    }
+  }
 </style>

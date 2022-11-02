@@ -17,14 +17,14 @@
 </div>
 
 <style>
-    .app {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        max-width: 100%;
-        font: var(--font-m);
-        font-weight: normal;
-        color: var(--color-text);
-        background-color: var(--bg-color-primary);
-    }
+  .app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 100%;
+    font: var(--font-m);
+    font-weight: normal;
+    color: var(--color-text);
+    background-color: var(--bg-color-primary);
+  }
 </style>

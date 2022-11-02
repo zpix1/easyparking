@@ -8,10 +8,10 @@
 <section>здесь могла быть ваша реклама</section>
 
 <style lang="scss">
-    @media (max-width: 1091px) {
-    }
-    @media (max-width: 768px) {
-    }
-    @media (max-width: 426px) {
-    }
+  @media (max-width: 1091px) {
+  }
+  @media (max-width: 768px) {
+  }
+  @media (max-width: 426px) {
+  }
 </style>
