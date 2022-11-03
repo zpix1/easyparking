@@ -1,6 +1,4 @@
 <script>
-    // @ts-nocheck
-
     import { user } from '$lib/entities/User';
     import Link from '$lib/shared/ui/Link.svelte';
 </script>
@@ -11,7 +9,7 @@
 </svelte:head>
 
 <section class="container">
-    {#if JSON.stringify($user) !== '{}'}
+    {#if $user}
         <h1>Welcome, {$user.email}</h1>
     {:else}
         <h1>login to add favorite parkings</h1>

@@ -25,33 +25,9 @@
         </a>
     </div>
     <ul class={`links-list ${menuActive ? 'active' : 0}`}>
-        <!-- <li>
-            <Link
-                to={'/nearby'}
-                text={'nearby parkings'}
-                size="l"
-                classNames={'default shifted'}
-            />
-            <Link
-                to={'/starred'}
-                text={'starred'}
-                size="l"
-                classNames={'default shifted'}
-            />
-            {#if JSON.stringify($user) !== '{}'}
-                <button on:click={handleLogOut}>logout</button>
-            {:else}
-                <Link
-                    to={'/login'}
-                    text={'log in'}
-                    size="l"
-                    classNames={'default shifted'}
-                />
-            {/if}
-        </li> -->
         {#each links as link (link.page)}
             <li>
-                {#if link.page === '/login' && JSON.stringify($user) !== '{}'}
+                {#if link.page === '/login' && $user}
                     <button class="logout-btn" on:click={handleLogOut}
                         >logout</button
                     >

@@ -13,14 +13,14 @@
     export let fieldsRules = {};
     const submitHandler = () => {
         const body = {};
-        for (let item of fields) {
+        for (const item of fields) {
             body[item.type] = item.value;
         }
-        let [validForm, errorMessages] = formValidation(body, fieldsRules);
+        const [validForm, errorMessages] = formValidation(body, fieldsRules);
         if (validForm) {
             submitCallback(body);
         } else {
-            for (let error of errorMessages) {
+            for (const error of errorMessages) {
                 fieldsErrors[error.field] = error.message;
             }
         }

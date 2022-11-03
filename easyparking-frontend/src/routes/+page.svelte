@@ -24,7 +24,7 @@
             time driving around looking for parking vacancy.
         </p>
         <div class="button-wrapper">
-            {#if JSON.stringify($user) === '{}'}
+            {#if !$user}
                 <Link
                     to="/login"
                     text="login"
