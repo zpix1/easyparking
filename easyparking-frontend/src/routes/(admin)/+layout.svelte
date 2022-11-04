@@ -1,6 +1,6 @@
 <script>
     import Navbar from '$lib/widgets/Navbar.svelte';
-    import '../../../styles/global.css';
+    import '../../styles/global.css';
     const links = [{ page: '', name: '' }];
 </script>
 
