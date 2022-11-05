@@ -10,13 +10,13 @@
     export let submitCallback = () => {};
     export let fields = [];
     export let fieldsErrors = {};
-    export let fieldsRules = {};
+    export let fieldsRules = [];
     const submitHandler = () => {
         const body = {};
         for (const item of fields) {
             body[item.type] = item.value;
         }
-        const [validForm, errorMessages] = formValidation(body, fieldsRules);
+        const [validForm, errorMessages] = formValidation(fields, fieldsRules);
         if (validForm) {
             submitCallback(body);
         } else {
@@ -82,6 +82,7 @@
     label {
       font: var(--font-m);
       font-weight: 600;
+      text-transform: uppercase;
     }
     .error {
       text-align: center;

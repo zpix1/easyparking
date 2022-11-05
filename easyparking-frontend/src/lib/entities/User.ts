@@ -1,20 +1,20 @@
 import { writable } from 'svelte/store';
 import axios from '$lib/shared/config/axiosConfig';
 import { goto } from '$app/navigation';
-import type { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
-export interface IAuthBody {
+export interface AuthBody {
     email: string;
     password: string;
 }
 
-export interface IUser {
+export interface User {
     id: string;
     email: string;
 }
 
 export const isAuthenticated = writable(false);
-export const user = writable<null | IUser>(null);
+export const user = writable<null | User>(null);
 export const userLoading = writable(false);
 export const registerError = writable('');
 export const loginError = writable('');
@@ -25,7 +25,7 @@ export function logOut() {
     goto('/login');
 }
 
-export async function logIn(body: IAuthBody) {
+export async function logIn(body: AuthBody) {
     try {
         userLoading.set(true);
         const { data } = await axios.post('/login', body);
@@ -34,14 +34,18 @@ export async function logIn(body: IAuthBody) {
         loginError.set('');
         userLoading.set(false);
         goto('/');
-    } catch (err: AxiosError | any) {
-        console.log(err?.response?.status, err?.response?.data);
+    } catch (err) {
+        if (err instanceof AxiosError) {
+            console.log(err?.response?.status, err?.response?.data);
+        } else {
+            console.log(err);
+        }
         userLoading.set(false);
         loginError.set('invalid login or password');
     }
 }
 
-export async function register(body: IAuthBody) {
+export async function register(body: AuthBody) {
     try {
         userLoading.set(true);
         const { data } = await axios.post('/register', body);
@@ -50,17 +54,17 @@ export async function register(body: IAuthBody) {
         registerError.set('');
         userLoading.set(false);
         goto('/');
-    } catch (err: AxiosError | any) {
-        console.log(err?.response?.status, err?.response?.data);
-        userLoading.set(false);
-        if (
-            err?.response?.data?.message ===
-            'User with this email already exists'
-        ) {
-            registerError.set('This user already exists');
+    } catch (err) {
+        if (err instanceof AxiosError) {
+            console.log(err?.response?.status, err?.response?.data);
+            registerError.set(
+                err?.response?.data?.message ?? 'Registration error'
+            );
         } else {
+            console.log(err);
             registerError.set('Registration error');
         }
+        userLoading.set(false);
     }
 }
 
@@ -68,7 +72,7 @@ export async function getMe() {
     try {
         const { data } = await axios.get('/user');
         user.set({ id: data.user.id, email: data.user.email });
-    } catch (err: AxiosError | any) {
-        console.log(err?.response?.data);
+    } catch (err) {
+        console.log(err);
     }
 }
