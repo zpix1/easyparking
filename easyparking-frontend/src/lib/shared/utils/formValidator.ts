@@ -1,7 +1,7 @@
 class Validator {
-    email(value: string, message: string) {
+    email(value, message) {
         let emailLen = value ? value.trim().length : 0;
-        if (emailLen < 1 || emailLen > 50 || !value.includes('@')) {
+        if (emailLen < 1 || emailLen > 50 || !value?.includes('@')) {
             return {
                 field: 'email',
                 message: message,
@@ -13,7 +13,7 @@ class Validator {
             };
         }
     }
-    password(value: string, message: string) {
+    password(value, message) {
         let passwordLen = value ? value.trim().length : 0;
         if (passwordLen < 1) {
             return {
