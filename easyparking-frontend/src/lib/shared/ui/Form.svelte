@@ -5,7 +5,8 @@
     import { userLoading } from '$lib/entities/User';
     import { formValidation } from '$lib/shared/utils/formValidator';
 
-    export let formType = '';
+    export let className = '';
+    export let buttonLabel = '';
     export let totalError = '';
     export let submitCallback = () => {};
     export let fields = [];
@@ -27,7 +28,7 @@
     };
 </script>
 
-<form on:submit|preventDefault={submitHandler}>
+<form class={className} on:submit|preventDefault={submitHandler}>
     {#each fields as field (field.name)}
         <div class="form-field">
             <label for={field.type}>{field.name}</label>
@@ -49,13 +50,13 @@
         {#if $userLoading}
             <Loader />
         {:else}
-            {formType}
+            {buttonLabel}
         {/if}
     </Button>
 </form>
 
 <style lang="scss">
-  form {
+  form.large {
     min-width: 70%;
     margin: 0 auto;
     text-align: center;
@@ -90,10 +91,48 @@
       color: rgb(237, 110, 110);
     }
   }
+
+  form.compact {
+    width: min(40rem, 70vw);
+    display: table;
+    flex-flow: column nowrap;
+    .form-field {
+      display: table-row;
+      width: 100%;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+    input {
+      display: table-cell;
+      width: 100%;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      background: rgba(217, 217, 217, 0.7);
+      font: var(--font-l);
+      font-weight: 900;
+      transition: all 0.5s;
+      &:focus {
+        outline: 3px solid var(--primary-color);
+        filter: drop-shadow(2px 2px 5px #a09ef0)
+        drop-shadow(-2px -2px 5px #831dd6);
+      }
+    }
+    label {
+      display: table-cell;
+      font: var(--font-m);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .error {
+      text-align: center;
+      font: var(--font-m);
+      color: rgb(237, 110, 110);
+    }
+  }
   @media (max-width: 1091px) {
   }
   @media (max-width: 768px) {
-    form {
+    form.large {
       min-width: 100%;
       input {
         width: 100%;
@@ -104,6 +143,21 @@
           outline: 3px solid var(--primary-color);
           filter: drop-shadow(2px 2px 5px #a09ef0)
             drop-shadow(-2px -2px 5px #831dd6);
+        }
+      }
+    }
+
+    form.compact {
+      min-width: 100%;
+      input {
+        width: 100%;
+        font: var(--font-m);
+        font-weight: 900;
+        transition: all 0.5s;
+        &:focus {
+          outline: 3px solid var(--primary-color);
+          filter: drop-shadow(2px 2px 5px #a09ef0)
+          drop-shadow(-2px -2px 5px #831dd6);
         }
       }
     }
