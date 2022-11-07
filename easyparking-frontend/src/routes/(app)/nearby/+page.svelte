@@ -8,28 +8,8 @@
         freeLots: number;
     }
 
-    const parkingsStep: number = 5;
-    const parkingsActive: ParkingInfo[] = [
-        {
-            address: "Pirogova 1",
-            freeLots: 15,
-        },
-        {
-            address: "Pirogova 1",
-            freeLots: 15,
-        },
-        {
-            address: "Pirogova 1",
-            freeLots: 15,
-        },
-        {
-            address: "Pirogova 1",
-            freeLots: 15,
-        },
-        {
-            address: "Pirogova 1",
-            freeLots: 15,
-        },
+    const parkingsStep = 5;
+    let parkingsActive: ParkingInfo[] = [
         {
             address: "Pirogova 1",
             freeLots: 15,
@@ -93,7 +73,15 @@
             address: "Pirogova 1",
             freeLots: 15,
         },
-    ]
+    ];
+
+    const onShowMore = () => {
+        if(parkings.length === parkingsActive.length){
+            return;
+        }
+        parkingsActive.push(...parkings.slice(parkingsActive.length, parkingsActive.length + parkingsStep));
+        parkingsActive = parkingsActive;
+    }
 </script>
 
 <svelte:head>
@@ -114,7 +102,7 @@
         {/each}
     </div>
     <div class="btn-wrapper">
-        <Button size="xl">Load More</Button>
+        <Button onClick={() => {console.log(parkingsActive); onShowMore()}} size="xl">Load More</Button>
     </div>
 
 </div>
