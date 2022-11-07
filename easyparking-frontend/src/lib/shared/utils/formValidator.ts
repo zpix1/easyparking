@@ -1,7 +1,7 @@
 class Validator {
     email(value, message) {
         let emailLen = value ? value.trim().length : 0;
-        if (emailLen < 1 || emailLen > 50 || !value.includes('@')) {
+        if (emailLen < 1 || emailLen > 50 || !value?.includes('@')) {
             return {
                 field: 'email',
                 message: message,
@@ -29,20 +29,43 @@ class Validator {
     }
 }
 
-export function formValidation(fields, rules) {
+interface Field {
+    type: string;
+    name: string;
+    value: string;
+}
+
+interface Rule {
+    type: string;
+    fieldName: string;
+    message: string;
+}
+
+const getValueForRule = (fields: Field[], ruleName: string) => {
+    const field = fields.find((field: Field) => field.name === ruleName);
+    return field?.value;
+};
+
+export function formValidation(fields: Field[], rules: Rule[]) {
     const validator = new Validator();
     let isValid = true;
     const messageArray = [];
-    for (let rule of Object.keys(rules)) {
-        switch (rules[rule].type) {
+    for (let rule of rules) {
+        switch (rule.type) {
             case 'email':
                 messageArray.push(
-                    validator.email(fields[rule], rules[rule].message)
+                    validator.email(
+                        getValueForRule(fields, rule.fieldName),
+                        rule.message
+                    )
                 );
                 break;
             case 'password':
                 messageArray.push(
-                    validator.password(fields[rule], rules[rule].message)
+                    validator.password(
+                        getValueForRule(fields, rule.fieldName),
+                        rule.message
+                    )
                 );
                 break;
             default:

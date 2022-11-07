@@ -11,20 +11,22 @@
         logIn(body);
     };
     const fields = [
-        { type: 'email', name: 'EMAIL', value: '' },
-        { type: 'password', name: 'PASSWORD', value: '' },
+        { type: 'email', name: 'email', value: '' },
+        { type: 'password', name: 'password', value: '' },
     ];
     const fieldsErrors = { email: '', password: '' };
-    const fieldsRules = {
-        email: {
+    const fieldsRules = [
+        {
             type: 'email',
+            fieldName: 'email',
             message: 'email must be between 1 and 50 characters and contain @',
         },
-        password: {
+        {
             type: 'password',
+            fieldName: 'password',
             message: 'password must contain at least 1 character',
         },
-    };
+    ];
 </script>
 
 <svelte:head>
