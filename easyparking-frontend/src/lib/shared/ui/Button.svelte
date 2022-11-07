@@ -1,9 +1,12 @@
 <script lang="ts">
+    type ButtonSize = "s" | "m" | "l" | "xl";
+
     export let type = '';
+    export let size: ButtonSize = "s";
     export let onClick: () => void;
 </script>
 
-<button {type} on:click={onClick}>
+<button {type} class={size} on:click={onClick}>
     <slot />
 </button>
 
@@ -20,11 +23,27 @@
     ) 100%;
     background-size: 400%;
     transition: background 0.3s ease, filter 0.7s ease;
-    padding: .5rem 1.75rem;
     border: 5px solid #a09ef0;
     border-radius: 50px;
     text-align: center;
     text-transform: uppercase;
+
+    &.s {
+      padding: .5rem 1.75rem;
+    }
+
+    &.m {
+      padding: .7rem 3rem;
+    }
+
+    &.l {
+      padding: .9rem 4.25rem;
+    }
+
+    &.xl {
+      padding: 1.1rem 6rem;
+    }
+
     &:hover {
       background-position: 0;
       filter: drop-shadow(5px 5px 20px #a09ef0)

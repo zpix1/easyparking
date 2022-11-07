@@ -27,7 +27,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 22px 158px;
-    background: rgba(29, 27, 58, 0.7);
+    background: rgb(29, 27, 58);
   }
   @media (max-width: 768px) {
     footer {

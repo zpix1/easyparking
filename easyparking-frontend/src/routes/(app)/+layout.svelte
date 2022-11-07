@@ -19,8 +19,8 @@
   .app {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     max-width: 100%;
+    flex: 1;
     font: var(--font-m);
     font-weight: normal;
     color: var(--color-text);

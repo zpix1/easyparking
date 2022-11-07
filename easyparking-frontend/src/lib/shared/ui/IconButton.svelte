@@ -1,5 +1,5 @@
 <script lang="ts">
-    export type IconType = "pencil" | "trash";
+    export type IconType = "pencil" | "trash" | "star";
     export let icon: IconType;
     export let onClick: (event) => void;
 </script>
@@ -22,6 +22,14 @@
 
         &.trash {
             background: rgb(162,162,175) url("$lib/shared/assets/delete.svg");
+        }
+
+        &.star {
+          background: rgb(162,162,175) url("$lib/shared/assets/star.svg");
+
+          &:hover {
+            background: rgb(190,190,203) url("$lib/shared/assets/star.svg");
+          }
         }
 
     }
