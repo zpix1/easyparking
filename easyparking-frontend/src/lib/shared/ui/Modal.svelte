@@ -29,8 +29,7 @@
       top: 0;
       height: 100vh;
       width: 100vw;
-      background: rgb(0, 0, 0);
-      opacity: 50%;
+      background: rgba(0, 0, 0, 0.5);
       z-index: 1000;
 
       .modal-main {
@@ -39,9 +38,9 @@
         height: min-content;
         width: min-content;
         padding: 25px;
-        border: rgb(107, 107, 133) 1px solid;
+        border: rgba(107, 107, 133, 1) 1px solid;
         border-radius: 10px 10px 10px 10px;
-        background: rgb(107, 107, 133);
+        background: rgba(107, 107, 133, 1);
       }
     }
 </style>

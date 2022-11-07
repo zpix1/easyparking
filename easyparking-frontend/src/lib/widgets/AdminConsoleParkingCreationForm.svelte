@@ -2,7 +2,7 @@
     import Form from "$lib/shared/ui/Form.svelte";
     import {parkingCreationError} from "../entities/Parking";
 
-    let formType = 'create parking';
+    let buttonLabel = 'create parking';
     let totalError = parkingCreationError;
     const submitCallback = (body) => {
 
@@ -29,7 +29,8 @@
 
 <section>
     <Form
-        {formType}
+        className="compact"
+        {buttonLabel}
         {totalError}
         {fields}
         {fieldsErrors}

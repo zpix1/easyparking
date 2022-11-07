@@ -5,7 +5,7 @@
     import { register, registerError } from '$lib/entities/User';
     import Form from '$lib/shared/ui/Form.svelte';
 
-    let formType = 'register';
+    let buttonLabel = 'register';
     let totalError = registerError;
     const submitCallback = (body) => {
         register(body);
@@ -37,7 +37,8 @@
 <section class="container">
     <h1>Welcome to Easy Parking, please register</h1>
     <Form
-        {formType}
+        className="large"
+        {buttonLabel}
         {totalError}
         {fields}
         {fieldsErrors}
@@ -55,7 +56,7 @@
 <style lang="scss">
   .container {
     width: 50%;
-    padding: 0px 10px 50px;
+    padding: 0 10px 50px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -69,7 +70,7 @@
   @media (max-width: 768px) {
     .container {
       width: 80%;
-      padding: 0px 0px 50px;
+      padding: 0 0 50px;
     }
     h1 {
       font-size: 40px;
