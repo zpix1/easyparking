@@ -36,6 +36,7 @@ export function signin(req, res) {
     },
     {
       password: true,
+      email: true
     },
   ).exec((err, user) => {
     if (err) {

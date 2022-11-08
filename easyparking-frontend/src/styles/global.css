@@ -10,6 +10,7 @@
     --font-line-l: 32px;
     --font-l: var(--font-size-l) / var(--font-line-l) var(--font-family-main);
     --bg-color-primary: #2B2A53;
+    --primary-color: #a09ef0;
 	--color-text: white;
     --navbar-height-mobile: 75px;
     --navbar-height-desktop: 94px;

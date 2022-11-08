@@ -30,6 +30,6 @@ Express.js app to store and manage users
 
 Python ML code to find cars in images
 
-## easyparking-image-loader
+## easyparking-pooler
 
 Elixir app to load images from cameras

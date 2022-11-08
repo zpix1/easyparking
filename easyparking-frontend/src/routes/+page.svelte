@@ -1,6 +1,13 @@
 <script>
     import Link from '$lib/shared/ui/Link.svelte';
     import carsHero from '$lib/shared/assets/cars.svg';
+    import Navbar from '$lib/widgets/Navbar.svelte';
+    import { user } from '$lib/entities/User';
+    const links = [
+        { page: '/nearby', name: 'nearby parkings' },
+        { page: '/starred', name: 'starred' },
+        { page: '/login', name: 'log in' },
+    ];
 </script>
 
 <svelte:head>
@@ -8,20 +15,50 @@
     <meta name="description" content="EasyParking about" />
 </svelte:head>
 
-<section class="hero">
-    <h1>Discover free parking lots nearby</h1>
-    <p>
-        With the help of our AI based soluton you no longer need to spend time
-        driving around looking for parking vacancy.
-    </p>
-    <div class="button-wrapper">
-        <Link to="/login" text="login" classNames="btnStyled" size="l" />
-        <Link to="/register" text="register" classNames="btnStyled" size="l" />
-    </div>
-    <img src={carsHero} alt="cars" />
-</section>
+<Navbar {links} />
+<main>
+    <section class="hero">
+        <h1>Discover free parking lots nearby</h1>
+        <p>
+            With the help of our AI based soluton you no longer need to spend
+            time driving around looking for parking vacancy.
+        </p>
+        <div class="button-wrapper">
+            {#if !$user}
+                <Link
+                    to="/login"
+                    text="login"
+                    classNames="btnStyled"
+                    size="l"
+                />
+                <Link
+                    to="/register"
+                    text="register"
+                    classNames="btnStyled"
+                    size="l"
+                />
+            {:else}
+                <Link
+                    to="/starred"
+                    text="favorite"
+                    classNames="btnStyled"
+                    size="l"
+                />
+            {/if}
+        </div>
+        <img src={carsHero} alt="cars" />
+    </section>
+</main>
 
 <style lang="scss">
+  main {
+    min-width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--navbar-height-desktop) 0 0;
+    margin: 0 auto;
+  }
   .hero {
     max-width: 100%;
     padding: 50px 200px 100px;
