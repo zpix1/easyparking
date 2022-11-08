@@ -2,8 +2,6 @@
   export type IconType = "pencil" | "trash";
   export let icon: IconType;
   export let onClick: (event) => void;
-
-  var kek = 2;
 </script>
 
 <button class={icon} on:click={onClick} />

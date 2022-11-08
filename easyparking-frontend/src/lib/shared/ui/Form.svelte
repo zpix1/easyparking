@@ -14,14 +14,15 @@
   const submitHandler = () => {
     const body = {};
     for (const item of fields) {
-      body[item.type] = item.value;
+      body[item.name] = item.value;
     }
     const [validForm, errorMessages] = formValidation(fields, fieldsRules);
     if (validForm) {
       submitCallback(body);
     } else {
       for (const error of errorMessages) {
-        fieldsErrors[error.field] = error.message;
+        fieldsErrors[error.name] = error.message;
+        console.log(fieldsErrors)
       }
     }
   };
@@ -30,14 +31,14 @@
 <form class={className} on:submit|preventDefault={submitHandler}>
   {#each fields as field (field.name)}
     <div class="form-field">
-      <label for={field.type}>{field.name}</label>
+      <label for={field.name}>{field.name}</label>
       {#if field.type === "password"}
-        <input type="password" id={field.type} bind:value={field.value} />
+        <input type="password" id={field.name} bind:value={field.value} />
       {:else}
-        <input type="text" id={field.type} bind:value={field.value} />
+        <input type="text" id={field.name} bind:value={field.value} />
       {/if}
 
-      <div class="error">{fieldsErrors[field.type]}</div>
+      <div class="error">{fieldsErrors[field.name]}</div>
     </div>
   {/each}
   <div class="error">{$totalError}</div>
@@ -100,7 +101,7 @@
     input {
       display: table-cell;
       width: 100%;
-      margin-bottom: 1rem;
+      margin-top: 1rem;
       border-radius: 10px;
       background: rgba(217, 217, 217, 0.7);
       font: var(--font-l);

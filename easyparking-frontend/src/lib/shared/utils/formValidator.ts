@@ -4,11 +4,13 @@ class Validator {
     if (emailLen < 1 || emailLen > 50 || !value?.includes("@")) {
       return {
         field: "email",
+        name: "email",
         message: message,
       };
     } else {
       return {
         field: "email",
+        name: "email",
         message: "",
       };
     }
@@ -18,14 +20,40 @@ class Validator {
     if (passwordLen < 1) {
       return {
         field: "password",
+        name: "password",
         message: message,
       };
     } else {
       return {
         field: "password",
+        name: "password",
         message: "",
       };
     }
+  }
+  latitude(value, message) {
+    let latitude = parseFloat(value);
+    return {
+      field: "latitude",
+      name: "latitude",
+      message: (!isNaN(latitude) && latitude >= 0 && latitude <= 90) ? "" : message,
+    };
+  }
+  longitude(value, message) {
+    let longitude = parseFloat(value);
+    return {
+      field: "longitude",
+      name: "longitude",
+      message: (!isNaN(longitude) && longitude >= 0 && longitude <= 180) ? "" : message,
+    };
+  }
+  endpoint(value, message) {
+    let ipPart = value.split(`/`)[0];
+    return {
+      field: "endpoint",
+      name: "endpoint",
+      message: "",
+    };
   }
 }
 
@@ -60,6 +88,30 @@ export function formValidation(fields: Field[], rules: Rule[]) {
       case "password":
         messageArray.push(
           validator.password(
+            getValueForRule(fields, rule.fieldName),
+            rule.message
+          )
+        );
+        break;
+      case "latitude":
+        messageArray.push(
+          validator.latitude(
+            getValueForRule(fields, rule.fieldName),
+            rule.message
+          )
+        );
+        break;
+      case "longitude":
+        messageArray.push(
+          validator.longitude(
+            getValueForRule(fields, rule.fieldName),
+            rule.message
+          )
+        );
+        break;
+      case "endpoint":
+        messageArray.push(
+          validator.endpoint(
             getValueForRule(fields, rule.fieldName),
             rule.message
           )

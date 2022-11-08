@@ -5,11 +5,11 @@
   let totalError = parkingCreationError;
   const submitCallback = (body) => {};
   const fields = [
-    { type: "name", name: "NAME", value: "" },
-    { type: "address", name: "ADDRESS", value: "" },
-    { type: "latitude", name: "LATITUDE", value: "" },
-    { type: "longitude", name: "LONGITUDE", value: "" },
-    { type: "endpoint", name: "ENDPOINT", value: "" },
+    { name: "name", type: "text",  value: "" },
+    { name: "address", type: "text",  value: "" },
+    { name: "latitude", type: "latitude",  value: "" },
+    { name: "longitude", type: "longitude",  value: "" },
+    { name: "endpoint", type: "endpoint",  value: "" },
   ];
   const fieldsErrors = {
     name: "",
@@ -18,16 +18,23 @@
     longitude: "",
     endpoint: "",
   };
-  const fieldsRules = {
-    email: {
-      type: "email",
-      message: "email must be between 1 and 50 characters and contain @",
+  const fieldsRules = [
+    {
+      type: "latitude",
+      fieldName: "latitude",
+      message: "latitude must be a float from 0 to 90",
     },
-    password: {
-      type: "password",
-      message: "password must contain at least 1 character",
+    {
+      type: "longitude",
+      fieldName: "longitude",
+      message: "longitude must be a float from 0 to 180",
     },
-  };
+    {
+      type: "endpoint",
+      fieldName: "endpoint",
+      message: "endpoint must be a string in format  \"{camera ip}:{camera port}/#{possibly some path}\"",
+    },
+  ];
 </script>
 
 <section>
