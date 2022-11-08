@@ -1,10 +1,11 @@
 {
   "name": "easyparking-frontend",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "lint": "npx eslint --config .eslintrc.js \"src/**/*.{ts,js,svelte}\" --ignore-pattern node_modules/ && npx stylelint **/*.{css,scss,svelte} --fix && svelte-check --tsconfig ./tsconfig.json",
+    "lint": "npx eslint --config .eslintrc.cjs \"src/**/*.{ts,js,svelte}\" --ignore-pattern node_modules/ && npx stylelint **/*.{css,scss,svelte} --fix && svelte-check --tsconfig ./tsconfig.json",
     "format": "npx prettier --config .prettierrc --write \"src/**/*.{ts,js,svelte}\"",
     "preview": "vite preview",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig tsconfig.json --watch"
