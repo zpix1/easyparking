@@ -61,3 +61,31 @@ export function removeFavoriteParking(req, res) {
     });
   });
 }
+
+function Parking(parkingId, parkingAdress, numEmptySpaces, parkingImage, updateTime) {
+  this.parkingId = parkingId;
+  this.parkingAdress = parkingAdress;
+  this.numEmptySpaces = numEmptySpaces;
+  this.parkingImage = parkingImage;
+  this.updateTime = updateTime;
+}
+
+function getParkingInfoFromServer(parkingId){
+  const parkingAdress = "Пирогова 1";
+  const numEmptySpaces = 0;
+  const parkingImage = "Image";
+  const updateTime = "18:23:47 08.11.2022"
+  return new Parking(parkingId, parkingAdress, numEmptySpaces, parkingImage, updateTime);
+}
+
+export function getParkingById(req, res) {
+  const parkingId = req.params.parkingId;
+  const parking = getParkingInfoFromServer(parkingId);
+  return res.status(200).json({
+    parkingId: parking.parkingId,
+    parkngAdress: parking.parkingAdress,
+    numEmptySpaces: parking.numEmptySpaces,
+    parkingImage: parking.parkingImage,
+    updateTime: parking.updateTime
+  });
+}
