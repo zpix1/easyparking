@@ -75,14 +75,14 @@ function getParkingInfoFromServer(parkingId){
   const numEmptySpaces = 0;
   const parkingImage = "Image";
   const updateTime = "18:23:47 08.11.2022"
-  return new Parking(parkingAdress,numEmptySpaces,parkingImage,updateTime);
+  return new Parking(parkingId, parkingAdress, numEmptySpaces, parkingImage, updateTime);
 }
 
 export function getParkingById(req, res) {
   const parkingId = req.params.parkingId;
   var parking = getParkingInfoFromServer(parkingId);
   return res.status(200).json({
-    parkngId: parking.parkingAdress,
+    parkngAdress: parking.parkingAdress,
     numEmptySpaces: parking.numEmptySpaces,
     parkingImage: parking.parkingImage,
     updateTime: parking.updateTime
