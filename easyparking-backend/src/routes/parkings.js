@@ -13,6 +13,6 @@ const router = Router();
 router.get('/favorite', verifyToken, getFavoriteParkings);
 router.post('/favorite', verifyToken, addParkingToFavorite);
 router.delete('/favorite', verifyToken, removeFavoriteParking);
-router.get("/parking/:parkingId", verifyToken, getParkingById);
+router.get('/parking/:parkingId', verifyToken, getParkingById);
 
 export default router;

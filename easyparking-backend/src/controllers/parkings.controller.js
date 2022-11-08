@@ -80,8 +80,9 @@ function getParkingInfoFromServer(parkingId){
 
 export function getParkingById(req, res) {
   const parkingId = req.params.parkingId;
-  var parking = getParkingInfoFromServer(parkingId);
+  const parking = getParkingInfoFromServer(parkingId);
   return res.status(200).json({
+    parkingId: parking.parkingId,
     parkngAdress: parking.parkingAdress,
     numEmptySpaces: parking.numEmptySpaces,
     parkingImage: parking.parkingImage,
