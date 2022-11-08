@@ -9,7 +9,7 @@ router.post('/register', signup);
 
 router.post('/login', signin);
 
-router.post('/user', verifyToken, userInfo);
+router.get('/user', verifyToken, userInfo);
 
 router.use('/parkings', parkingRouter);
 

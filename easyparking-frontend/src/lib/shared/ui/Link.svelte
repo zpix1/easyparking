@@ -18,10 +18,12 @@
   a {
     &.default {
       position: relative;
-      margin-left: 50px;
       text-decoration: none;
       color: var(--color-text);
       cursor: pointer;
+      &.shifted {
+        margin-left: 50px;
+      }
       &.size-m {
         font: var(--font-m);
       }
@@ -29,7 +31,7 @@
         font: var(--font-l);
       }
       &:hover {
-        color: #a09ef0;
+        color: var(--primary-color);
       }
       &:after {
         content: '';
@@ -39,7 +41,7 @@
         bottom: -3px;
         width: 0;
         height: 2px;
-        background-color: #a09ef0;
+        background-color: var(--primary-color);
         transition: width 0.3s;
       }
       &:hover:after {
@@ -50,7 +52,7 @@
         left: 0;
         bottom: -3px;
         height: 2px;
-        background-color: #a09ef0;
+        background-color: var(--primary-color);
         transition: width 0.3s;
       }
     }
@@ -61,8 +63,8 @@
       align-items: center;
       width: 40%;
       height: 90px;
-      border: 5px solid #a09ef0;
-      background: #2b2a53;
+      border: 5px solid var(--primary-color);
+      background: var(--bg-color-primary);
       border-radius: 51px;
       font-weight: 600;
       font: var(--font-l);
@@ -80,7 +82,7 @@
       transition: background 0.3s ease, filter 0.7s ease;
       &:hover {
         background-position: 0;
-        filter: drop-shadow(5px 5px 20px #a09ef0)
+        filter: drop-shadow(5px 5px 20px var(--primary-color))
           drop-shadow(-5px -5px 10px #831dd6);
       }
     }
@@ -93,6 +95,9 @@
         font-size: 16px;
         line-height: 30px;
         font-weight: normal;
+        &.responsive {
+          font: var(--font-l);
+        }
       }
     }
   }
