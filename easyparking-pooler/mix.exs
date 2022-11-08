@@ -51,7 +51,8 @@ defmodule Pooler.MixProject do
       {:excoveralls, "~> 0.14.6", only: :test},
       # documentation checks
       {:inch_ex, github: "rrrene/inch_ex", only: [:dev, :test]},
-      # Static code analysis
+      # REST API Documentation
+      {:open_api_spex, "~> 3.14"},
       {:phoenix, "~> 1.6.12"},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:telemetry_metrics, "~> 0.6"},
