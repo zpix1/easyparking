@@ -21,7 +21,12 @@
       }
     ]
   },
-  "ignoreFiles": ["node_modules/*", "src/assets/**", "build/**", "src/lib/styles/normalise.css"],
+  "ignoreFiles": [
+    "node_modules/*",
+    "src/assets/**",
+    "build/**",
+    "src/lib/styles/normalise.css"
+  ],
   "defaultSeverity": "error",
   "customSyntax": "postcss-html"
 }

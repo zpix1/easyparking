@@ -1,33 +1,33 @@
 <script>
-    import Button from '$lib/shared/ui/Button.svelte';
-    import { adminAuth } from './store';
+  import Button from "$lib/shared/ui/Button.svelte";
+  import { adminAuth } from "./store";
 
-    const fileds = { password: '' };
-    let adminError = '';
-    const submitHandler = () => {
-        if (fileds.password !== import.meta.env.VITE_ADMIN_PASS) {
-            adminError = 'Invalid admin password';
-        } else {
-            adminError = '';
-            adminAuth();
-        }
-    };
+  const fileds = { password: "" };
+  let adminError = "";
+  const submitHandler = () => {
+    if (fileds.password !== import.meta.env.VITE_ADMIN_PASS) {
+      adminError = "Invalid admin password";
+    } else {
+      adminError = "";
+      adminAuth();
+    }
+  };
 </script>
 
 <svelte:head>
-    <title>Admin</title>
+  <title>Admin</title>
 </svelte:head>
 
 <section class="container">
-    <h1>Please log in to get into admin console</h1>
-    <form on:submit|preventDefault={submitHandler}>
-        <div class="form-field">
-            <label for="password">PASSWORD</label>
-            <input type="password" id="password" bind:value={fileds.password} />
-        </div>
-        <div class="error">{adminError}</div>
-        <Button type="submit">login</Button>
-    </form>
+  <h1>Please log in to get into admin console</h1>
+  <form on:submit|preventDefault={submitHandler}>
+    <div class="form-field">
+      <label for="password">PASSWORD</label>
+      <input type="password" id="password" bind:value={fileds.password} />
+    </div>
+    <div class="error">{adminError}</div>
+    <Button type="submit">login</Button>
+  </form>
 </section>
 
 <style lang="scss">

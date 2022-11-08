@@ -1,58 +1,53 @@
-<script>
-    // @ts-nocheck
-    import Button from '$lib/shared/ui/Button.svelte';
-    import Loader from '$lib/shared/ui/Loader.svelte';
-    import { userLoading } from '$lib/entities/User';
-    import { formValidation } from '$lib/shared/utils/formValidator';
+<script lang="ts">
+  import Button from "$lib/shared/ui/Button.svelte";
+  import Loader from "$lib/shared/ui/Loader.svelte";
+  import { userLoading } from "$lib/entities/User";
+  import { formValidation } from "$lib/shared/utils/formValidator";
 
-    export let className = '';
-    export let buttonLabel = '';
-    export let totalError = '';
-    export let submitCallback = () => {};
-    export let fields = [];
-    export let fieldsErrors = {};
-    export let fieldsRules = [];
-    const submitHandler = () => {
-        const body = {};
-        for (const item of fields) {
-            body[item.type] = item.value;
-        }
-        const [validForm, errorMessages] = formValidation(fields, fieldsRules);
-        if (validForm) {
-            submitCallback(body);
-        } else {
-            for (const error of errorMessages) {
-                fieldsErrors[error.field] = error.message;
-            }
-        }
-    };
+  export let className = "";
+  export let buttonLabel = "";
+  export let totalError = "";
+  export let submitCallback = () => {};
+  export let fields = [];
+  export let fieldsErrors = {};
+  export let fieldsRules = [];
+  const submitHandler = () => {
+    const body = {};
+    for (const item of fields) {
+      body[item.type] = item.value;
+    }
+    const [validForm, errorMessages] = formValidation(fields, fieldsRules);
+    if (validForm) {
+      submitCallback(body);
+    } else {
+      for (const error of errorMessages) {
+        fieldsErrors[error.field] = error.message;
+      }
+    }
+  };
 </script>
 
 <form class={className} on:submit|preventDefault={submitHandler}>
-    {#each fields as field (field.name)}
-        <div class="form-field">
-            <label for={field.type}>{field.name}</label>
-            {#if field.type === 'password'}
-                <input
-                    type="password"
-                    id={field.type}
-                    bind:value={field.value}
-                />
-            {:else}
-                <input type="text" id={field.type} bind:value={field.value} />
-            {/if}
+  {#each fields as field (field.name)}
+    <div class="form-field">
+      <label for={field.type}>{field.name}</label>
+      {#if field.type === "password"}
+        <input type="password" id={field.type} bind:value={field.value} />
+      {:else}
+        <input type="text" id={field.type} bind:value={field.value} />
+      {/if}
 
-            <div class="error">{fieldsErrors[field.type]}</div>
-        </div>
-    {/each}
-    <div class="error">{$totalError}</div>
-    <Button type="submit">
-        {#if $userLoading}
-            <Loader />
-        {:else}
-            {buttonLabel}
-        {/if}
-    </Button>
+      <div class="error">{fieldsErrors[field.type]}</div>
+    </div>
+  {/each}
+  <div class="error">{$totalError}</div>
+  <Button type="submit">
+    {#if $userLoading}
+      <Loader />
+    {:else}
+      {buttonLabel}
+    {/if}
+  </Button>
 </form>
 
 <style lang="scss">
@@ -114,7 +109,7 @@
       &:focus {
         outline: 3px solid var(--primary-color);
         filter: drop-shadow(2px 2px 5px #a09ef0)
-        drop-shadow(-2px -2px 5px #831dd6);
+          drop-shadow(-2px -2px 5px #831dd6);
       }
     }
     label {
@@ -128,8 +123,6 @@
       font: var(--font-m);
       color: rgb(237, 110, 110);
     }
-  }
-  @media (max-width: 1091px) {
   }
   @media (max-width: 768px) {
     form.large {
@@ -157,7 +150,7 @@
         &:focus {
           outline: 3px solid var(--primary-color);
           filter: drop-shadow(2px 2px 5px #a09ef0)
-          drop-shadow(-2px -2px 5px #831dd6);
+            drop-shadow(-2px -2px 5px #831dd6);
         }
       }
     }

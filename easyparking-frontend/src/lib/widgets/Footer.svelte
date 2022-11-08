@@ -1,23 +1,23 @@
 <script>
-    import Link from '$lib/shared/ui/Link.svelte';
+  import Link from "$lib/shared/ui/Link.svelte";
 </script>
 
 <footer>
-    <p class="rights">© 2022 Easyparking, inc</p>
-    <div class="links">
-        <Link
-            to="https://github.com/zpix1/easyparking"
-            text="docs"
-            classNames={'default shifted'}
-            external
-        />
-        <Link
-            to="https://github.com/zpix1/easyparking"
-            text="source code"
-            classNames={'default shifted'}
-            external
-        />
-    </div>
+  <p class="rights">© 2022 Easyparking, inc</p>
+  <div class="links">
+    <Link
+      to="https://github.com/zpix1/easyparking"
+      text="docs"
+      classNames={"default shifted"}
+      external
+    />
+    <Link
+      to="https://github.com/zpix1/easyparking"
+      text="source code"
+      classNames={"default shifted"}
+      external
+    />
+  </div>
 </footer>
 
 <style lang="scss">

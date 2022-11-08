@@ -1,33 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 :root {
-	--font-family-main: 'Outfit', sans-serif;
-	--font-family-secondary: 'Ubuntu Mono', monospace;
-    --font-size-m: 16px;
-    --font-line-m: 24px;
-    --font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-main);
-    --font-size-l: 24px;
-    --font-line-l: 32px;
-    --font-l: var(--font-size-l) / var(--font-line-l) var(--font-family-main);
-    --bg-color-primary: #2B2A53;
-    --primary-color: #a09ef0;
-	--color-text: white;
-    --navbar-height-mobile: 75px;
-    --navbar-height-desktop: 94px;
-    --footer-height: 75px;
+  --font-family-main: "Outfit", sans-serif;
+  --font-family-secondary: "Ubuntu Mono", monospace;
+  --font-size-m: 16px;
+  --font-line-m: 24px;
+  --font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-main);
+  --font-size-l: 24px;
+  --font-line-l: 32px;
+  --font-l: var(--font-size-l) / var(--font-line-l) var(--font-family-main);
+  --bg-color-primary: #2b2a53;
+  --primary-color: #a09ef0;
+  --color-text: white;
+  --navbar-height-mobile: 75px;
+  --navbar-height-desktop: 94px;
+  --footer-height: 75px;
 }
 
 * {
-	margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 input,
 button,
 textarea,
 select {
-    margin: 0;
-    font: inherit;
+  margin: 0;
+  font: inherit;
 }
-
