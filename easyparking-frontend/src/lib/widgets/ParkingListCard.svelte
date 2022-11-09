@@ -4,28 +4,39 @@
 
 <script lang="ts">
   import IconButton from '$lib/shared/ui/IconButton.svelte';
+  import { nop } from '$lib/shared/utils/utils.js';
 
   export let style: ParkingCardStyle;
-    export let address: string;
-    export let freeLots: number;
+  export let address: string;
+  export let freeLots: number;
 
-    const onClick = () => {
-        window.location.href = "/parking";
-    };
+  const onClick = () => {
+    window.location.href = '/parking';
+  };
 </script>
 
-<div class="parking-card" class:light={style === "light"} class:dark={style === "dark"} on:click={onClick}>
-    <img src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png" width="100px" height="100px" alt="kazino" />
-    <div class="inner-flex">
-        <div class="parking-info-1">
-            <div class="address">{address}</div>
-            <IconButton icon="star-inactive" />
-        </div>
-        <div class="parking-info-2">
-            <div class="last-updated">Last updated 5 minutes ago</div>
-            <div class="free-lots">{freeLots} Free lots</div>
-        </div>
+<div
+  class="parking-card"
+  class:light={style === 'light'}
+  class:dark={style === 'dark'}
+  on:click={onClick}
+>
+  <img
+    src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png"
+    width="100px"
+    height="100px"
+    alt="kazino"
+  />
+  <div class="inner-flex">
+    <div class="parking-info-1">
+      <div class="address">{address}</div>
+      <IconButton icon="star-inactive" onClick={nop} />
     </div>
+    <div class="parking-info-2">
+      <div class="last-updated">Last updated 5 minutes ago</div>
+      <div class="free-lots">{freeLots} Free lots</div>
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
@@ -36,20 +47,20 @@
     column-gap: 1rem;
     border-radius: 10px;
 
-      &.light {
-        background: rgb(89,82,112);
+    &.light {
+      background: rgb(89, 82, 112);
 
-          &:hover {
-              background: rgb(100,100,123);
-          }
+      &:hover {
+        background: rgb(100, 100, 123);
       }
+    }
 
-      &.dark {
-        background: rgb(45,45,75);
-          &:hover {
-              background: rgb(56,56,86);
-          }
+    &.dark {
+      background: rgb(45, 45, 75);
+      &:hover {
+        background: rgb(56, 56, 86);
       }
+    }
 
     img {
       z-index: 1;
