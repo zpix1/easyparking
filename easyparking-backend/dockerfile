@@ -8,11 +8,13 @@ COPY package*.json ./
 
 # Bundle app source
 COPY . .
-
-RUN npm install
-RUN npm run build
 # Remove dev dependencies
-RUN npm prune --production
+RUN npm prune --omit=dev
+
+ENV DB mongodb://mongodb:27017/usersdb
+ENV API_SECRET change_me_in_production
+ENV PORT 8080
+ENV NODE_ENV production
 
 EXPOSE 8080
-CMD [ "node", "index.js" ]
+CMD [ "node", "src/index.js" ]
