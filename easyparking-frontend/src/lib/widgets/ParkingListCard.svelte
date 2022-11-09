@@ -13,7 +13,7 @@
     <div class="inner-flex">
         <div class="parking-info-1">
             <div class="address">{address}</div>
-            <IconButton icon="star" />
+            <IconButton icon="star_inactive" />
         </div>
         <div class="parking-info-2">
             <div class="last-updated">Last updated 5 minutes ago</div>
