@@ -39,6 +39,7 @@ defmodule PoolerWeb.API.V1.SessionController do
   @spec create(Conn.t(), map()) :: Conn.t()
   def create(%Conn{body_params: %AdminCredentials{email: email, password: password}} = conn, _) do
     conn
+    |> Pow.Plug.delete()
     |> Pow.Plug.authenticate_user(%{"email" => email, "password" => password})
     |> case do
       {:ok, conn} ->
@@ -62,7 +63,7 @@ defmodule PoolerWeb.API.V1.SessionController do
     parameters: [
       authoriztion: [
         in: :header,
-        name: "Authorization",
+        name: :authorization,
         description: "refresh токен в формате Authorization Bearer",
         type: :string,
         example:
@@ -88,10 +89,8 @@ defmodule PoolerWeb.API.V1.SessionController do
 
       {conn, _user} ->
         json(conn, %{
-          data: %{
-            access_token: conn.private.api_access_token,
-            refresh: conn.private.api_renewal_token
-          }
+          access_token: conn.private.api_access_token,
+          refresh_token: conn.private.api_renewal_token
         })
     end
   end
@@ -103,7 +102,7 @@ defmodule PoolerWeb.API.V1.SessionController do
     parameters: [
       authoriztion: [
         in: :header,
-        name: "Authorization",
+        name: :authorization,
         description: "access токен в формате Authorization Bearer",
         type: :string,
         example:
