@@ -1,19 +1,19 @@
 <script>
-    import BackgroundClouds from '$lib/shared/ui/BackgroundClouds.svelte';
-    import Footer from '$lib/widgets/Footer.svelte';
-    import '../styles/global.css';
-    import { getMe } from '$lib/entities/User';
-    import { onMount } from 'svelte';
+  import BackgroundClouds from '$lib/shared/ui/BackgroundClouds.svelte';
+  import Footer from '$lib/widgets/Footer.svelte';
+  import '../styles/global.css';
+  import { getMe } from '$lib/entities/User';
+  import { onMount } from 'svelte';
 
-    onMount(() => {
-        getMe();
-    });
+  onMount(async () => {
+    await getMe();
+  });
 </script>
 
 <div class="app">
-    <BackgroundClouds />
-    <slot />
-    <Footer />
+  <BackgroundClouds />
+  <slot />
+  <Footer />
 </div>
 
 <style>

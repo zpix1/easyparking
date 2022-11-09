@@ -11,7 +11,7 @@
     "unit-disallowed-list": [],
     "max-empty-lines": 2,
     "indentation": 2,
-    "no-descending-specificity": true,
+    "no-descending-specificity": null,
     "no-duplicate-selectors": true,
     "font-family-no-missing-generic-family-keyword": null,
     "property-no-unknown": [
@@ -21,7 +21,12 @@
       }
     ]
   },
-  "ignoreFiles": ["node_modules/*", "src/assets/**", "build/**", "src/lib/styles/normalise.css"],
+  "ignoreFiles": [
+    "node_modules/*",
+    "src/assets/**",
+    "build/**",
+    "src/lib/styles/normalise.css"
+  ],
   "defaultSeverity": "error",
   "customSyntax": "postcss-html"
 }

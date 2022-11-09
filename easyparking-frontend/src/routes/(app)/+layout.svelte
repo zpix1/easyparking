@@ -1,18 +1,18 @@
 <script>
-    import Navbar from '$lib/widgets/Navbar.svelte';
-    import '../../styles/global.css';
-    const links = [
-        { page: '/nearby', name: 'nearby parkings' },
-        { page: '/starred', name: 'starred' },
-        { page: '/login', name: 'log in' },
-    ];
+  import Navbar from '$lib/widgets/Navbar.svelte';
+  import '../../styles/global.css';
+  const links = [
+    { page: '/nearby', name: 'nearby parkings' },
+    { page: '/starred', name: 'starred' },
+    { page: '/login', name: 'log in' }
+  ];
 </script>
 
 <div class="app">
-    <Navbar {links} />
-    <main>
-        <slot />
-    </main>
+  <Navbar {links} />
+  <main>
+    <slot />
+  </main>
 </div>
 
 <style>

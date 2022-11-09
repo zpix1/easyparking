@@ -1,53 +1,38 @@
 <script>
-    import Link from '$lib/shared/ui/Link.svelte';
-    import carsHero from '$lib/shared/assets/cars.svg';
-    import Navbar from '$lib/widgets/Navbar.svelte';
-    import { user } from '$lib/entities/User';
-    const links = [
-        { page: '/nearby', name: 'nearby parkings' },
-        { page: '/starred', name: 'starred' },
-        { page: '/login', name: 'log in' },
-    ];
+  import Link from '$lib/shared/ui/Link.svelte';
+  import carsHero from '$lib/shared/assets/cars.svg';
+  import Navbar from '$lib/widgets/Navbar.svelte';
+  import { user } from '$lib/entities/User';
+  const links = [
+    { page: '/nearby', name: 'nearby parkings' },
+    { page: '/starred', name: 'starred' },
+    { page: '/login', name: 'log in' }
+  ];
 </script>
 
 <svelte:head>
-    <title>EasyParking</title>
-    <meta name="description" content="EasyParking about" />
+  <title>EasyParking</title>
+  <meta name="description" content="EasyParking about" />
 </svelte:head>
 
 <Navbar {links} />
 <main>
-    <section class="hero">
-        <h1>Discover free parking lots nearby</h1>
-        <p>
-            With the help of our AI based soluton you no longer need to spend
-            time driving around looking for parking vacancy.
-        </p>
-        <div class="button-wrapper">
-            {#if !$user}
-                <Link
-                    to="/login"
-                    text="login"
-                    classNames="btnStyled"
-                    size="l"
-                />
-                <Link
-                    to="/register"
-                    text="register"
-                    classNames="btnStyled"
-                    size="l"
-                />
-            {:else}
-                <Link
-                    to="/starred"
-                    text="favorite"
-                    classNames="btnStyled"
-                    size="l"
-                />
-            {/if}
-        </div>
-        <img src={carsHero} alt="cars" />
-    </section>
+  <section class="hero">
+    <h1>Discover free parking lots nearby</h1>
+    <p>
+      With the help of our AI based soluton you no longer need to spend time driving
+      around looking for parking vacancy.
+    </p>
+    <div class="button-wrapper">
+      {#if !$user}
+        <Link to="/login" text="login" classNames="btnStyled" size="l" />
+        <Link to="/register" text="register" classNames="btnStyled" size="l" />
+      {:else}
+        <Link to="/starred" text="favorite" classNames="btnStyled" size="l" />
+      {/if}
+    </div>
+    <img src={carsHero} alt="cars" />
+  </section>
 </main>
 
 <style lang="scss">
@@ -167,7 +152,7 @@
         grid-area: img;
         justify-self: center;
         max-width: 80%;
-        margin-top: 0px;
+        margin-top: 0;
         margin-left: 0;
       }
     }

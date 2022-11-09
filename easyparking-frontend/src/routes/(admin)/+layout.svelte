@@ -1,14 +1,14 @@
 <script>
-    import Navbar from '$lib/widgets/Navbar.svelte';
-    import '../../../styles/global.css';
-    const links = [{ page: '', name: '' }];
+  import Navbar from '$lib/widgets/Navbar.svelte';
+  import '../../styles/global.css';
+  const links = [{ page: '', name: '' }];
 </script>
 
 <div class="app">
-    <Navbar {links} appName="Easy Parking | Admin console" />
-    <main>
-        <slot />
-    </main>
+  <Navbar {links} appName="Easy Parking | Admin console" />
+  <main>
+    <slot />
+  </main>
 </div>
 
 <style>
