@@ -1,5 +1,8 @@
 # Pooler
 
+## OpenAPI
+Консоль доступна по `localhost:4000/swaggerui`
+ 
 ## Commands
 ### Install Dependencies
 ```

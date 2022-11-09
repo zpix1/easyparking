@@ -4,17 +4,36 @@ defmodule PoolerWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug PoolerWeb.Plug.Auth, otp_app: :pooler
+    plug OpenApiSpex.Plug.PutApiSpec, module: PoolerWeb.OpenAPI.MainSpec
+  end
+
+  pipeline :browser do
+    plug :fetch_session
+    plug :accepts, ["html"]
+  end
+
+  scope "/" do
+    # Use the default browser stack
+    pipe_through :browser
+
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/v1/openapi"
   end
 
   pipeline :api_protected do
     plug Pow.Plug.RequireAuthenticated, error_handler: PoolerWeb.Plug.AuthErrorHandler
   end
 
-  scope "/api/v1", PoolerWeb.API.V1 do
+  scope "/api/v1" do
     pipe_through :api
 
-    resources "/session", SessionController, singleton: true, only: [:create, :delete]
-    post "/session/renew", SessionController, :renew
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/api/v1/session", PoolerWeb.API.V1 do
+    pipe_through :api
+
+    resources "/", SessionController, singleton: true, only: [:create, :delete]
+    post "/refresh", SessionController, :refresh
   end
 
   scope "/api/v1", PoolerWeb.API.V1 do
