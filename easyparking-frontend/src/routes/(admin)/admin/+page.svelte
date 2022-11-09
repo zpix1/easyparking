@@ -5,12 +5,7 @@
   const fileds = { password: "" };
   let adminError = "";
   const submitHandler = () => {
-    if (fileds.password !== import.meta.env.VITE_ADMIN_PASS) {
-      adminError = "Invalid admin password";
-    } else {
-      adminError = "";
-      adminAuth();
-    }
+    
   };
 </script>
 

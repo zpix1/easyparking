@@ -1,15 +1,12 @@
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
-  plugins: [
-    "@typescript-eslint",
-    "svelte3"
-  ],
+  plugins: ['@typescript-eslint', 'svelte3'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
@@ -34,16 +31,17 @@ module.exports = {
     'svelte3/ignore-styles': () => true
   },
   rules: {
-    "no-case-declarations": "off",
-    "no-var": "error",
-    "linebreak-style": "off",
-    "camelcase": "error",
-    "eqeqeq": "error",
-    "no-console": "off",
-    "prefer-arrow-callback": "error",
-    "@typescript-eslint/no-explicit-any": "error",
-    "no-magic-numbers": ["error", { "ignore": [0, 1, 2, -1] }],
-    "curly": "error",
-    "max-classes-per-file": ["error", 1]
+    '@typescript-eslint/semi': [2, 'always'],
+    'no-case-declarations': 'off',
+    'no-var': 'error',
+    'linebreak-style': 'off',
+    camelcase: 'error',
+    eqeqeq: 'error',
+    'no-console': 'off',
+    'prefer-arrow-callback': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'no-magic-numbers': ['error', { ignore: [0, 1, 2, -1] }],
+    curly: 'error',
+    'max-classes-per-file': ['error', 1]
   }
-}
+};

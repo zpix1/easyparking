@@ -3,16 +3,17 @@
   import Loader from "$lib/shared/ui/Loader.svelte";
   import { userLoading } from "$lib/entities/User";
   import { formValidation } from "$lib/shared/utils/formValidator";
+  import type { Field, Rule, ErrorMessage } from '$lib/shared/types/FormDataTypes';
 
   export let className = "";
   export let buttonLabel = "";
   export let totalError = "";
-  export let submitCallback = () => {};
-  export let fields = [];
-  export let fieldsErrors = {};
-  export let fieldsRules = [];
+  export let submitCallback: (body: any) => void;
+  export let fields: Field[] = [];
+  export let fieldsErrors: Record<string, string> = {};
+  export let fieldsRules: Rule[] = [];
   const submitHandler = () => {
-    const body = {};
+    const body:Record<string, string> = {};
     for (const item of fields) {
       body[item.name] = item.value;
     }
@@ -20,9 +21,9 @@
     if (validForm) {
       submitCallback(body);
     } else {
-      for (const error of errorMessages) {
+      for (const error of (errorMessages as ErrorMessage[])) {
         fieldsErrors[error.name] = error.message;
-        console.log(fieldsErrors)
+        console.log(fieldsErrors);
       }
     }
   };

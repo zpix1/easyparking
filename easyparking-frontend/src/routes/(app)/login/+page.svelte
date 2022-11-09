@@ -1,14 +1,12 @@
-<script>
-  // @ts-nocheck
-
+<script lang="ts">
   import Link from "$lib/shared/ui/Link.svelte";
-  import { logIn, loginError } from "$lib/entities/User";
+  import { logIn, loginError, type AuthBody } from "$lib/entities/User";
   import Form from "$lib/shared/ui/Form.svelte";
 
   let buttonLabel = "login";
   let totalError = loginError;
-  const submitCallback = (body) => {
-    logIn(body);
+  const submitCallback = async (body: AuthBody) => {
+    await logIn(body);
   };
   const fields = [
     { type: "email", name: "email", value: "" },

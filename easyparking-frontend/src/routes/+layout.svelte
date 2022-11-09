@@ -5,8 +5,8 @@
   import { getMe } from "$lib/entities/User";
   import { onMount } from "svelte";
 
-  onMount(() => {
-    getMe();
+  onMount(async () => {
+    await getMe();
   });
 </script>
 

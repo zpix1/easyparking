@@ -3,7 +3,7 @@
   "singleQuote": true,
   "printWidth": 90,
   "plugins": ["prettier-plugin-svelte"],
-  "semi": false,
+  "semi": true,
   "svelteSortOrder": "options-styles-scripts-markup",
   "svelteStrictMode": false,
   "svelteBracketNewLine": true,
