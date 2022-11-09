@@ -10,7 +10,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
 
     OpenApiSpex.schema(%{
       title: "Admin Credentials",
-      description: "Токены для доступа к ресурсам администратора",
+      description: "Логин и пароль администратора",
       type: :object,
       properties: %{
         email: %Schema{type: :string, minLength: 5, maxLength: 50},
