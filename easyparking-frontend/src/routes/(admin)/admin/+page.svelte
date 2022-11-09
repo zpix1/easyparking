@@ -1,9 +1,9 @@
 <script>
-  import Button from "$lib/shared/ui/Button.svelte";
+  import Button from '$lib/shared/ui/Button.svelte';
   import { nop } from '$lib/shared/utils/utils.js';
 
-  const fileds = { password: "" };
-  let adminError = "";
+  const fileds = { password: '' };
+  let adminError = '';
   const submitHandler = nop;
 </script>
 
@@ -57,8 +57,7 @@
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
-        filter: drop-shadow(2px 2px 5px #a09ef0)
-          drop-shadow(-2px -2px 5px #831dd6);
+        filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
       }
     }
     label {
@@ -89,8 +88,7 @@
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);
-          filter: drop-shadow(2px 2px 5px #a09ef0)
-            drop-shadow(-2px -2px 5px #831dd6);
+          filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
         }
       }
     }

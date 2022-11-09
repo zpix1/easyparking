@@ -1,10 +1,10 @@
+<script context="module" lang="ts">
+  export type IconType = 'pencil' | 'trash';
+</script>
+
 <script lang="ts">
   export let icon: IconType;
   export let onClick: (event: MouseEvent) => void;
-</script>
-
-<script context="module" lang="ts">
-  export type IconType = "pencil" | "trash";
 </script>
 
 <button class={icon} on:click={onClick} />

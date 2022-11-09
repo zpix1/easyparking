@@ -1,6 +1,6 @@
 <script>
-  import { user } from "$lib/entities/User";
-  import Link from "$lib/shared/ui/Link.svelte";
+  import { user } from '$lib/entities/User';
+  import Link from '$lib/shared/ui/Link.svelte';
 </script>
 
 <svelte:head>

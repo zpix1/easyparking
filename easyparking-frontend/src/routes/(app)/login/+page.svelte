@@ -1,29 +1,29 @@
 <script lang="ts">
-  import Link from "$lib/shared/ui/Link.svelte";
-  import { logIn, loginError, type AuthBody } from "$lib/entities/User";
-  import Form from "$lib/shared/ui/Form.svelte";
+  import Link from '$lib/shared/ui/Link.svelte';
+  import { logIn, loginError } from '$lib/entities/User';
+  import Form from '$lib/shared/ui/Form.svelte';
 
-  let buttonLabel = "login";
+  let buttonLabel = 'login';
   let totalError = loginError;
-  const submitCallback = async (body: AuthBody) => {
+  const submitCallback = async (body: Record<string, string>) => {
     await logIn(body);
   };
   const fields = [
-    { type: "email", name: "email", value: "" },
-    { type: "password", name: "password", value: "" },
+    { type: 'email', name: 'email', value: '' },
+    { type: 'password', name: 'password', value: '' }
   ];
-  const fieldsErrors = { email: "", password: "" };
+  const fieldsErrors = { email: '', password: '' };
   const fieldsRules = [
     {
-      type: "email",
-      fieldName: "email",
-      message: "email must be between 1 and 50 characters and contain @",
+      type: 'email',
+      fieldName: 'email',
+      message: 'email must be between 1 and 50 characters and contain @'
     },
     {
-      type: "password",
-      fieldName: "password",
-      message: "password must contain at least 1 character",
-    },
+      type: 'password',
+      fieldName: 'password',
+      message: 'password must contain at least 1 character'
+    }
   ];
 </script>
 

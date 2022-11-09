@@ -1,21 +1,21 @@
 <script lang="ts">
-  import Button from "$lib/shared/ui/Button.svelte";
-  import Loader from "$lib/shared/ui/Loader.svelte";
-  import { userLoading } from "$lib/entities/User";
-  import { formValidation } from "$lib/shared/utils/formValidator";
+  import Button from '$lib/shared/ui/Button.svelte';
+  import Loader from '$lib/shared/ui/Loader.svelte';
+  import { userLoading } from '$lib/entities/User';
+  import { formValidation } from '$lib/shared/utils/formValidator';
   import type { Field, Rule, ErrorMessage } from '$lib/shared/types/FormDataTypes';
   import type { Writable } from 'svelte/store';
   import { nop } from '$lib/shared/utils/utils.js';
 
-  export let className = "";
-  export let buttonLabel = "";
+  export let className = '';
+  export let buttonLabel = '';
   export let totalError: Writable<string>;
   export let submitCallback: (body: Record<string, string>) => void;
   export let fields: Field[] = [];
   export let fieldsErrors: Record<string, string> = {};
   export let fieldsRules: Rule[] = [];
   const submitHandler = () => {
-    const body:Record<string, string> = {};
+    const body: Record<string, string> = {};
     for (const item of fields) {
       body[item.name] = item.value;
     }
@@ -23,7 +23,7 @@
     if (validForm) {
       submitCallback(body);
     } else {
-      for (const error of (errorMessages as ErrorMessage[])) {
+      for (const error of errorMessages as ErrorMessage[]) {
         fieldsErrors[error.name] = error.message;
         console.log(fieldsErrors);
       }
@@ -35,7 +35,7 @@
   {#each fields as field, i (field.name)}
     <div class="form-field">
       <label>{field.name}</label>
-      {#if field.type === "password"}
+      {#if field.type === 'password'}
         <input type="password" bind:value={field.value} />
       {:else}
         <input type="text" bind:value={field.value} />
@@ -75,8 +75,7 @@
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
-        filter: drop-shadow(2px 2px 5px #a09ef0)
-          drop-shadow(-2px -2px 5px #831dd6);
+        filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
       }
     }
     label {
@@ -112,8 +111,7 @@
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
-        filter: drop-shadow(2px 2px 5px #a09ef0)
-          drop-shadow(-2px -2px 5px #831dd6);
+        filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
       }
     }
     label {
@@ -138,8 +136,7 @@
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);
-          filter: drop-shadow(2px 2px 5px #a09ef0)
-            drop-shadow(-2px -2px 5px #831dd6);
+          filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
         }
       }
     }
@@ -153,8 +150,7 @@
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);
-          filter: drop-shadow(2px 2px 5px #a09ef0)
-            drop-shadow(-2px -2px 5px #831dd6);
+          filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
         }
       }
     }

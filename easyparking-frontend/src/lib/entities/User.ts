@@ -39,7 +39,7 @@ export function logOut() {
   (goto as gotoFunc)('/login');
 }
 
-export async function logIn(body: AuthBody) {
+export async function logIn(body: Record<string, string>) {
   try {
     userLoading.set(true);
     const { data } = await axios.post<AuthResponse>('/login', body);
@@ -59,7 +59,7 @@ export async function logIn(body: AuthBody) {
   }
 }
 
-export async function register(body: AuthBody) {
+export async function register(body: Record<string, string>) {
   try {
     userLoading.set(true);
     const { data } = await axios.post<AuthResponse>('/register', body);

@@ -1,10 +1,10 @@
 <script>
-  import Navbar from "$lib/widgets/Navbar.svelte";
-  import "../../styles/global.css";
+  import Navbar from '$lib/widgets/Navbar.svelte';
+  import '../../styles/global.css';
   const links = [
-    { page: "/nearby", name: "nearby parkings" },
-    { page: "/starred", name: "starred" },
-    { page: "/login", name: "log in" },
+    { page: '/nearby', name: 'nearby parkings' },
+    { page: '/starred', name: 'starred' },
+    { page: '/login', name: 'log in' }
   ];
 </script>
 

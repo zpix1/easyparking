@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Modal from "../shared/ui/Modal.svelte";
-  import Button from "../shared/ui/Button.svelte";
+  import Modal from '../shared/ui/Modal.svelte';
+  import Button from '../shared/ui/Button.svelte';
 
   export let open: boolean;
   export let onClose: () => void;

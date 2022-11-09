@@ -73,9 +73,7 @@ class Validator {
     return {
       field: 'endpoint',
       name: 'endpoint',
-      message: isValid
-        ? ''
-        : message
+      message: isValid ? '' : message
     };
   }
 }

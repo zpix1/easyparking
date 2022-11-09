@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let type = "";
+  export let type = '';
   export let onClick: () => void;
 </script>
 
@@ -24,8 +24,7 @@
     text-transform: uppercase;
     &:hover {
       background-position: 0;
-      filter: drop-shadow(5px 5px 20px #a09ef0)
-        drop-shadow(-5px -5px 10px #831dd6);
+      filter: drop-shadow(5px 5px 20px #a09ef0) drop-shadow(-5px -5px 10px #831dd6);
     }
   }
 </style>

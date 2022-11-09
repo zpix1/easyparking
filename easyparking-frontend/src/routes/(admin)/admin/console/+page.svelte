@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Button from "$lib/shared/ui/Button.svelte";
-  import Modal from "$lib/shared/ui/Modal.svelte";
-  import IconButton from "$lib/shared/ui/IconButton.svelte";
-  import AdminConsoleParkingCreationForm from "$lib/widgets/AdminConsoleParkingCreationForm.svelte";
-  import ConfirmationModal from "$lib/widgets/ConfirmationModal.svelte";
+  import Button from '$lib/shared/ui/Button.svelte';
+  import Modal from '$lib/shared/ui/Modal.svelte';
+  import IconButton from '$lib/shared/ui/IconButton.svelte';
+  import AdminConsoleParkingCreationForm from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
+  import ConfirmationModal from '$lib/widgets/ConfirmationModal.svelte';
 
   interface TableRowData {
     name: string;
@@ -16,21 +16,21 @@
 
   let tableData: TableRowData[] = [
     {
-      name: "NAMEUNIQUE1",
-      address: "ADDRESS",
-      coordinates: "COORDINATES",
-      creationTime: "CREATED",
-      endpoint: "CAMERA",
-      lastUpdate: "LAST UPDATE",
+      name: 'NAMEUNIQUE1',
+      address: 'ADDRESS',
+      coordinates: 'COORDINATES',
+      creationTime: 'CREATED',
+      endpoint: 'CAMERA',
+      lastUpdate: 'LAST UPDATE'
     },
     {
-      name: "NAMEUNIQUE2",
-      address: "ADDRESS",
-      coordinates: "COORDINATES",
-      creationTime: "CREATED",
-      endpoint: "CAMERA ENDPOINT",
-      lastUpdate: "UPDATE",
-    },
+      name: 'NAMEUNIQUE2',
+      address: 'ADDRESS',
+      coordinates: 'COORDINATES',
+      creationTime: 'CREATED',
+      endpoint: 'CAMERA ENDPOINT',
+      lastUpdate: 'UPDATE'
+    }
   ];
   let formModalOpen = false;
   let deletionConfirmModalOpen = false;

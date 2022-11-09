@@ -1,12 +1,12 @@
 <script>
-  import Link from "$lib/shared/ui/Link.svelte";
-  import carsHero from "$lib/shared/assets/cars.svg";
-  import Navbar from "$lib/widgets/Navbar.svelte";
-  import { user } from "$lib/entities/User";
+  import Link from '$lib/shared/ui/Link.svelte';
+  import carsHero from '$lib/shared/assets/cars.svg';
+  import Navbar from '$lib/widgets/Navbar.svelte';
+  import { user } from '$lib/entities/User';
   const links = [
-    { page: "/nearby", name: "nearby parkings" },
-    { page: "/starred", name: "starred" },
-    { page: "/login", name: "log in" },
+    { page: '/nearby', name: 'nearby parkings' },
+    { page: '/starred', name: 'starred' },
+    { page: '/login', name: 'log in' }
   ];
 </script>
 
@@ -20,8 +20,8 @@
   <section class="hero">
     <h1>Discover free parking lots nearby</h1>
     <p>
-      With the help of our AI based soluton you no longer need to spend time
-      driving around looking for parking vacancy.
+      With the help of our AI based soluton you no longer need to spend time driving
+      around looking for parking vacancy.
     </p>
     <div class="button-wrapper">
       {#if !$user}
@@ -152,7 +152,7 @@
         grid-area: img;
         justify-self: center;
         max-width: 80%;
-        margin-top: 0px;
+        margin-top: 0;
         margin-left: 0;
       }
     }

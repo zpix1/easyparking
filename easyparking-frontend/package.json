@@ -6,7 +6,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "lint": "npx eslint --config .eslintrc.cjs \"src/**/*.{ts,js,svelte}\" --ignore-pattern node_modules/ && npx stylelint --config .stylelintrc.json **/*.{css,scss,svelte} --fix && svelte-check --tsconfig ./tsconfig.json",
-    "format": "npx prettier --config .prettierrc --write \"src/**/*.{ts,js,svelte}\"",
+    "format": "npx prettier --config .prettierrc --plugin-search-dir=. --write \"src/**/*.{ts,js,svelte}\"",
     "lint:scss:fix": "npx stylelint **/*.{css,scss,svelte} --fix",
     "lint:ts:fix": "npx eslint --config .eslintrc.cjs \"src/**/*.{ts,js,svelte}\" --fix --ignore-pattern node_modules/",
     "preview": "vite preview",

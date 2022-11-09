@@ -1,5 +1,5 @@
 <script>
-  import Link from "$lib/shared/ui/Link.svelte";
+  import Link from '$lib/shared/ui/Link.svelte';
 </script>
 
 <footer>
@@ -8,13 +8,13 @@
     <Link
       to="https://github.com/zpix1/easyparking"
       text="docs"
-      classNames={"default shifted"}
+      classNames={'default shifted'}
       external
     />
     <Link
       to="https://github.com/zpix1/easyparking"
       text="source code"
-      classNames={"default shifted"}
+      classNames={'default shifted'}
       external
     />
   </div>

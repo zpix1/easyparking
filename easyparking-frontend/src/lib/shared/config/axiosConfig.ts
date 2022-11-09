@@ -8,8 +8,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(config => {
   if (window.localStorage.getItem('token')) {
-    if(!config.headers) {
-      throw new Error("headers object is undefined");
+    if (!config.headers) {
+      throw new Error('headers object is undefined');
     }
     config.headers.Authorization = `Bearer ${
       window.localStorage.getItem('token') as string
