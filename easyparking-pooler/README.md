@@ -7,6 +7,11 @@ docker build -f Dockerfile.dev -t pooler .
 docker run --name pooler -v $(pwd)/.mnesia:/app/.mnesia -p 4000:4000 -d pooler:latest
 ```
 Посмотреть документацию и потестить API можно на `localhost:4000/swaggerui`.
+
+При обновлении схемы БД может иметь смысл сделать reset. Для этого можно запустить контейнер и выполнить
+```
+docker exec -it pooler mix mnesia.reset
+```
  
 ## Commands
 ### Install Dependencies
