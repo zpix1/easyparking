@@ -36,6 +36,8 @@ services:
       - backend
       - frontend
     restart: always
+    networks:
+    - easyparking-network
 
 networks:
   easyparking-network:
