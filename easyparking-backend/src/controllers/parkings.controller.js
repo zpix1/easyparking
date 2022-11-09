@@ -89,3 +89,16 @@ export function getParkingById(req, res) {
     updateTime: parking.updateTime
   });
 }
+
+function getParkingsInfoFromServer(){
+  const parking1 = new Parking("1","Пирогова 1", 0, "Image1", "18:23:47 08.11.2022");
+  const parking2 = new Parking("2","Пирогова 2", 1, "Image2", "22:37:09 08.11.2022");
+  return [parking1, parking2];
+}
+
+export function getParkings(req, res){
+  const parkings = getParkingsInfoFromServer();
+  return res.status(200).json({
+    parkings
+  });
+}

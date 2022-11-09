@@ -186,6 +186,25 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get Parkings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/parkings/",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"parkings",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
