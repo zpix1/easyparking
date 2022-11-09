@@ -12,15 +12,17 @@ defmodule PoolerWeb.Router do
     plug :accepts, ["html"]
   end
 
-  scope "/" do
-    # Use the default browser stack
-    pipe_through :browser
-
-    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/v1/openapi"
-  end
-
   pipeline :api_protected do
     plug Pow.Plug.RequireAuthenticated, error_handler: PoolerWeb.Plug.AuthErrorHandler
+  end
+
+  if Pooler.env() in [:dev, :test] do
+    scope "/" do
+      # Use the default browser stack
+      pipe_through :browser
+
+      get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/v1/openapi"
+    end
   end
 
   scope "/api/v1" do
@@ -39,7 +41,7 @@ defmodule PoolerWeb.Router do
   scope "/api/v1", PoolerWeb.API.V1 do
     pipe_through [:api, :api_protected]
 
-    get "/test", SessionController, :renew
+    resources "/parking", ParkingController, except: [:new, :show, :edit]
   end
 
   # Enables LiveDashboard only for development
@@ -49,7 +51,7 @@ defmodule PoolerWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
+  if Pooler.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do

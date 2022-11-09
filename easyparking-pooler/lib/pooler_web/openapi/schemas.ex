@@ -113,4 +113,83 @@ defmodule PoolerWeb.OpenAPI.Schemas do
       }
     })
   end
+
+  defmodule ParkingParams do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "Parking Create Parameters",
+      description: "Параметры для создания или обновления парковки",
+      type: :object,
+      properties: %{
+        address: %Schema{type: :string, minLength: 5, maxLength: 255},
+        title: %Schema{type: :string, minLength: 5, maxLength: 255},
+        camera_endpoint: %Schema{
+          type: :string,
+          format: ~r/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/[\d\w\/_-]*$/
+        },
+        latitude: %Schema{type: :number, minimum: -90, maximum: 90},
+        longitude: %Schema{type: :number, minimum: -180, maximum: 180}
+      },
+      required: [:address, :title, :camera_endpoint, :latitude, :longitude],
+      example: %{
+        "address" => "Новосибирск, ул. Советская, 21/1",
+        "title" => "Парковка у Бизнес центра",
+        "camera_endpoint" => "192.168.0.1/get-image",
+        "latitude" => 37.0123,
+        "longitude" => -102.3242
+      }
+    })
+  end
+
+  defmodule ParkingSchema do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "Parking Entity",
+      description: "Сущность парковки",
+      type: :object,
+      properties: %{
+        id: %Schema{type: :string, description: "UUID парковки"},
+        address: %Schema{type: :string, minLength: 5, maxLength: 255},
+        title: %Schema{type: :string, minLength: 5, maxLength: 255},
+        camera_endpoint: %Schema{
+          type: :string,
+          format: ~r/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/[\d\w\/_-]*$/
+        },
+        latitude: %Schema{type: :number, minimum: -90, maximum: 90},
+        longitude: %Schema{type: :number, minimum: -180, maximum: 180},
+        updated_at: %Schema{type: :string, format: :"date-time"},
+        inserted_at: %Schema{type: :string, format: :"date-time"}
+      },
+      required: [:id, :address, :title, :camera_endpoint, :latitude, :longitude],
+      example: %{
+        "id" => "cdfdaf44-ee35-11e3-846b-14109ff1a304",
+        "address" => "Новосибирск, ул. Советская, 21/1",
+        "title" => "Парковка у Бизнес центра",
+        "camera_endpoint" => "192.168.0.1/get-image",
+        "latitude" => 37.0123,
+        "longitude" => -102.3242,
+        "updated_at" => "2022-11-09T11:21:38.938786+07:00",
+        "inserted_at" => "2022-11-09T11:21:38.938786+07:00"
+      }
+    })
+  end
+
+  defmodule ParkingsList do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "List of Parking Entities",
+      description: "Список парковок",
+      type: :array,
+      items: ParkingSchema
+    })
+  end
 end
