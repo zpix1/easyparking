@@ -4,7 +4,7 @@
     export let onClick: (event) => void;
 </script>
 
-<button class={icon} on:click={onClick}>
+<button class={icon} on:click|stopPropagation={onClick}>
 </button>
 
 <style lang="scss">

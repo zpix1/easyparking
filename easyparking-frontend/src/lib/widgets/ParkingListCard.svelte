@@ -6,9 +6,13 @@
     export let style: ParkingCardStyle;
     export let address: string;
     export let freeLots: number;
+
+    const onClick = () => {
+        window.location.href = "/parking";
+    }
 </script>
 
-<div class="parking-card" class:light={style === "light"} class:dark={style === "dark"}>
+<div class="parking-card" class:light={style === "light"} class:dark={style === "dark"} on:click={onClick}>
     <img src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png" width="100px" height="100px" alt="kazino" />
     <div class="inner-flex">
         <div class="parking-info-1">
@@ -32,10 +36,17 @@
 
       &.light {
         background: rgb(89,82,112);
+
+          &:hover {
+              background: rgb(100,100,123);
+          }
       }
 
       &.dark {
         background: rgb(45,45,75);
+          &:hover {
+              background: rgb(56,56,86);
+          }
       }
 
       img {

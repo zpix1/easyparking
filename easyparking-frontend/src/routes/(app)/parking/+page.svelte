@@ -19,10 +19,12 @@
 </svelte:head>
 
 <div class="parking-page">
-    <div class="parking-link">
-        <BackArrowComponent />
-        <h1 class="parking-header">All Parkings</h1>
-    </div>
+    <a href="/nearby">
+        <div class="parking-link">
+            <BackArrowComponent />
+            <h1 class="parking-header">All Parkings</h1>
+        </div>
+    </a>
     <ParkingCard
         style={"light"}
         address={parking.address}
