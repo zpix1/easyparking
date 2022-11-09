@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+  export type IconType = 'pencil' | 'trash';
+</script>
+
 <script lang="ts">
     export type IconType = "pencil" | "trash" | "star_inactive" | "star_active";
     export let icon: IconType;

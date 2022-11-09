@@ -16,11 +16,8 @@
     font: inherit;
     cursor: pointer;
     color: var(--color-text);
-    background: #2b2a53 linear-gradient(
-                    45deg,
-                    rgba(160, 158, 240, 0.7) 50%,
-                    transparent 50%
-    ) 100%;
+    background: #2b2a53
+      linear-gradient(45deg, rgba(160, 158, 240, 0.7) 50%, transparent 50%) 100%;
     background-size: 400%;
     transition: background 0.3s ease, filter 0.7s ease;
     border: 5px solid #a09ef0;
@@ -46,14 +43,7 @@
 
     &:hover {
       background-position: 0;
-      filter: drop-shadow(5px 5px 20px #a09ef0)
-        drop-shadow(-5px -5px 10px #831dd6);
+      filter: drop-shadow(5px 5px 20px #a09ef0) drop-shadow(-5px -5px 10px #831dd6);
     }
-  }
-  @media (max-width: 1091px) {
-  }
-  @media (max-width: 768px) {
-  }
-  @media (max-width: 426px) {
   }
 </style>

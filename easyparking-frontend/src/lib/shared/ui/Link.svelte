@@ -1,17 +1,17 @@
 <script>
-    export let text = 'default';
-    export let to = '/';
-    export let size = 'm';
-    export let classNames = 'default';
-    export let external = false;
+  export let text = 'default';
+  export let to = '/';
+  export let size = 'm';
+  export let classNames = 'default';
+  export let external = false;
 </script>
 
 <a
-    class={`${classNames} ${size === 'l' ? 'size-l' : 'size-m'}`}
-    href={to}
-    target={external ? '_blank' : ''}
+  class={`${classNames} ${size === 'l' ? 'size-l' : 'size-m'}`}
+  href={to}
+  target={external ? '_blank' : ''}
 >
-    {text}
+  {text}
 </a>
 
 <style lang="scss">
@@ -66,8 +66,8 @@
       border: 5px solid var(--primary-color);
       background: var(--bg-color-primary);
       border-radius: 51px;
-      font-weight: 600;
       font: var(--font-l);
+      font-weight: 600;
       color: var(--color-text);
       text-transform: uppercase;
       text-decoration: none;

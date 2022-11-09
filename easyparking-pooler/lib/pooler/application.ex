@@ -7,6 +7,8 @@ defmodule Pooler.Application do
 
   @impl true
   def start(_type, _args) do
+    Pooler.Mnesia.setup([node()])
+
     children = [
       # Start the Telemetry supervisor
       PoolerWeb.Telemetry,

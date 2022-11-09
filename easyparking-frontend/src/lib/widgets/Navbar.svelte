@@ -1,47 +1,37 @@
-<script>
-    import Link from '$lib/shared/ui/Link.svelte';
-    import logo from '$lib/shared/assets/logo.svg';
-    import { logOut, user } from '$lib/entities/User';
-    let menuActive = false;
-    export let links = [{ page: '/login', name: 'log in' }];
-    export let appName = 'Easy Parking';
-    const handleLogOut = () => {
-        logOut();
-    };
-    const toggleMenu = () => {
-        menuActive = !menuActive;
-    };
+<script lang="ts">
+  import Link from '$lib/shared/ui/Link.svelte';
+  import logo from '$lib/shared/assets/logo.svg';
+  import { logOut, user } from '$lib/entities/User';
+  let menuActive = false;
+  export let links = [{ page: '/login', name: 'log in' }];
+  export let appName = 'Easy Parking';
+  const handleLogOut = () => {
+    logOut();
+  };
+  const toggleMenu = () => {
+    menuActive = !menuActive;
+  };
 </script>
 
 <header>
-    <button
-        class={menuActive ? 'burger active' : 'burger'}
-        on:click={toggleMenu}
-    />
-    <div class="logo">
-        <a href="/">
-            <img src={logo} alt="logo" />
-            <span>{appName}</span>
-        </a>
-    </div>
-    <ul class={`links-list ${menuActive ? 'active' : 0}`}>
-        {#each links as link (link.page)}
-            <li>
-                {#if link.page === '/login' && $user}
-                    <button class="logout-btn" on:click={handleLogOut}
-                        >logout</button
-                    >
-                {:else}
-                    <Link
-                        to={link.page}
-                        text={link.name}
-                        size="l"
-                        classNames={'default shifted'}
-                    />
-                {/if}
-            </li>
-        {/each}
-    </ul>
+  <button class={menuActive ? 'burger active' : 'burger'} on:click={toggleMenu} />
+  <div class="logo">
+    <a href="/">
+      <img src={logo} alt="logo" />
+      <span>{appName}</span>
+    </a>
+  </div>
+  <ul class={`links-list ${menuActive ? 'active' : 0}`}>
+    {#each links as link (link.page)}
+      <li>
+        {#if link.page === '/login' && $user}
+          <button class="logout-btn" on:click={handleLogOut}>logout</button>
+        {:else}
+          <Link to={link.page} text={link.name} size="l" classNames={'default shifted'} />
+        {/if}
+      </li>
+    {/each}
+  </ul>
 </header>
 
 <style lang="scss">
@@ -119,7 +109,7 @@
 
   @media (max-width: 1091px) {
     header {
-      padding: 0px 50px;
+      padding: 0 50px;
       .logo {
         a {
           font-size: 24px;

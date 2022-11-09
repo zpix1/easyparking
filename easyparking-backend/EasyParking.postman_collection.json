@@ -4,7 +4,7 @@
 		"name": "EasyParking",
 		"description": "Easy app for easy parking",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24020502"
+		"_exporter_id": "24266049"
 	},
 	"item": [
 		{
@@ -166,6 +166,45 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Get Parking By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/parkings/parking/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"parkings",
+										"parking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Parkings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/parkings/",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"parkings",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -208,7 +247,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjI0N2IyZTZjNjU1MDBiNGJhOTk2ZSIsImlhdCI6MTY2NzM4NTU0MSwiZXhwIjoxNjY3NDcxOTQxfQ.m_AyOpZE5TvqhOWYmf0moSsMLayXKB-Ndq-KywFAa88",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNmE2ZTA5ZDM2NmRhYjQ4MzdkMzE5MSIsImVtYWlsIjoibWVtQGtlay5ydSIsImlhdCI6MTY2NzkyMDE3MCwiZXhwIjoxNjY4MDA2NTcwfQ.BupZFzsmbjFLmFcm0AfjlPk8VSdSinkhau8JacgCuC0",
 						"type": "string"
 					}
 				]
