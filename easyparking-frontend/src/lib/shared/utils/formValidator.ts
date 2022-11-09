@@ -48,11 +48,17 @@ class Validator {
     };
   }
   endpoint(value, message) {
-    let ipPart = value.split(`/`)[0];
+    const ipPortPart = value.split(`/`)[0];
+    const [ ipPart, portPart ] = ipPortPart.split(`:`);
+    const portParsed = parseInt(portPart);
+    const isValid = !isNaN(portParsed) && portParsed <= 65535 && portParsed > 0 && !ipPart.split(".").some((ipStrRaw) => {
+      const ipNumber = parseInt(ipStrRaw);
+      return isNaN(ipNumber) && ipNumber > 255 && ipNumber < 0;
+    });
     return {
       field: "endpoint",
       name: "endpoint",
-      message: "",
+      message: isValid ? "" : "Endpoint must be a string in format  \"{camera ip}:{camera port}/#{possibly some path}\"",
     };
   }
 }
