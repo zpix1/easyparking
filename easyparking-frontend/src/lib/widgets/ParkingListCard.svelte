@@ -4,15 +4,14 @@
 
 <script lang="ts">
   import IconButton from '$lib/shared/ui/IconButton.svelte';
-  import { nop } from '$lib/shared/utils/utils.js';
 
-    export let style: ParkingCardStyle;
+  export let style: ParkingCardStyle;
     export let address: string;
     export let freeLots: number;
 
     const onClick = () => {
         window.location.href = "/parking";
-    }
+    };
 </script>
 
 <div class="parking-card" class:light={style === "light"} class:dark={style === "dark"} on:click={onClick}>
@@ -20,7 +19,7 @@
     <div class="inner-flex">
         <div class="parking-info-1">
             <div class="address">{address}</div>
-            <IconButton icon="star" />
+            <IconButton icon="star-inactive" />
         </div>
         <div class="parking-info-2">
             <div class="last-updated">Last updated 5 minutes ago</div>
