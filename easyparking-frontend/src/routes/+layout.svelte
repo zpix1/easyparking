@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    max-width: 100%;
+    min-width: 100%;
     font: var(--font-m);
     font-weight: normal;
     color: var(--color-text);
