@@ -6,7 +6,7 @@
     type ParkingInfo = {
         address: string;
         freeLots: number;
-    }
+    };
 
     const parkingsStep = 5;
     let parkingsActive: ParkingInfo[] = [
@@ -81,7 +81,7 @@
         }
         parkingsActive.push(...parkings.slice(parkingsActive.length, parkingsActive.length + parkingsStep));
         parkingsActive = parkingsActive;
-    }
+    };
 </script>
 
 <svelte:head>
@@ -101,9 +101,11 @@
             />
         {/each}
     </div>
-    <div class="btn-wrapper">
-        <Button onClick={() => {console.log(parkingsActive); onShowMore()}} size="xl">Load More</Button>
-    </div>
+    {#if parkings.length !== parkingsActive.length}
+        <div class="btn-wrapper">
+            <Button onClick={() => onShowMore()} size="xl">Load More</Button>
+        </div>
+    {/if}
 
 </div>
 
