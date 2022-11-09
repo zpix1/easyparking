@@ -22,11 +22,14 @@ defmodule PoolerWeb.API.V1.SessionController do
     description: """
     При правильных логине и пароле возвращает access и refresh токены, которые в дальнейшем могут использоваться для доступа к ресурсам
 
-    При истечении access токена новые токены можно получить по маршруту /api/v1/session/refresh, отправляя refresh токен
+    При истечении access токена новые токены можно получить по маршруту `/api/v1/session/refresh`, отправляя refresh токен
 
     Access токен в обычном случае и refresh при истечении access токена
-    необходимо передавать в HTTP заголовке Authorization в виде "Bearer <<your token here>>".
-    Например, Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8 
+    необходимо передавать в HTTP заголовке `Authorization` в виде `"Bearer <<your token here>>"`.
+    Например,
+    ```
+    Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8
+    ```
     """,
     request_body: {"Admin Credentials", "application/json", AdminCredentials},
     responses: %{
@@ -36,6 +39,7 @@ defmodule PoolerWeb.API.V1.SessionController do
   @spec create(Conn.t(), map()) :: Conn.t()
   def create(%Conn{body_params: %AdminCredentials{email: email, password: password}} = conn, _) do
     conn
+    |> Pow.Plug.delete()
     |> Pow.Plug.authenticate_user(%{"email" => email, "password" => password})
     |> case do
       {:ok, conn} ->
@@ -59,7 +63,7 @@ defmodule PoolerWeb.API.V1.SessionController do
     parameters: [
       authoriztion: [
         in: :header,
-        name: "Authorization",
+        name: :authorization,
         description: "refresh токен в формате Authorization Bearer",
         type: :string,
         example:
@@ -85,10 +89,8 @@ defmodule PoolerWeb.API.V1.SessionController do
 
       {conn, _user} ->
         json(conn, %{
-          data: %{
-            access_token: conn.private.api_access_token,
-            refresh: conn.private.api_renewal_token
-          }
+          access_token: conn.private.api_access_token,
+          refresh_token: conn.private.api_renewal_token
         })
     end
   end
@@ -100,7 +102,7 @@ defmodule PoolerWeb.API.V1.SessionController do
     parameters: [
       authoriztion: [
         in: :header,
-        name: "Authorization",
+        name: :authorization,
         description: "access токен в формате Authorization Bearer",
         type: :string,
         example:
