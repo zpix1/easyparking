@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let open;
+  export let open: boolean;
   export let closeOnOutsideClick = true;
   export let onCloseCallback: (event: Event) => void;
 

@@ -19,7 +19,7 @@
       <input type="password" id="password" bind:value={fileds.password} />
     </div>
     <div class="error">{adminError}</div>
-    <Button type="submit">login</Button>
+    <Button type="submit" onClick={nop}>login</Button>
   </form>
 </section>
 

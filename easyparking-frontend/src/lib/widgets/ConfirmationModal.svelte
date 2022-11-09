@@ -2,7 +2,7 @@
   import Modal from "../shared/ui/Modal.svelte";
   import Button from "../shared/ui/Button.svelte";
 
-  export let open;
+  export let open: boolean;
   export let onClose: () => void;
   export let onConfirm: () => void;
 </script>

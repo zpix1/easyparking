@@ -4,10 +4,12 @@
   import { userLoading } from "$lib/entities/User";
   import { formValidation } from "$lib/shared/utils/formValidator";
   import type { Field, Rule, ErrorMessage } from '$lib/shared/types/FormDataTypes';
+  import type { Writable } from 'svelte/store';
+  import { nop } from '$lib/shared/utils/utils.js';
 
   export let className = "";
   export let buttonLabel = "";
-  export let totalError = "";
+  export let totalError: Writable<string>;
   export let submitCallback: (body: Record<string, string>) => void;
   export let fields: Field[] = [];
   export let fieldsErrors: Record<string, string> = {};
@@ -43,7 +45,7 @@
     </div>
   {/each}
   <div class="error">{$totalError}</div>
-  <Button type="submit">
+  <Button type="submit" onClick={nop}>
     {#if $userLoading}
       <Loader />
     {:else}

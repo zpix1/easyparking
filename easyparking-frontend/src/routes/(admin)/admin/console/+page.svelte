@@ -92,8 +92,8 @@
           <td>{endpoint}</td>
           <td>{lastUpdate}</td>
           <td class="console-tools">
-            <IconButton onClick={() => onEditParking(i)} icon="pencil" />
-            <IconButton onClick={() => onDeleteParking(i)} icon="trash" />
+            <IconButton onClick={() => onEditParking()} icon="pencil" />
+            <IconButton onClick={() => onDeleteParking()} icon="trash" />
           </td>
         </tr>
       {/each}
