@@ -1,39 +1,32 @@
 <script>
-    import Button from '$lib/shared/ui/Button.svelte';
-    import { adminAuth } from './store';
+  import Button from '$lib/shared/ui/Button.svelte';
+  import { nop } from '$lib/shared/utils/utils.js';
 
-    const fileds = { password: '' };
-    let adminError = '';
-    const submitHandler = () => {
-        if (fileds.password !== import.meta.env.VITE_ADMIN_PASS) {
-            adminError = 'Invalid admin password';
-        } else {
-            adminError = '';
-            adminAuth();
-        }
-    };
+  const fileds = { password: '' };
+  let adminError = '';
+  const submitHandler = nop;
 </script>
 
 <svelte:head>
-    <title>Admin</title>
+  <title>Admin</title>
 </svelte:head>
 
 <section class="container">
-    <h1>Please log in to get into admin console</h1>
-    <form on:submit|preventDefault={submitHandler}>
-        <div class="form-field">
-            <label for="password">PASSWORD</label>
-            <input type="password" id="password" bind:value={fileds.password} />
-        </div>
-        <div class="error">{adminError}</div>
-        <Button type="submit">login</Button>
-    </form>
+  <h1>Please log in to get into admin console</h1>
+  <form on:submit|preventDefault={submitHandler}>
+    <div class="form-field">
+      <label for="password">PASSWORD</label>
+      <input type="password" id="password" bind:value={fileds.password} />
+    </div>
+    <div class="error">{adminError}</div>
+    <Button type="submit" onClick={nop}>login</Button>
+  </form>
 </section>
 
 <style lang="scss">
   .container {
     width: 50%;
-    padding: 0px 10px 50px;
+    padding: 0 10px 50px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -64,8 +57,7 @@
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
-        filter: drop-shadow(2px 2px 5px #a09ef0)
-          drop-shadow(-2px -2px 5px #831dd6);
+        filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
       }
     }
     label {
@@ -78,12 +70,10 @@
       color: rgb(237, 110, 110);
     }
   }
-  @media (max-width: 1091px) {
-  }
   @media (max-width: 768px) {
     .container {
       width: 80%;
-      padding: 0px 0px 50px;
+      padding: 0 0 50px;
     }
     h1 {
       font-size: 40px;
@@ -98,8 +88,7 @@
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);
-          filter: drop-shadow(2px 2px 5px #a09ef0)
-            drop-shadow(-2px -2px 5px #831dd6);
+          filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
         }
       }
     }

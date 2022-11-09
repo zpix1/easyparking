@@ -43,7 +43,11 @@ defmodule PoolerWeb.Plug.Auth do
         # The store caches will use their default `:ttl` setting. To change the
         # `:ttl`, `Keyword.put(store_config, :ttl, :timer.minutes(10))` can be
         # passed in as the first argument instead of `store_config`.
-        CredentialsCache.put(store_config, access_token, {user, [renewal_token: renewal_token]})
+        CredentialsCache.put(
+          Keyword.put(store_config, :ttl, :timer.hours(12)),
+          access_token,
+          {user, [renewal_token: renewal_token]}
+        )
 
         PersistentSessionCache.put(
           store_config,
@@ -121,7 +125,7 @@ defmodule PoolerWeb.Plug.Auth do
 
   defp fetch_access_token(conn) do
     case Conn.get_req_header(conn, "authorization") do
-      [token | _rest] -> {:ok, token}
+      ["Bearer " <> token | _rest] -> {:ok, token}
       _any -> :error
     end
   end

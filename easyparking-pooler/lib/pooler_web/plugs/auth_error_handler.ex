@@ -1,4 +1,6 @@
 defmodule PoolerWeb.Plug.AuthErrorHandler do
+  @moduledoc false
+
   use PoolerWeb, :controller
   alias Plug.Conn
 

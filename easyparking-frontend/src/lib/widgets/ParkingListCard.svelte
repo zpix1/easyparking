@@ -1,7 +1,10 @@
-<script lang="ts">
-    import IconButton from "$lib/shared/ui/IconButton.svelte";
+<script context="module" lang="ts">
+  export type ParkingCardStyle = 'light' | 'dark';
+</script>
 
-    export type ParkingCardStyle = "light" | "dark";
+<script lang="ts">
+  import IconButton from '$lib/shared/ui/IconButton.svelte';
+  import { nop } from '$lib/shared/utils/utils.js';
 
     export let style: ParkingCardStyle;
     export let address: string;
@@ -27,12 +30,12 @@
 </div>
 
 <style lang="scss">
-    .parking-card {
-      display: flex;
-      flex-flow: row nowrap;
-      padding: 1rem;
-      column-gap: 1rem;
-      border-radius: 10px;
+  .parking-card {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 1rem;
+    column-gap: 1rem;
+    border-radius: 10px;
 
       &.light {
         background: rgb(89,82,112);
@@ -49,42 +52,42 @@
           }
       }
 
-      img {
-        z-index: 1;
-      }
+    img {
+      z-index: 1;
     }
+  }
 
-    .inner-flex {
-      display: flex;
-      flex-flow: column nowrap;
-      flex: 1;
-      justify-content: space-between;
-    }
+  .inner-flex {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: space-between;
+  }
 
-    .parking-info-1 {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-    }
+  .parking-info-1 {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
 
-    .parking-info-2 {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-      align-items: flex-end;
-      column-gap: 1rem;
-    }
+  .parking-info-2 {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    column-gap: 1rem;
+  }
 
-    .last-updated {
-      font: var(--font-s);
-    }
+  .last-updated {
+    font: var(--font-s);
+  }
 
-    .address {
-      font: var(--font-l);
-    }
+  .address {
+    font: var(--font-l);
+  }
 
-    .free-lots {
-      font: var(--font-l);
-      font-weight: 600;
-    }
+  .free-lots {
+    font: var(--font-l);
+    font-weight: 600;
+  }
 </style>
