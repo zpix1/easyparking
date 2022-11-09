@@ -1,9 +1,10 @@
 <script lang="ts">
   import Form from "$lib/shared/ui/Form.svelte";
   import { parkingCreationError } from "../entities/Parking";
+  import { nop } from '$lib/shared/utils/utils';
 
   let totalError = parkingCreationError;
-  const submitCallback = (body) => {};
+  const submitCallback = nop;
   const fields = [
     { name: "name", type: "text",  value: "" },
     { name: "address", type: "text",  value: "" },

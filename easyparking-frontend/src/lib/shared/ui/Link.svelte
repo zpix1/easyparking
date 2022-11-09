@@ -66,8 +66,8 @@
       border: 5px solid var(--primary-color);
       background: var(--bg-color-primary);
       border-radius: 51px;
-      font-weight: 600;
       font: var(--font-l);
+      font-weight: 600;
       color: var(--color-text);
       text-transform: uppercase;
       text-decoration: none;

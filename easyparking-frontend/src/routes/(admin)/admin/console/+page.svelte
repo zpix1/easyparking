@@ -38,17 +38,14 @@
   const onAddParking = () => {
     formModalOpen = true;
   };
-  const onEditParking = (index) => {
+  const onEditParking = () => {
     formModalOpen = true;
   };
-  const onDeleteParking = (index) => {
+  const onDeleteParking = () => {
     deletionConfirmModalOpen = true;
   };
   const onCloseForm = () => {
     formModalOpen = false;
-  };
-  const onConfirmDeletion = () => {
-    deletionConfirmModalOpen = false;
   };
   const onCancelDeletion = () => {
     deletionConfirmModalOpen = false;
@@ -68,7 +65,7 @@
     <ConfirmationModal
       open={deletionConfirmModalOpen}
       onClose={onCancelDeletion}
-      onConfirm={() => {}}
+      onConfirm={onCancelDeletion}
     />
     <div class="head-wrapper">
       <h1 class="console-head">PARKINGS</h1>

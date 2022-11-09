@@ -42,6 +42,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     'no-magic-numbers': ['error', { ignore: [0, 1, 2, -1] }],
     curly: 'error',
-    'max-classes-per-file': ['error', 1]
+    'max-classes-per-file': ['error', 1],
   }
 };

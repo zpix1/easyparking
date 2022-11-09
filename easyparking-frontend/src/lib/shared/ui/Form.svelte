@@ -8,7 +8,7 @@
   export let className = "";
   export let buttonLabel = "";
   export let totalError = "";
-  export let submitCallback: (body: any) => void;
+  export let submitCallback: (body: Record<string, string>) => void;
   export let fields: Field[] = [];
   export let fieldsErrors: Record<string, string> = {};
   export let fieldsRules: Rule[] = [];
@@ -30,16 +30,16 @@
 </script>
 
 <form class={className} on:submit|preventDefault={submitHandler}>
-  {#each fields as field (field.name)}
+  {#each fields as field, i (field.name)}
     <div class="form-field">
-      <label for={field.name}>{field.name}</label>
+      <label>{field.name}</label>
       {#if field.type === "password"}
-        <input type="password" id={field.name} bind:value={field.value} />
+        <input type="password" bind:value={field.value} />
       {:else}
-        <input type="text" id={field.name} bind:value={field.value} />
+        <input type="text" bind:value={field.value} />
       {/if}
 
-      <div class="error">{fieldsErrors[field.name]}</div>
+      <div class="error">{fieldsErrors[fields[i].name]}</div>
     </div>
   {/each}
   <div class="error">{$totalError}</div>

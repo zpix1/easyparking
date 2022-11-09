@@ -7,6 +7,3 @@
 </svelte:head>
 
 <section>nearby</section>
-
-<style lang="scss">
-</style>

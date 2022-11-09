@@ -75,7 +75,7 @@ class Validator {
       name: 'endpoint',
       message: isValid
         ? ''
-        : 'Endpoint must be a string in format  "{camera ip}:{camera port}/#{possibly some path}"'
+        : message
     };
   }
 }

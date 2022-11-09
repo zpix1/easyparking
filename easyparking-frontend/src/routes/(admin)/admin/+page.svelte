@@ -1,12 +1,10 @@
 <script>
   import Button from "$lib/shared/ui/Button.svelte";
-  import { adminAuth } from "./store";
+  import { nop } from '$lib/shared/utils/utils.js';
 
   const fileds = { password: "" };
   let adminError = "";
-  const submitHandler = () => {
-    
-  };
+  const submitHandler = nop;
 </script>
 
 <svelte:head>
@@ -28,7 +26,7 @@
 <style lang="scss">
   .container {
     width: 50%;
-    padding: 0px 10px 50px;
+    padding: 0 10px 50px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -73,12 +71,10 @@
       color: rgb(237, 110, 110);
     }
   }
-  @media (max-width: 1091px) {
-  }
   @media (max-width: 768px) {
     .container {
       width: 80%;
-      padding: 0px 0px 50px;
+      padding: 0 0 50px;
     }
     h1 {
       font-size: 40px;
