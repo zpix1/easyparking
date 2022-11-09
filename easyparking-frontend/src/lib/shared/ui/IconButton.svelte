@@ -22,7 +22,7 @@
   const displayIcon = icons[icon];
 </script>
 
-<button class={icon} on:click={onClick}>
+<button class={icon} on:click|stopPropagation={onClick}>
   <svg
     class={icon}
     viewBox="0 0 32 32"

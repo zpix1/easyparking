@@ -1,32 +1,15 @@
-<script context="module" lang="ts">
-  export type ParkingCardStyle = 'light' | 'dark';
-</script>
-
 <script lang="ts">
   import IconButton from '$lib/shared/ui/IconButton.svelte';
   import { nop } from '$lib/shared/utils/utils.js';
 
+  type ParkingCardStyle = 'light' | 'dark';
+
   export let style: ParkingCardStyle;
   export let address: string;
   export let freeLots: number;
-
-  const onClick = () => {
-    window.location.href = '/parking';
-  };
 </script>
 
-<div
-  class="parking-card"
-  class:light={style === 'light'}
-  class:dark={style === 'dark'}
-  on:click={onClick}
->
-  <img
-    src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png"
-    width="100px"
-    height="100px"
-    alt="kazino"
-  />
+<div class="parking-card" class:light={style === 'light'} class:dark={style === 'dark'}>
   <div class="inner-flex">
     <div class="parking-info-1">
       <div class="address">{address}</div>
@@ -37,33 +20,32 @@
       <div class="free-lots">{freeLots} Free lots</div>
     </div>
   </div>
+  <img
+    src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png"
+    alt="kazino"
+  />
 </div>
 
 <style lang="scss">
   .parking-card {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     padding: 1rem;
-    column-gap: 1rem;
+    row-gap: 1rem;
     border-radius: 10px;
+    max-height: 50vh;
 
     &.light {
       background: rgb(89, 82, 112);
-
-      &:hover {
-        background: rgb(100, 100, 123);
-      }
     }
 
     &.dark {
       background: rgb(45, 45, 75);
-      &:hover {
-        background: rgb(56, 56, 86);
-      }
     }
 
     img {
       z-index: 1;
+      min-height: 0;
     }
   }
 
