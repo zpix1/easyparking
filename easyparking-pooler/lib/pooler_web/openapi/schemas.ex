@@ -10,7 +10,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
 
     OpenApiSpex.schema(%{
       title: "Admin Credentials",
-      description: "Токены для доступа к ресурсам администратора",
+      description: "Логин и пароль администратора",
       type: :object,
       properties: %{
         email: %Schema{type: :string, minLength: 5, maxLength: 50},
@@ -35,8 +35,11 @@ defmodule PoolerWeb.OpenAPI.Schemas do
       При истечении access токена новые токены можно получить по маршруту /api/v1/session/refresh, отправляя refresh токен
 
       Access токен в обычном случае и refresh при истечении access токена
-      необходимо передавать в HTTP заголовке Authorization в виде "Bearer <<your token here>>".
-      Например, Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8 
+      необходимо передавать в HTTP заголовке Authorization в виде `"Bearer <<your token here>>"`.
+      Например,
+      ```
+      Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8
+      ```
       """,
       type: :object,
       properties: %{
@@ -59,7 +62,24 @@ defmodule PoolerWeb.OpenAPI.Schemas do
 
     OpenApiSpex.schema(%{
       title: "Error Response",
-      description: "Структура ответа в случае ошибки",
+      description: """
+      Структура ответа в случае ошибки в бизнес логике
+
+      Заметьте, что ошибка при валиации в OpenAPI будет иметь вид
+      ```
+      {
+        "errors": [
+          {
+            "detail": "Invalid format. Expected :date",
+            "source": {
+              "pointer": "/data/birthday"
+            },
+            "title": "Invalid value"
+          }
+        ]
+      }
+      ```
+      """,
       type: :object,
       properties: %{
         error: %Schema{

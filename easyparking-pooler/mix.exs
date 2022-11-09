@@ -28,7 +28,7 @@ defmodule Pooler.MixProject do
   def application do
     [
       mod: {Pooler.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :memento]
     ]
   end
 
@@ -51,6 +51,8 @@ defmodule Pooler.MixProject do
       {:excoveralls, "~> 0.14.6", only: :test},
       # documentation checks
       {:inch_ex, github: "rrrene/inch_ex", only: [:dev, :test]},
+      # Database
+      {:memento, "~> 0.3.2"},
       # REST API Documentation
       {:open_api_spex, "~> 3.14"},
       {:phoenix, "~> 1.6.12"},

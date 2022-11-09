@@ -22,11 +22,14 @@ defmodule PoolerWeb.API.V1.SessionController do
     description: """
     При правильных логине и пароле возвращает access и refresh токены, которые в дальнейшем могут использоваться для доступа к ресурсам
 
-    При истечении access токена новые токены можно получить по маршруту /api/v1/session/refresh, отправляя refresh токен
+    При истечении access токена новые токены можно получить по маршруту `/api/v1/session/refresh`, отправляя refresh токен
 
     Access токен в обычном случае и refresh при истечении access токена
-    необходимо передавать в HTTP заголовке Authorization в виде "Bearer <<your token here>>".
-    Например, Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8 
+    необходимо передавать в HTTP заголовке `Authorization` в виде `"Bearer <<your token here>>"`.
+    Например,
+    ```
+    Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8
+    ```
     """,
     request_body: {"Admin Credentials", "application/json", AdminCredentials},
     responses: %{
