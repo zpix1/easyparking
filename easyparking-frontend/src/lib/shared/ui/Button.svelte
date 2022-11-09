@@ -1,13 +1,13 @@
 <script lang="ts">
-    type ButtonSize = "s" | "m" | "l" | "xl";
+  type ButtonSize = 's' | 'm' | 'l' | 'xl';
 
-    export let type = '';
-    export let size: ButtonSize = "s";
-    export let onClick: () => void;
+  export let type = '';
+  export let size: ButtonSize = 's';
+  export let onClick: () => void;
 </script>
 
 <button {type} class={size} on:click={onClick}>
-    <slot />
+  <slot />
 </button>
 
 <style lang="scss">
@@ -26,15 +26,15 @@
     text-transform: uppercase;
 
     &.s {
-      padding: .5rem 1.75rem;
+      padding: 0.5rem 1.75rem;
     }
 
     &.m {
-      padding: .7rem 3rem;
+      padding: 0.7rem 3rem;
     }
 
     &.l {
-      padding: .9rem 4.25rem;
+      padding: 0.9rem 4.25rem;
     }
 
     &.xl {
