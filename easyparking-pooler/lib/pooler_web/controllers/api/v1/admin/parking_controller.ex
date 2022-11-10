@@ -1,4 +1,4 @@
-defmodule PoolerWeb.API.V1.ParkingController do
+defmodule PoolerWeb.API.V1.Admin.ParkingController do
   use PoolerWeb, :controller
 
   @dialyzer [
@@ -12,18 +12,21 @@ defmodule PoolerWeb.API.V1.ParkingController do
 
   alias PoolerWeb.OpenAPI.Schemas.{
     ErrorResponse,
+    StatusResponse
+  }
+
+  alias PoolerWeb.OpenAPI.Admin.Schemas.{
     ParkingParams,
     ParkingSchema,
-    ParkingsList,
-    StatusResponse
+    ParkingsList
   }
 
   use OpenApiSpex.ControllerSpecs
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
-  tags ["parkings"]
+  tags ["admin:parkings"]
   security [%{"authorization" => []}]
 
-  plug :put_view, PoolerWeb.ParkingView
+  plug :put_view, PoolerWeb.Admin.ParkingView
 
   operation :create,
     summary: "Create Parking Entity",

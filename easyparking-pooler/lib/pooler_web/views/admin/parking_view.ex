@@ -1,4 +1,4 @@
-defmodule PoolerWeb.ParkingView do
+defmodule PoolerWeb.Admin.ParkingView do
   @moduledoc false
   use PoolerWeb, :view
 

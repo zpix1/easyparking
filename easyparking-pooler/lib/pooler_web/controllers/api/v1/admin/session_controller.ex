@@ -1,4 +1,4 @@
-defmodule PoolerWeb.API.V1.SessionController do
+defmodule PoolerWeb.API.V1.Admin.SessionController do
   use PoolerWeb, :controller
   @dialyzer {:nowarn_function, create: 2}
 
@@ -6,15 +6,18 @@ defmodule PoolerWeb.API.V1.SessionController do
   alias PoolerWeb.Plug.Auth
 
   alias PoolerWeb.OpenAPI.Schemas.{
-    AdminCredentials,
-    AdminCredentialsResponse,
     ErrorResponse,
     StatusResponse
   }
 
+  alias PoolerWeb.OpenAPI.Admin.Schemas.{
+    Credentials,
+    CredentialsResponse
+  }
+
   use OpenApiSpex.ControllerSpecs
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
-  tags ["auth"]
+  tags ["admin:auth"]
   security []
 
   operation :create,
@@ -31,13 +34,13 @@ defmodule PoolerWeb.API.V1.SessionController do
     Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8
     ```
     """,
-    request_body: {"Admin Credentials", "application/json", AdminCredentials},
+    request_body: {"Admin Credentials", "application/json", Credentials},
     responses: %{
-      200 => {"Admin Credentials Response", "application/json", AdminCredentialsResponse}
+      200 => {"Admin Credentials Response", "application/json", CredentialsResponse}
     }
 
   @spec create(Conn.t(), map()) :: Conn.t()
-  def create(%Conn{body_params: %AdminCredentials{email: email, password: password}} = conn, _) do
+  def create(%Conn{body_params: %Credentials{email: email, password: password}} = conn, _) do
     conn
     |> Pow.Plug.delete()
     |> Pow.Plug.authenticate_user(%{"email" => email, "password" => password})
@@ -71,7 +74,7 @@ defmodule PoolerWeb.API.V1.SessionController do
       ]
     ],
     responses: %{
-      200 => {"Admin Credentials Response", "application/json", AdminCredentialsResponse},
+      200 => {"Admin Credentials Response", "application/json", CredentialsResponse},
       401 => {"Error Response", "application/json", ErrorResponse}
     }
 

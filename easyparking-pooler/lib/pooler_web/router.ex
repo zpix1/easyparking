@@ -31,14 +31,14 @@ defmodule PoolerWeb.Router do
     get "/openapi", OpenApiSpex.Plug.RenderSpec, []
   end
 
-  scope "/api/v1/session", PoolerWeb.API.V1 do
+  scope "/api/v1/admin/session", PoolerWeb.API.V1.Admin do
     pipe_through :api
 
     resources "/", SessionController, singleton: true, only: [:create, :delete]
     post "/refresh", SessionController, :refresh
   end
 
-  scope "/api/v1", PoolerWeb.API.V1 do
+  scope "/api/v1/admin", PoolerWeb.API.V1.Admin do
     pipe_through [:api, :api_protected]
 
     resources "/parking", ParkingController, except: [:new, :show, :edit]
