@@ -1,9 +1,9 @@
-defmodule PoolerWeb.OpenAPI.Schemas do
+defmodule PoolerWeb.OpenAPI.Admin.Schemas do
   @moduledoc false
 
   alias OpenApiSpex.Schema
 
-  defmodule AdminCredentials do
+  defmodule Credentials do
     @moduledoc false
 
     require OpenApiSpex
@@ -24,7 +24,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
     })
   end
 
-  defmodule AdminCredentialsResponse do
+  defmodule CredentialsResponse do
     @moduledoc false
     require OpenApiSpex
 
@@ -55,73 +55,14 @@ defmodule PoolerWeb.OpenAPI.Schemas do
     })
   end
 
-  defmodule ErrorResponse do
-    @moduledoc false
-
-    require OpenApiSpex
-
-    OpenApiSpex.schema(%{
-      title: "Error Response",
-      description: """
-      Структура ответа в случае ошибки в бизнес логике
-
-      Заметьте, что ошибка при валиации в OpenAPI будет иметь вид
-      ```
-      {
-        "errors": [
-          {
-            "detail": "Invalid format. Expected :date",
-            "source": {
-              "pointer": "/data/birthday"
-            },
-            "title": "Invalid value"
-          }
-        ]
-      }
-      ```
-      """,
-      type: :object,
-      properties: %{
-        error: %Schema{
-          type: :object,
-          properties: %{message: %Schema{type: :string, description: "Сообщение ошибки"}},
-          required: [:message]
-        }
-      },
-      required: [:error],
-      example: %{
-        "error" => %{"message" => "Internal Error"}
-      }
-    })
-  end
-
-  defmodule StatusResponse do
-    @moduledoc false
-
-    require OpenApiSpex
-
-    OpenApiSpex.schema(%{
-      title: "Status Response",
-      description: "Структура ответа, когда нечего возвращать. Сейчас статус всегда равен \"ok\"",
-      type: :object,
-      properties: %{
-        status: %Schema{type: :string, enum: ["ok"]}
-      },
-      required: [:status],
-      example: %{
-        "status" => "ok"
-      }
-    })
-  end
-
   defmodule ParkingParams do
     @moduledoc false
 
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Parking Create Parameters",
-      description: "Параметры для создания или обновления парковки",
+      title: "Admin Panel: Parking Create Parameters",
+      description: "Параметры для создания или обновления парковки из админки",
       type: :object,
       properties: %{
         address: %Schema{type: :string, minLength: 5, maxLength: 255},
@@ -150,8 +91,8 @@ defmodule PoolerWeb.OpenAPI.Schemas do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Parking Entity",
-      description: "Сущность парковки",
+      title: "Admin Panel: Parking Entity",
+      description: "Сущность парковки в админке",
       type: :object,
       properties: %{
         id: %Schema{type: :string, description: "UUID парковки"},
@@ -186,8 +127,8 @@ defmodule PoolerWeb.OpenAPI.Schemas do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "List of Parking Entities",
-      description: "Список парковок",
+      title: "Admin Panel: List of Parking Entities",
+      description: "Список парковок в админке",
       type: :array,
       items: ParkingSchema
     })

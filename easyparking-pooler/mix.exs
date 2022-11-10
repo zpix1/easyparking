@@ -12,8 +12,9 @@ defmodule Pooler.MixProject do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
+      dialyzer: [plt_add_apps: [:mix]],
       preferred_cli_env: [
-        dialyzer: :prod,
+        dialyzer: :dev,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
@@ -44,7 +45,7 @@ defmodule Pooler.MixProject do
       # static code analysis - code consistency
       {:credo, "~> 1.6", only: :dev, runtime: false},
       # static code analysis - types
-      {:dialyxir, "~> 1.0", only: :prod, runtime: false},
+      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       # docs generation
       {:ex_doc, "~> 0.28.4", only: :dev, runtime: false},
       # test coverage
@@ -62,7 +63,9 @@ defmodule Pooler.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       # Auth
-      {:pow, "~> 1.0.27"}
+      {:pow, "~> 1.0.27"},
+      {:tzdata, "~> 1.1"},
+      {:uuid, "~> 1.1"}
     ]
   end
 
