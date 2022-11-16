@@ -31,6 +31,12 @@ defmodule PoolerWeb.Router do
     get "/openapi", OpenApiSpex.Plug.RenderSpec, []
   end
 
+  scope "/api/v1", PoolerWeb.API.V1 do
+    pipe_through :api
+
+    get "/parking", ParkingController, :list_order_by_distance
+  end
+
   scope "/api/v1/admin/session", PoolerWeb.API.V1.Admin do
     pipe_through :api
 
