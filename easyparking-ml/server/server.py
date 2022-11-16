@@ -1,10 +1,15 @@
 import os
 import sys
 import time
+import cv2
+import numpy as np
+
+from urllib3 import HTTPResponse
 
 from image_processor import ImageProcessor
 import pika
 from minio import S3Error
+from minio.error import MinioException
 from s3_client import *
 import socket
 
@@ -12,38 +17,34 @@ MINIO_URL = os.getenv("MINIO_URL")
 MINIO_PORT = int(os.getenv("MINIO_PORT"))
 MINIO_IMAGES_TO_PROCESS_QUEUE = "images_to_process"
 MINIO_PROCESSED_IMAGES_QUEUE = "processed_images"
+IMAGES_BUCKET_NAME = "images"
+IMAGES_LOCAL_PATH = "data/images"
 
 MINIO_ACCESS_KEY = os.getenv("MINIO_SERVER_ACCESS_KEY")
 MINIO_SECRET_KEY = os.getenv("MINIO_SERVER_SECRET_KEY")
 
 RABBITMQ_URL = os.getenv("RABBITMQ_URL")
 RABBITMQ_PORT = int(os.getenv("RABBITMQ_PORT"))
-
-IMAGES_BUCKET_NAME = "images"
-IMAGES_LOCAL_PATH = "./data/images"
+MINIO_URL = os.getenv("MINIO_URL")
 
 def wait_until_reachable(url, port, max_conns=50):
     pingcounter = 0
     isreachable = False
-
     while isreachable is False and pingcounter < max_conns:
         print(pingcounter)
-
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
         try:
+            print(f"Attempting #{pingcounter} connection to {url}:{port}")
             s.connect((url, port))
             isreachable = True
         except socket.error as e:
             time.sleep(0.5)
             pingcounter += 1
         s.close()
-
     if not isreachable:
         raise ValueError(f"Not reachable {url}:{port}")
 
 def main():
-
     image_processor = ImageProcessor()
 
     print("Trying to ping rabbitmq...", flush=True)
@@ -53,11 +54,13 @@ def main():
     wait_until_reachable(MINIO_URL, MINIO_PORT)
     print("Minio reachable!")
 
+    # time.sleep(10)
+
     s3 = s3_client.S3Client(
-        MINIO_URL, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, IMAGES_LOCAL_PATH)
+        MINIO_URL + ":" + str(MINIO_PORT), MINIO_ACCESS_KEY, MINIO_SECRET_KEY, IMAGES_LOCAL_PATH)
 
     mq_connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=RABBITMQ_URL))
+        pika.ConnectionParameters(host=RABBITMQ_URL, port=RABBITMQ_PORT))
 
     channel = mq_connection.channel()
     channel.queue_declare(queue=MINIO_IMAGES_TO_PROCESS_QUEUE)
@@ -69,11 +72,14 @@ def main():
                           )
 
     def callback(ch, method, properties, body):
-        print("S3 image:")
-        print(s3.get_image(IMAGES_BUCKET_NAME, "/img.jpg"))
         print(f" [x] Received {body}", flush=True)
-        # image_processor.infer("")
-
+        data = s3.get_image(IMAGES_BUCKET_NAME, "img.jpg")
+        data = np.fromstring(data.data, np.uint8)
+        frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
+        masks_img = image_processor.infer(frame, "img.jpg")
+        s3.fput_image(IMAGES_BUCKET_NAME,
+                      os.path.basename(masks_img), masks_img)
+        print(f"Saved {masks_img}", flush=True)
 
     channel.basic_consume(queue=MINIO_IMAGES_TO_PROCESS_QUEUE,
                           on_message_callback=callback, auto_ack=True)
@@ -85,6 +91,8 @@ if __name__ == "__main__":
     try:
         main()
     except S3Error as exc:
+        print("error occurred.", exc)
+    except MinioException as exc:
         print("error occurred.", exc)
     except KeyboardInterrupt:
         print('Interrupted')

@@ -29,6 +29,7 @@ class ImageProcessor():
         if not os.path.exists(str(self.COCO_MODEL_PATH)):
             mrcnn.utils.download_trained_weights(self.COCO_MODEL_PATH)
         self.IMAGE_DIR = self.ROOT_DIR / "images"
+        os.mkdir(self.IMAGE_DIR)
 
         # Load trained model
         self.model = MaskRCNN(mode="inference", model_dir=self.MODEL_DIR, config=self.config)
@@ -56,6 +57,7 @@ class ImageProcessor():
         return np.array(car_masks)
 
     def overlay(
+        self,
         image: np.ndarray,
         mask: np.ndarray,
         color: Tuple[int, int, int] = (255, 0, 0),
@@ -74,7 +76,11 @@ class ImageProcessor():
             image_combined: The combined image.
             
         """
-        color = np.asarray(color).reshape(1, 1, 3)
+        try:
+            color = np.asarray(color).reshape(1, 1, 3)
+        except ValueError:
+            print(color)
+            raise ValueError("")
         colored_mask = np.expand_dims(mask, 2).repeat(3, axis=2)
         masked = np.ma.MaskedArray(image, mask=colored_mask, fill_value=color)
         image_overlay = masked.filled()
@@ -83,11 +89,12 @@ class ImageProcessor():
         
         return image_combined
 
-    def infer(self, img_path):
-        frame = cv2.imread(img_path)
+    def infer(self, frame, img_name):
         rgb_image = frame[:, :, ::-1]
 
+        print("Running model", flush=True)
         results = self.model.detect([rgb_image], verbose=0)
+        print("Finished model", flush=True)
         r = results[0]
 
         # Переменная r теперь содержит результаты распознавания:
@@ -99,11 +106,15 @@ class ImageProcessor():
         car_boxes = self.get_car_boxes(r['rois'], r['class_ids'])
         car_masks = self.get_car_masks(r['masks'], r['class_ids'], r)
 
+        print("Applying masks", flush=True)
         image_with_masks = rgb_image
         for mask in car_masks:
             image_with_masks = self.overlay(image_with_masks, mask)
         image_with_masks = Image.fromarray(image_with_masks)
-        image_with_masks.save("masks.jpg")
+        masks_path = img_name.replace(".jpg", "_masks.jpg")
+        masks_path = os.path.join(self.IMAGE_DIR, masks_path)
+        print("Saving masks", flush=True)
+        image_with_masks.save(masks_path)
 
         print(f"Found {len(car_boxes)} cars")
         print("Cars found in frame of video:")
@@ -114,8 +125,5 @@ class ImageProcessor():
             y1, x1, y2, x2 = box
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
 
-        img_output_path = img_path.replace(".jpg", "_processed.jpg")
-        cv2.imwrite("img_output_path", frame)
-        return img_output_path
-
-
+        img_output_path = img_name.replace(".jpg", "_processed.jpg")
+        return masks_path
