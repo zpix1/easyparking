@@ -6,8 +6,10 @@
   import type { Field, Rule, ErrorMessage } from '$lib/shared/types/FormDataTypes';
   import type { Writable } from 'svelte/store';
   import { nop } from '$lib/shared/utils/utils.js';
-
+  import type { ButtonSize } from '../types/ButtonTypes';
   export let className = '';
+  export let submitBtnStyle = '';
+  export let submitBtnSize: ButtonSize = 's';
   export let buttonLabel = '';
   export let totalError: Writable<string>;
   export let submitCallback: (body: Record<string, string>) => void;
@@ -45,7 +47,7 @@
     </div>
   {/each}
   <div class="error">{$totalError}</div>
-  <Button type="submit" onClick={nop}>
+  <Button type="submit" size={submitBtnSize} classNames={submitBtnStyle} onClick={nop}>
     {#if $userLoading}
       <Loader />
     {:else}

@@ -104,7 +104,7 @@
   </div>
   {#if parkings.length !== parkingsActive.length}
     <div class="btn-wrapper">
-      <Button onClick={() => onShowMore()} size="xl">Load More</Button>
+      <Button onClick={() => onShowMore()} size="xl" classNames="mb-50">Load More</Button>
     </div>
   {/if}
 </div>
@@ -122,7 +122,8 @@
     }
 
     @media (max-width: 768px) {
-      width: 80%;
+      width: 90%;
+      padding: 0;
     }
   }
 

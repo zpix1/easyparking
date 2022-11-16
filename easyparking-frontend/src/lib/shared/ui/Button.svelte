@@ -1,12 +1,12 @@
 <script lang="ts">
-  type ButtonSize = 's' | 'm' | 'l' | 'xl';
-
+  import type { ButtonSize } from "../types/ButtonTypes";
   export let type = '';
   export let size: ButtonSize = 's';
+  export let classNames = '';
   export let onClick: () => void;
 </script>
 
-<button {type} class={size} on:click={onClick}>
+<button {type} class={`${size} ${classNames}`} on:click={onClick}>
   <slot />
 </button>
 
@@ -24,6 +24,17 @@
     border-radius: 50px;
     text-align: center;
     text-transform: uppercase;
+    &.centered{
+      margin: 0 auto;
+    }
+
+    &.mt-50{
+      margin-top: 50px;
+    }
+
+    &.mb-50{
+      margin-bottom: 50px;
+    }
 
     &.s {
       padding: 0.5rem 1.75rem;
