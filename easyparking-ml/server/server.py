@@ -2,7 +2,7 @@ import os
 import sys
 import time
 
-# from image_processor import ImageProcessor
+from image_processor import ImageProcessor
 import pika
 from minio import S3Error
 from s3_client import *
@@ -44,7 +44,7 @@ def wait_until_reachable(url, port, max_conns=50):
 
 def main():
 
-    # image_processor = ImageProcessor()
+    image_processor = ImageProcessor()
 
     print("Trying to ping rabbitmq...", flush=True)
     wait_until_reachable(RABBITMQ_URL, RABBITMQ_PORT)
@@ -69,7 +69,8 @@ def main():
                           )
 
     def callback(ch, method, properties, body):
-        # print(s3.get_image(IMAGES_BUCKET_NAME, "img.jpg"))
+        print("S3 image:")
+        print(s3.get_image(IMAGES_BUCKET_NAME, "/img.jpg"))
         print(f" [x] Received {body}", flush=True)
         # image_processor.infer("")
 
