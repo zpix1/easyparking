@@ -4,6 +4,7 @@ defmodule PoolerWeb.API.V1.ParkingController do
   @dialyzer [
     {:nowarn_function, list_order_by_distance: 2}
   ]
+  alias OpenApiSpex.Schema
 
   alias Plug.Conn
   alias Pooler.Parking
@@ -26,25 +27,25 @@ defmodule PoolerWeb.API.V1.ParkingController do
       user_latitude: [
         in: :query,
         description: "User Latitude (from -90 to 90)",
-        type: :number,
+        schema: %Schema{type: :number, minimum: -90, maximum: 90},
         example: 33.5854
       ],
       user_longitude: [
         in: :query,
         description: "User Longitude (from -180 to 180)",
-        type: :number,
+        schema: %Schema{type: :number, minimum: -180, maximum: 180},
         example: -15.3333
       ],
       page: [
         in: :query,
         description: "Номер страницы c парковками, начиная с 1",
-        type: :integer,
+        schema: %Schema{type: :integer, minimum: 1},
         example: 1
       ],
       page_size: [
         in: :query,
         description: "Количество парковок на странице",
-        type: :integer,
+        schema: %Schema{type: :integer, minimum: 1},
         example: 10
       ]
     ],
