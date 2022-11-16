@@ -30,7 +30,7 @@
   <div class="inner-flex">
     <div class="parking-info-1">
       <div class="address">{address}</div>
-      <IconButton icon="star-inactive" onClick={nop} />
+      <IconButton icon="star-active" onClick={nop} />
     </div>
     <div class="parking-info-2">
       <div class="last-updated">Last updated 5 minutes ago</div>
@@ -46,6 +46,8 @@
     padding: 1rem;
     column-gap: 1rem;
     border-radius: 10px;
+    cursor: pointer;
+    
 
     &.light {
       background: rgb(89, 82, 112);
@@ -72,6 +74,7 @@
     flex-flow: column nowrap;
     flex: 1;
     justify-content: space-between;
+    cursor: pointer;
   }
 
   .parking-info-1 {

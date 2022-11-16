@@ -2,9 +2,12 @@
   import Link from '$lib/shared/ui/Link.svelte';
   import { logIn, loginError } from '$lib/entities/User';
   import Form from '$lib/shared/ui/Form.svelte';
+    import type { ButtonSize } from '$lib/shared/types/ButtonTypes';
 
   let buttonLabel = 'login';
   let totalError = loginError;
+  let submitBtnStyle = 'centered mt-50';
+  let submitBtnSize: ButtonSize = 'xl';
   const submitCallback = async (body: Record<string, string>) => {
     await logIn(body);
   };
@@ -42,6 +45,8 @@
     {fieldsErrors}
     {fieldsRules}
     {submitCallback}
+    {submitBtnStyle}
+    {submitBtnSize}
   />
   <Link
     to="/register"
