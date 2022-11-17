@@ -3,6 +3,7 @@ defmodule Pooler.Parking.List do
   В данном модуле содержатся функции для получения списка парковок
   """
 
+  alias Pooler.Auxiliary
   alias Pooler.Parking
   use Scrivener
 
@@ -12,7 +13,7 @@ defmodule Pooler.Parking.List do
   @spec list_parkings_order_by_distance_from_user(
           non_neg_integer(),
           non_neg_integer(),
-          {float(), float()}
+          {number(), number()}
         ) ::
           Scrivener.Page.t()
   def list_parkings_order_by_distance_from_user(page, page_size, {_lat, _lng} = user_coords)
@@ -23,9 +24,9 @@ defmodule Pooler.Parking.List do
   end
 
   defp distance_between_parking_and_user(
-         %Parking{coordinates: {lat_1, lng_1}},
-         {lat_2, lng_2} = _user_coordinates
+         %Parking{coordinates: parking_coordinates},
+         user_coordinates
        ) do
-    :math.pow(lat_1 - lat_2, 2) + :math.pow(lng_1 - lng_2, 2)
+    Auxiliary.Geo.distance_between_to_geo_points(parking_coordinates, user_coordinates)
   end
 end
