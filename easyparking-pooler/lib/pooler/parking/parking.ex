@@ -90,6 +90,6 @@ defmodule Pooler.Parking do
       Memento.Query.all(__MODULE__)
     end)
     |> Enum.filter(&(&1.id in ids))
-    |> Enum.sort_by(& &1.title, :asc)
+    |> Enum.sort_by(fn parking -> Enum.find_index(ids, &(&1 == parking.id)) end, :asc)
   end
 end
