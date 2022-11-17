@@ -3,58 +3,6 @@ defmodule PoolerWeb.OpenAPI.Schemas do
 
   alias OpenApiSpex.Schema
 
-  defmodule AdminCredentials do
-    @moduledoc false
-
-    require OpenApiSpex
-
-    OpenApiSpex.schema(%{
-      title: "Admin Credentials",
-      description: "Логин и пароль администратора",
-      type: :object,
-      properties: %{
-        email: %Schema{type: :string, minLength: 5, maxLength: 50},
-        password: %Schema{type: :string, minLength: 5, maxLength: 50}
-      },
-      required: [:password, :email],
-      example: %{
-        "email" => "admin",
-        "password" => "admin"
-      }
-    })
-  end
-
-  defmodule AdminCredentialsResponse do
-    @moduledoc false
-    require OpenApiSpex
-
-    OpenApiSpex.schema(%{
-      title: "Admin Credentials Response",
-      description: """
-      Access и refresh токены.
-      При истечении access токена новые токены можно получить по маршруту /api/v1/session/refresh, отправляя refresh токен
-
-      Access токен в обычном случае и refresh при истечении access токена
-      необходимо передавать в HTTP заголовке Authorization в виде `"Bearer <<your token here>>"`.
-      Например,
-      ```
-      Authorization: Bearer SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8
-      ```
-      """,
-      type: :object,
-      properties: %{
-        access_token: %Schema{type: :string},
-        refresh_token: %Schema{type: :string}
-      },
-      example: %{
-        "access_token" =>
-          "SFMyNTY.OWVmZWI5NzAtMTM2OS00ZGFjLWEzZTktMzYxNGZmYjA5ZTZi.TkOiJQilo7DtmXkv_V1mM4hEX2EWwjbQqK6eFZPBWhg",
-        "refresh_token" =>
-          "SFMyNTY.MWVlY2I2MDctZDMzMy00NjRjLTliYTMtOGFkYTc3OGQyMDgw.JmCB59ctQGnvx_G-LnP5i7E_zSSrthcLW25yvXqvBV8"
-      }
-    })
-  end
-
   defmodule ErrorResponse do
     @moduledoc false
 
@@ -114,36 +62,6 @@ defmodule PoolerWeb.OpenAPI.Schemas do
     })
   end
 
-  defmodule ParkingParams do
-    @moduledoc false
-
-    require OpenApiSpex
-
-    OpenApiSpex.schema(%{
-      title: "Parking Create Parameters",
-      description: "Параметры для создания или обновления парковки",
-      type: :object,
-      properties: %{
-        address: %Schema{type: :string, minLength: 5, maxLength: 255},
-        title: %Schema{type: :string, minLength: 5, maxLength: 255},
-        camera_endpoint: %Schema{
-          type: :string,
-          format: ~r/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/[\d\w\/_-]*$/
-        },
-        latitude: %Schema{type: :number, minimum: -90, maximum: 90},
-        longitude: %Schema{type: :number, minimum: -180, maximum: 180}
-      },
-      required: [:address, :title, :camera_endpoint, :latitude, :longitude],
-      example: %{
-        "address" => "Новосибирск, ул. Советская, 21/1",
-        "title" => "Парковка у Бизнес центра",
-        "camera_endpoint" => "192.168.0.1/get-image",
-        "latitude" => 37.0123,
-        "longitude" => -102.3242
-      }
-    })
-  end
-
   defmodule ParkingSchema do
     @moduledoc false
 
@@ -157,25 +75,31 @@ defmodule PoolerWeb.OpenAPI.Schemas do
         id: %Schema{type: :string, description: "UUID парковки"},
         address: %Schema{type: :string, minLength: 5, maxLength: 255},
         title: %Schema{type: :string, minLength: 5, maxLength: 255},
-        camera_endpoint: %Schema{
-          type: :string,
-          format: ~r/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/[\d\w\/_-]*$/
-        },
         latitude: %Schema{type: :number, minimum: -90, maximum: 90},
         longitude: %Schema{type: :number, minimum: -180, maximum: 180},
-        updated_at: %Schema{type: :string, format: :"date-time"},
-        inserted_at: %Schema{type: :string, format: :"date-time"}
+        image_url: %Schema{
+          type: :string,
+          minLength: 5,
+          maxLength: 255,
+          description: "Путь на S3 к картинке с парковки"
+        },
+        processed_image_url: %Schema{
+          type: :string,
+          minLength: 5,
+          maxLength: 255,
+          description: "Путь на S3 к обработанной ML картинке с парковки"
+        }
       },
-      required: [:id, :address, :title, :camera_endpoint, :latitude, :longitude],
+      required: [:id, :address, :title, :latitude, :longitude, :image_url, :processed_image_url],
       example: %{
         "id" => "cdfdaf44-ee35-11e3-846b-14109ff1a304",
         "address" => "Новосибирск, ул. Советская, 21/1",
         "title" => "Парковка у Бизнес центра",
-        "camera_endpoint" => "192.168.0.1/get-image",
         "latitude" => 37.0123,
         "longitude" => -102.3242,
-        "updated_at" => "2022-11-09T11:21:38.938786+07:00",
-        "inserted_at" => "2022-11-09T11:21:38.938786+07:00"
+        "image_url" => "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/image.png",
+        "procesed_image_url" =>
+          "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/processed_image.png"
       }
     })
   end
@@ -190,6 +114,60 @@ defmodule PoolerWeb.OpenAPI.Schemas do
       description: "Список парковок",
       type: :array,
       items: ParkingSchema
+    })
+  end
+
+  defmodule ParkingsPagination do
+    @moduledoc false
+
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "Parkings Info with Pagination",
+      description: "Информация о парковках с пагинацией",
+      type: :object,
+      properties: %{
+        page_number: %Schema{
+          type: :integer,
+          description: "Номер страницы с парковками",
+          minimum: 1
+        },
+        page_size: %Schema{
+          type: :integer,
+          description: "Количество парковок на странице",
+          minimum: 0
+        },
+        total_entries: %Schema{
+          type: :integer,
+          description: "Количество парковок в базе всего",
+          minimum: 0
+        },
+        total_pages: %Schema{
+          type: :integer,
+          description: "Количество страниц с парковками всего",
+          minimum: 0
+        },
+        entries: ParkingsList
+      },
+      required: [:id, :address, :title, :latitude, :longitude, :image_url, :processed_image_url],
+      example: %{
+        page_number: 1,
+        page_size: 1,
+        total_entries: 10,
+        total_pages: 10,
+        entries: [
+          %{
+            "id" => "cdfdaf44-ee35-11e3-846b-14109ff1a304",
+            "address" => "Новосибирск, ул. Советская, 21/1",
+            "title" => "Парковка у Бизнес центра",
+            "latitude" => 37.0123,
+            "longitude" => -102.3242,
+            "image_url" => "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/image.png",
+            "procesed_image_url" =>
+              "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/processed_image.png"
+          }
+        ]
+      }
     })
   end
 end

@@ -58,6 +58,8 @@ defmodule Pooler.MixProject do
       {:open_api_spex, "~> 3.14"},
       {:phoenix, "~> 1.6.12"},
       {:phoenix_live_dashboard, "~> 0.6"},
+      # Pagination
+      {:scrivener_list, "~> 2.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},

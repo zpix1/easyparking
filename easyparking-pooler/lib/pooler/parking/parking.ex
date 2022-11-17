@@ -3,7 +3,17 @@ defmodule Pooler.Parking do
   Сущность парковки в базе данных и функции для работы с ней
   """
   use Memento.Table,
-    attributes: [:id, :address, :title, :camera_endpoint, :coordinates, :inserted_at, :updated_at],
+    attributes: [
+      :id,
+      :address,
+      :title,
+      :camera_endpoint,
+      :coordinates,
+      :image_url,
+      :processed_image_url,
+      :inserted_at,
+      :updated_at
+    ],
     index: [:title],
     type: :ordered_set
 
@@ -13,6 +23,10 @@ defmodule Pooler.Parking do
           title: String.t(),
           camera_endpoint: String.t(),
           coordinates: {float(), float()},
+          # путь на S3 к необработанной картинке с камеры
+          image_url: String.t() | nil,
+          # путь на S3 к обработанной картинке с камеры
+          processed_image_url: String.t() | nil,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }
