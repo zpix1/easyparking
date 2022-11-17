@@ -19,14 +19,17 @@ defmodule Pooler.Parking.List do
   def list_parkings_order_by_distance_from_user(page, page_size, {_lat, _lng} = user_coords)
       when is_integer(page) and is_integer(page_size) do
     Parking.list_all_order_by_title()
-    |> Enum.sort_by(&distance_between_parking_and_user(&1, user_coords), :asc)
+    |> Enum.map(&add_distance_between_parking_and_user(&1, user_coords))
+    |> Enum.sort_by(& &1.distance_from_user, :asc)
     |> paginate(page: page, page_size: page_size)
   end
 
-  defp distance_between_parking_and_user(
-         %Parking{coordinates: parking_coordinates},
-         user_coordinates
-       ) do
-    Auxiliary.Geo.distance_between_to_geo_points(parking_coordinates, user_coordinates)
+  defp add_distance_between_parking_and_user(parking, user_coords) do
+    parking
+    |> Map.from_struct()
+    |> Map.put(
+      :distance_from_user,
+      Auxiliary.Geo.distance_between_to_geo_points(parking.coordinates, user_coords)
+    )
   end
 end

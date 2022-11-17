@@ -2,8 +2,6 @@ defmodule PoolerWeb.ParkingView do
   @moduledoc false
   use PoolerWeb, :view
 
-  alias Pooler.Parking
-
   def render("parkings_pagination.json", %{pagination_info: %Scrivener.Page{} = pagination_info}) do
     %{
       "page_numer" => pagination_info.page_number,
@@ -18,7 +16,7 @@ defmodule PoolerWeb.ParkingView do
     Enum.map(parkings, &view/1)
   end
 
-  defp view(%Parking{} = parking) do
+  defp view(parking) do
     {latitude, longitude} = parking.coordinates
 
     %{
@@ -28,7 +26,8 @@ defmodule PoolerWeb.ParkingView do
       "latitude" => latitude,
       "longitude" => longitude,
       "image_url" => parking.image_url,
-      "processed_image_url" => parking.processed_image_url
+      "processed_image_url" => parking.processed_image_url,
+      "distance_from_user" => get_in(parking, [Access.key(:distance_from_user)])
     }
   end
 end
