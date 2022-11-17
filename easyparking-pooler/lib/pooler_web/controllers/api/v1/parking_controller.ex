@@ -2,14 +2,15 @@ defmodule PoolerWeb.API.V1.ParkingController do
   use PoolerWeb, :controller
 
   @dialyzer [
-    {:nowarn_function, list_order_by_distance: 2}
+    {:nowarn_function, list_order_by_distance: 2},
+    {:nowarn_function, list_by_ids: 2}
   ]
   alias OpenApiSpex.Schema
 
   alias Plug.Conn
   alias Pooler.Parking
 
-  alias PoolerWeb.OpenAPI.Schemas.ParkingsPagination
+  alias PoolerWeb.OpenAPI.Schemas.{ParkingsList, ParkingsPagination}
 
   use OpenApiSpex.ControllerSpecs
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
@@ -63,5 +64,34 @@ defmodule PoolerWeb.API.V1.ParkingController do
       )
 
     render(conn, "parkings_pagination.json", pagination_info: pagination_info)
+  end
+
+  operation :list_by_ids,
+    summary: "List Parkings By Ids",
+    description: """
+    Получает список парковок c данными айдишниками.
+
+    Примечание: генерируемый запрос в swagger не работает. Нужно добавить [] после каждого ids.
+
+    Пример:
+    `http://localhost:4000/api/v1/parkings-by-ids?ids[]=d1fd8fd8-65a5-11ed-bacf-acde48001122&ids[]=084e10a8-65a6-11ed-b8da-acde48001122`
+    """,
+    parameters: [
+      ids: [
+        in: :query,
+        description: "Список ID парковок, которые нужно получить",
+        schema: %Schema{type: :array, items: %Schema{type: :string, minLength: 5, maxLength: 255}},
+        example: ["d1fd8fd8-65a5-11ed-bacf-acde48001122", "084e10a8-65a6-11ed-b8da-acde48001122"]
+      ]
+    ],
+    responses: %{
+      200 => {"Parkings with given ids", "application/json", ParkingsList}
+    }
+
+  @spec list_by_ids(Conn.t(), any()) :: Conn.t()
+  def list_by_ids(%Conn{params: %{ids: ids}} = conn, _) do
+    parkings = Parking.list_by_ids(ids)
+
+    render(conn, "parkings.json", parkings: parkings)
   end
 end

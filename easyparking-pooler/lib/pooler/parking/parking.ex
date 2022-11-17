@@ -83,4 +83,10 @@ defmodule Pooler.Parking do
     end)
     |> Enum.sort_by(& &1.title, :asc)
   end
+
+  @spec list_by_ids([String.t()]) :: [t()]
+  def list_by_ids(ids) when is_list(ids) do
+    list_all_order_by_title()
+    |> Enum.filter(&(&1.id in ids))
+  end
 end
