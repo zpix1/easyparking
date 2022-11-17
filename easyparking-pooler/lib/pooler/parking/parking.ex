@@ -83,4 +83,13 @@ defmodule Pooler.Parking do
     end)
     |> Enum.sort_by(& &1.title, :asc)
   end
+
+  @spec list_by_ids([String.t()]) :: [t()]
+  def list_by_ids(ids) when is_list(ids) do
+    Memento.transaction!(fn ->
+      Memento.Query.all(__MODULE__)
+    end)
+    |> Enum.filter(&(&1.id in ids))
+    |> Enum.sort_by(fn parking -> Enum.find_index(ids, &(&1 == parking.id)) end, :asc)
+  end
 end

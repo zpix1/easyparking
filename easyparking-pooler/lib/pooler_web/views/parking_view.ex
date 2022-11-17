@@ -14,6 +14,10 @@ defmodule PoolerWeb.ParkingView do
     }
   end
 
+  def render("parkings.json", %{parkings: parkings}) when is_list(parkings) do
+    Enum.map(parkings, &view/1)
+  end
+
   defp view(%Parking{} = parking) do
     {latitude, longitude} = parking.coordinates
 

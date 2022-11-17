@@ -35,6 +35,7 @@ defmodule PoolerWeb.Router do
     pipe_through :api
 
     get "/parking", ParkingController, :list_order_by_distance
+    get "/parkings-by-ids", ParkingController, :list_by_ids
   end
 
   scope "/api/v1/admin/session", PoolerWeb.API.V1.Admin do
