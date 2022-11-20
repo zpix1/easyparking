@@ -21,4 +21,7 @@ RUN python -m pip install -r /easyparking-ml/requirements.txt
 
 COPY . /easyparking-ml/
 
-ENTRYPOINT ["python3.7", "/easyparking-ml/server/server.py"]
+RUN apt install -y wget
+RUN wget https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5
+
+ENTRYPOINT ["python3.7", "-u", "/easyparking-ml/server/server.py"]

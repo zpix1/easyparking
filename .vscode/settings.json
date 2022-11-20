@@ -2,5 +2,6 @@
   "python.analysis.extraPaths": [
     "./easyparking-ml/server/s3_client",
     "./easyparking-ml/server"
-  ]
+  ],
+  "python.formatting.provider": "black"
 }

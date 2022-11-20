@@ -15,7 +15,7 @@ class S3Client:
     def get_image(self, bucket, image_name):
         if not self.client.bucket_exists(bucket):
             raise ValueError("Incorrect bucket")
-        return self.client.get_object(bucket, image_name, os.path.join(self.data_path, os.path.basename(image_name)))
+        return self.client.get_object(bucket, image_name)
 
     def fput_image(self, bucket, image_name, img_path):
         if not os.path.exists(img_path):

@@ -1,6 +1,8 @@
+import json
 import os
 import sys
 import time
+import traceback
 import cv2
 import numpy as np
 
@@ -10,7 +12,7 @@ from image_processor import ImageProcessor
 import pika
 from minio import S3Error
 from minio.error import MinioException
-from s3_client import *
+from s3_client import S3Client
 import socket
 
 MINIO_URL = os.getenv("MINIO_URL")
@@ -27,6 +29,7 @@ RABBITMQ_URL = os.getenv("RABBITMQ_URL")
 RABBITMQ_PORT = int(os.getenv("RABBITMQ_PORT"))
 MINIO_URL = os.getenv("MINIO_URL")
 
+
 def wait_until_reachable(url, port, max_conns=50):
     pingcounter = 0
     isreachable = False
@@ -34,7 +37,7 @@ def wait_until_reachable(url, port, max_conns=50):
         print(pingcounter)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            print(f"Attempting #{pingcounter} connection to {url}:{port}")
+            print(f"Attempting #{pingcounter} connection to {url}:{port}", flush=True)
             s.connect((url, port))
             isreachable = True
         except socket.error as e:
@@ -44,59 +47,102 @@ def wait_until_reachable(url, port, max_conns=50):
     if not isreachable:
         raise ValueError(f"Not reachable {url}:{port}")
 
+
 def main():
     image_processor = ImageProcessor()
 
-    print("Trying to ping rabbitmq...", flush=True)
+    print("Trying to ping RabbitMQ...", flush=True)
     wait_until_reachable(RABBITMQ_URL, RABBITMQ_PORT)
     print("RabbitMQ reachable!")
     print("Trying to ping Minio...", flush=True)
     wait_until_reachable(MINIO_URL, MINIO_PORT)
     print("Minio reachable!")
 
-    # time.sleep(10)
-
-    s3 = s3_client.S3Client(
-        MINIO_URL + ":" + str(MINIO_PORT), MINIO_ACCESS_KEY, MINIO_SECRET_KEY, IMAGES_LOCAL_PATH)
+    s3 = S3Client(
+        MINIO_URL + ":" + str(MINIO_PORT),
+        MINIO_ACCESS_KEY,
+        MINIO_SECRET_KEY,
+        IMAGES_LOCAL_PATH,
+    )
 
     mq_connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=RABBITMQ_URL, port=RABBITMQ_PORT))
+        pika.ConnectionParameters(host=RABBITMQ_URL, port=RABBITMQ_PORT)
+    )
 
-    channel = mq_connection.channel()
-    channel.queue_declare(queue=MINIO_IMAGES_TO_PROCESS_QUEUE)
+    recv_channel = mq_connection.channel()
+    recv_channel.queue_declare(queue=MINIO_IMAGES_TO_PROCESS_QUEUE)
+    send_channel = mq_connection.channel()
+    send_channel.queue_declare(queue=MINIO_PROCESSED_IMAGES_QUEUE)
 
-    channel.basic_publish(exchange='', routing_key=MINIO_IMAGES_TO_PROCESS_QUEUE, body="""{
-        "image_id": "123",
-        "image_url": "img.jpg",
-        }"""
-                          )
+    # recv_channel.basic_publish(
+    #     exchange="",
+    #     routing_key=MINIO_IMAGES_TO_PROCESS_QUEUE,
+    #     body="""{
+    #     "image_id": "123",
+    #     "image_name": "img.jpg",
+    #     }""",
+    # )
 
-    def callback(ch, method, properties, body):
-        print(f" [x] Received {body}", flush=True)
-        data = s3.get_image(IMAGES_BUCKET_NAME, "img.jpg")
-        data = np.fromstring(data.data, np.uint8)
-        frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
-        masks_img = image_processor.infer(frame, "img.jpg")
-        s3.fput_image(IMAGES_BUCKET_NAME,
-                      os.path.basename(masks_img), masks_img)
-        print(f"Saved {masks_img}", flush=True)
+    def on_message(ch, method, properties, body):
+        try:
+            print(f" [x] Received message", flush=True)
+            body_json = json.loads(body)
+            image_id = body_json["image_id"]
+            image_name = body_json["image_name"]
+            print(f"Image ID: {image_id}, Image name: {image_name}", flush=True)
+            image = s3.get_image(IMAGES_BUCKET_NAME, image_name)
+            image_bytes = np.fromstring(image.data, np.uint8)
+            frame = cv2.imdecode(image_bytes, cv2.IMREAD_COLOR)
+            masks_img, num_cars = image_processor.infer(frame, image_name)
+            cars_image_name = os.path.basename(masks_img)
+            s3.fput_image(IMAGES_BUCKET_NAME, cars_image_name, masks_img)
+            print(f"Saved {masks_img}", flush=True)
+            os.remove(masks_img)
+            response = {
+                "image_id": image_id,
+                "processed_image_name": cars_image_name,
+                "num_cars": num_cars,
+            }
+            response_str = json.dumps(response)
+            send_channel.basic_publish(
+                exchange="", routing_key=MINIO_PROCESSED_IMAGES_QUEUE, body=response_str
+            )
+        except KeyboardInterrupt:
+            traceback.print_exc()
+            print("Interrupted")
+            try:
+                sys.exit(0)
+            except SystemExit:
+                os._exit(0)
+        except Exception as e:
+            print(
+                f"Exception while waiting for messages: {e.with_traceback()}",
+                flush=True,
+            )
 
-    channel.basic_consume(queue=MINIO_IMAGES_TO_PROCESS_QUEUE,
-                          on_message_callback=callback, auto_ack=True)
-    print(' [*] Waiting for messages. To exit press CTRL+C')
-    channel.start_consuming()
+    recv_channel.basic_consume(
+        queue=MINIO_IMAGES_TO_PROCESS_QUEUE,
+        on_message_callback=on_message,
+        auto_ack=True,
+    )
+    print(" [*] Waiting for messages. To exit press CTRL+C")
+    recv_channel.start_consuming()
 
 
 if __name__ == "__main__":
     try:
         main()
     except S3Error as exc:
-        print("error occurred.", exc)
+        traceback.print_exc()
+        print("error occurred.")
     except MinioException as exc:
-        print("error occurred.", exc)
+        traceback.print_exc()
+        print("error occurred.")
     except KeyboardInterrupt:
-        print('Interrupted')
+        print("Interrupted")
         try:
             sys.exit(0)
         except SystemExit:
             os._exit(0)
+    except Exception as e:
+        traceback.print_exc()

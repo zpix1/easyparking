@@ -29,7 +29,7 @@ class ImageProcessor():
         if not os.path.exists(str(self.COCO_MODEL_PATH)):
             mrcnn.utils.download_trained_weights(self.COCO_MODEL_PATH)
         self.IMAGE_DIR = self.ROOT_DIR / "images"
-        os.mkdir(self.IMAGE_DIR)
+        Path(self.IMAGE_DIR).mkdir(parents=True, exist_ok=True)
 
         # Load trained model
         self.model = MaskRCNN(mode="inference", model_dir=self.MODEL_DIR, config=self.config)
@@ -117,13 +117,13 @@ class ImageProcessor():
         image_with_masks.save(masks_path)
 
         print(f"Found {len(car_boxes)} cars")
-        print("Cars found in frame of video:")
+        # print("Cars found in frame of video:")
 
         for box in car_boxes:
-            print("Car:", box)
+            # print("Car:", box)
 
             y1, x1, y2, x2 = box
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
 
         img_output_path = img_name.replace(".jpg", "_processed.jpg")
-        return masks_path
+        return masks_path, len(car_boxes)
