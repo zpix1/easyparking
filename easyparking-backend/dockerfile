@@ -1,0 +1,20 @@
+FROM node:16
+
+# Create app directory
+WORKDIR /easyparking-backend
+
+# Install app dependencies
+COPY package*.json ./
+
+# Bundle app source
+COPY . .
+# Remove dev dependencies
+RUN npm prune --omit=dev
+
+ENV DB mongodb://mongodb:27017/usersdb
+ENV API_SECRET change_me_in_production
+ENV PORT 8080
+ENV NODE_ENV production
+
+EXPOSE 8080
+CMD [ "node", "src/index.js" ]
