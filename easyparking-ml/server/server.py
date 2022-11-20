@@ -20,6 +20,7 @@ MINIO_PORT = int(os.getenv("MINIO_PORT"))
 MINIO_IMAGES_TO_PROCESS_QUEUE = "images_to_process"
 MINIO_PROCESSED_IMAGES_QUEUE = "processed_images"
 IMAGES_BUCKET_NAME = "images"
+PROCESSED_IMAGES_BUCKET_NAME = "processed_images"
 IMAGES_LOCAL_PATH = "data/images"
 
 MINIO_ACCESS_KEY = os.getenv("MINIO_SERVER_ACCESS_KEY")
@@ -95,7 +96,7 @@ def main():
             frame = cv2.imdecode(image_bytes, cv2.IMREAD_COLOR)
             masks_img, num_cars = image_processor.infer(frame, image_name)
             cars_image_name = os.path.basename(masks_img)
-            s3.fput_image(IMAGES_BUCKET_NAME, cars_image_name, masks_img)
+            s3.fput_image(PROCESSED_IMAGES_BUCKET_NAME, cars_image_name, masks_img)
             print(f"Saved {masks_img}", flush=True)
             os.remove(masks_img)
             response = {
