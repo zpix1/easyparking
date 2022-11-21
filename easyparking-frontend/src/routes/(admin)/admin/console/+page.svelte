@@ -4,7 +4,22 @@
   import IconButton from '$lib/shared/ui/IconButton.svelte';
   import AdminConsoleParkingCreationForm from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
   import ConfirmationModal from '$lib/widgets/ConfirmationModal.svelte';
+  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+  import type { gotoFunc } from '../store';
+  import Loader from '$lib/shared/ui/Loader.svelte';
 
+  const CHECK_DELAY = 500;
+  let adminChecked = false;
+  onMount(() => {
+    const adminTimeout = setTimeout(() => { adminChecked = true; }, CHECK_DELAY);
+		if (!window.localStorage.getItem('admin_token')) {
+      (goto as gotoFunc)('/admin');
+    }
+    return () => {
+      clearTimeout(adminTimeout);
+    };
+	});
   interface TableRowData {
     name: string;
     address: string;
@@ -59,6 +74,9 @@
 
 <section class="console">
   <div class="content-wrapper">
+    {#if !adminChecked}
+      <Loader/>
+    {:else}
     <Modal open={formModalOpen} onCloseCallback={onCloseForm}>
       <AdminConsoleParkingCreationForm />
     </Modal>
@@ -107,8 +125,11 @@
         <td />
       </tr>
     </table>
+    {/if}
   </div>
 </section>
+
+
 
 <style lang="scss">
   .console {
