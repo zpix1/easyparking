@@ -27,12 +27,11 @@ export async function adminAuth(body: AuthBody) {
       `${import.meta.env.VITE_ADMIN_BASE_URL}/v1/admin/session`,
       body
     );
-    //localStorage.setItem('admin_token', data.access_token);
-    console.log(data);
+    localStorage.setItem('admin_token', data.access_token);
     admin.set({ isAuthenticated: 'true' });
     loginError.set('');
     adminLoading.set(false);
-    (goto as gotoFunc)('/console');
+    (goto as gotoFunc)('/admin/console');
   } catch (err) {
     if (err instanceof AxiosError) {
       console.log(err?.response?.status, err?.response?.data);
