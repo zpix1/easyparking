@@ -44,6 +44,7 @@ defmodule Pooler.MixProject do
     [
       # static code analysis - code consistency
       {:credo, "~> 1.6", only: :dev, runtime: false},
+      {:corsica, "~> 1.3.0"},
       # static code analysis - types
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       # docs generation
