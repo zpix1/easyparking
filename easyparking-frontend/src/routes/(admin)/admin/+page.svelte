@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
   import Button from '$lib/shared/ui/Button.svelte';
   import { nop } from '$lib/shared/utils/utils.js';
+  import Loader from '$lib/shared/ui/Loader.svelte';
+  import { adminAuth, adminLoading, loginError } from './Admin';
+  const fileds = { email: 'admin', password: '' };
 
-  const fileds = { password: '' };
-  let adminError = '';
-  const submitHandler = nop;
+  const submitHandler = async () => {
+    await adminAuth(fileds);
+  };
 </script>
 
 <svelte:head>
@@ -18,8 +21,12 @@
       <label for="password">PASSWORD</label>
       <input type="password" id="password" bind:value={fileds.password} />
     </div>
-    <div class="error">{adminError}</div>
-    <Button type="submit" onClick={nop}>login</Button>
+    <div class="error">{$loginError}</div>
+    {#if $adminLoading}
+      <Loader/>
+    {:else}
+      <Button size="xl" classNames="centered mt-30" type="submit" onClick={nop}>login</Button>
+    {/if}
   </form>
 </section>
 

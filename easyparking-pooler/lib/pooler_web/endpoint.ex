@@ -44,5 +44,6 @@ defmodule PoolerWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug Pow.Plug.Session, otp_app: :pooler
+  plug Corsica, origins: "*", allow_headers: :all, allow_methods: :all
   plug PoolerWeb.Router
 end
