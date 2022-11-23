@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import axios from '$lib/shared/config/axiosConfig';
+import axios from '$lib/shared/config/axiosUserBackendConfig';
 import { goto } from '$app/navigation';
 import { AxiosError } from 'axios';
 

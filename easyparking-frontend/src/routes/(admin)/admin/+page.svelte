@@ -23,9 +23,11 @@
     </div>
     <div class="error">{$loginError}</div>
     {#if $adminLoading}
-      <Loader/>
+      <Loader />
     {:else}
-      <Button size="xl" classNames="centered mt-30" type="submit" onClick={nop}>login</Button>
+      <Button size="xl" classNames="centered mt-30" type="submit" onClick={nop}
+        >login</Button
+      >
     {/if}
   </form>
 </section>
