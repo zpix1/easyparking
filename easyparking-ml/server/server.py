@@ -17,10 +17,10 @@ import socket
 
 MINIO_URL = os.getenv("MINIO_URL")
 MINIO_PORT = int(os.getenv("MINIO_PORT"))
-MINIO_IMAGES_TO_PROCESS_QUEUE = "images_to_process"
-MINIO_PROCESSED_IMAGES_QUEUE = "processed_images"
+IMAGES_TO_PROCESS_QUEUE = "images_to_process"
+PROCESSED_IMAGES_QUEUE = "processed_images"
 IMAGES_BUCKET_NAME = "images"
-PROCESSED_IMAGES_BUCKET_NAME = "processed_images"
+PROCESSED_IMAGES_BUCKET_NAME = "processedimages"
 IMAGES_LOCAL_PATH = "data/images"
 
 MINIO_ACCESS_KEY = os.getenv("MINIO_SERVER_ACCESS_KEY")
@@ -71,18 +71,9 @@ def main():
     )
 
     recv_channel = mq_connection.channel()
-    recv_channel.queue_declare(queue=MINIO_IMAGES_TO_PROCESS_QUEUE)
+    recv_channel.queue_declare(queue=IMAGES_TO_PROCESS_QUEUE)
     send_channel = mq_connection.channel()
-    send_channel.queue_declare(queue=MINIO_PROCESSED_IMAGES_QUEUE)
-
-    # recv_channel.basic_publish(
-    #     exchange="",
-    #     routing_key=MINIO_IMAGES_TO_PROCESS_QUEUE,
-    #     body="""{
-    #     "image_id": "123",
-    #     "image_name": "img.jpg",
-    #     }""",
-    # )
+    send_channel.queue_declare(queue=PROCESSED_IMAGES_QUEUE)
 
     def on_message(ch, method, properties, body):
         try:
@@ -106,7 +97,7 @@ def main():
             }
             response_str = json.dumps(response)
             send_channel.basic_publish(
-                exchange="", routing_key=MINIO_PROCESSED_IMAGES_QUEUE, body=response_str
+                exchange="", routing_key=PROCESSED_IMAGES_QUEUE, body=response_str
             )
         except KeyboardInterrupt:
             traceback.print_exc()
@@ -122,7 +113,7 @@ def main():
             )
 
     recv_channel.basic_consume(
-        queue=MINIO_IMAGES_TO_PROCESS_QUEUE,
+        queue=IMAGES_TO_PROCESS_QUEUE,
         on_message_callback=on_message,
         auto_ack=True,
     )

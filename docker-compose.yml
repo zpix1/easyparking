@@ -48,7 +48,7 @@ services:
     environment:
       - MINIO_ROOT_USER=uQqbdgRyi3oxPS1m
       - MINIO_ROOT_PASSWORD=0dKIYnyLtnMIa9h8uJsYLkpgM9qJPI6V
-      - MINIO_DEFAULT_BUCKETS=images
+      - MINIO_DEFAULT_BUCKETS=images,processedimages
     restart: always
     networks:
       - easyparking-network
