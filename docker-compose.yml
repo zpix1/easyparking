@@ -35,6 +35,7 @@ services:
     depends_on:
       - backend
       - frontend
+      - pooler
     restart: always
     networks:
     - easyparking-network
@@ -76,6 +77,15 @@ services:
       - MINIO_PORT=9000
       - MINIO_SERVER_ACCESS_KEY=uQqbdgRyi3oxPS1m
       - MINIO_SERVER_SECRET_KEY=0dKIYnyLtnMIa9h8uJsYLkpgM9qJPI6V
+
+  pooler:
+    build:
+      context: ./easyparking-pooler
+      dockerfile: Dockerfile.dev
+    networks:
+    - easyparking-network
+    ports:
+      - 4000:4000
 
 networks:
   easyparking-network:
