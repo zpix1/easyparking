@@ -6,14 +6,14 @@
   import ConfirmationModal from '$lib/widgets/ConfirmationModal.svelte';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
-  import type { gotoFunc } from '../store';
   import Loader from '$lib/shared/ui/Loader.svelte';
+  import { isAdmin, type gotoFunc } from '../Admin';
 
   const CHECK_DELAY = 500;
   let adminChecked = false;
   onMount(() => {
     const adminTimeout = setTimeout(() => { adminChecked = true; }, CHECK_DELAY);
-		if (!window.localStorage.getItem('admin_token')) {
+		if (!isAdmin()) {
       (goto as gotoFunc)('/admin');
     }
     return () => {

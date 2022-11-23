@@ -14,9 +14,12 @@ interface AuthResponse {
   refresh_token: string;
 }
 
-export const admin = writable({});
 export const adminLoading = writable(false);
 export const loginError = writable<string>('');
+
+export const isAdmin = () => {
+  return window.localStorage.getItem('admin_token');
+};
 
 export async function adminAuth(body: AuthBody) {
   try {
@@ -28,7 +31,6 @@ export async function adminAuth(body: AuthBody) {
       body
     );
     localStorage.setItem('admin_token', data.access_token);
-    admin.set({ isAuthenticated: 'true' });
     loginError.set('');
     adminLoading.set(false);
     (goto as gotoFunc)('/admin/console');
@@ -39,6 +41,6 @@ export async function adminAuth(body: AuthBody) {
       console.log(err);
     }
     adminLoading.set(false);
-    loginError.set('login error');
+    loginError.set('invalid password');
   }
 }

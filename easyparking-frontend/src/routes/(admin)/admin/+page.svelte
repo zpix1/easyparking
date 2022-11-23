@@ -1,10 +1,10 @@
 <script lang="ts">
-  import {adminLoading} from './store';
   import Button from '$lib/shared/ui/Button.svelte';
   import { nop } from '$lib/shared/utils/utils.js';
-    import { adminAuth, loginError } from './store';
-    import Loader from '$lib/shared/ui/Loader.svelte';
+  import Loader from '$lib/shared/ui/Loader.svelte';
+  import { adminAuth, adminLoading, loginError } from './Admin';
   const fileds = { email: 'admin', password: '' };
+
   const submitHandler = async () => {
     await adminAuth(fileds);
   };
