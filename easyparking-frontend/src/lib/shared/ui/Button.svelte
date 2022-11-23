@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ButtonSize } from "../types/ButtonTypes";
+  import type { ButtonSize } from '../types/ButtonTypes';
   export let type = '';
   export let size: ButtonSize = 's';
   export let classNames = '';
@@ -24,19 +24,19 @@
     border-radius: 50px;
     text-align: center;
     text-transform: uppercase;
-    &.centered{
+    &.centered {
       margin: 0 auto;
     }
 
-    &.mt-50{
+    &.mt-50 {
       margin-top: 50px;
     }
 
-    &.mt-30{
+    &.mt-30 {
       margin-top: 30px;
     }
 
-    &.mb-50{
+    &.mb-50 {
       margin-bottom: 50px;
     }
 

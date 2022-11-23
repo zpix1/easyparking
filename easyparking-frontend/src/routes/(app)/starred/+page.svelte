@@ -106,7 +106,9 @@
     </div>
     {#if parkings.length !== parkingsActive.length}
       <div class="btn-wrapper">
-        <Button onClick={() => onShowMore()} size="xl" classNames="mb-50">Load More</Button>
+        <Button onClick={() => onShowMore()} size="xl" classNames="mb-50"
+          >Load More</Button
+        >
       </div>
     {/if}
   {:else}

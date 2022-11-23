@@ -4,23 +4,62 @@
   import IconButton from '$lib/shared/ui/IconButton.svelte';
   import AdminConsoleParkingCreationForm from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
   import ConfirmationModal from '$lib/widgets/ConfirmationModal.svelte';
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
   import Loader from '$lib/shared/ui/Loader.svelte';
-  import { isAdmin, type gotoFunc } from '../Admin';
+  import {
+    addParking,
+    deleteParking,
+    editParking,
+    getParkings
+  } from '$lib/entities/Parking';
+  import type { AddParkingPayload } from '$lib/entities/Parking';
+  import type { ParkingResponse } from '$lib/entities/Parking';
+  import type { gotoFunc } from "../Admin";
+  import {isAdmin} from "../Admin";
+  import {onMount} from "svelte";
+  import { goto } from '$app/navigation';
 
-  const CHECK_DELAY = 500;
-  let adminChecked = false;
   onMount(() => {
-    const adminTimeout = setTimeout(() => { adminChecked = true; }, CHECK_DELAY);
-		if (!isAdmin()) {
+    if (!isAdmin()) {
       (goto as gotoFunc)('/admin');
     }
-    return () => {
-      clearTimeout(adminTimeout);
-    };
-	});
+    adminChecked = true;
+  });
+
+  let parkingsRaw: Array<ParkingResponse>;
+  let tableData: TableRowData[] = [];
+  let formModalOpen = false;
+  let deletionConfirmModalOpen = false;
+  let adminChecked = true;
+  let onConfirmDeletion = () => {
+    deletionConfirmModalOpen = false;
+  };
+  let onConfirmForm: (body: AddParkingPayload) => void = () => {
+    formModalOpen = false;
+  };
+
+  void getParkings()
+    .then((data: Array<ParkingResponse>) => {
+      parkingsRaw = data;
+      data.forEach(parking => {
+        const newTableData = {
+          id: parking.id,
+          name: parking.title,
+          address: parking.address,
+          coordinates: `${parking.latitude}, ${parking.longitude}`,
+          creationTime: parking.inserted_at,
+          endpoint: parking.camera_endpoint,
+          lastUpdate: parking.updated_at
+        };
+        tableData.push(newTableData);
+      });
+      tableData = tableData;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
   interface TableRowData {
+    id: string;
     name: string;
     address: string;
     coordinates: string;
@@ -29,35 +68,91 @@
     lastUpdate: string;
   }
 
-  let tableData: TableRowData[] = [
-    {
-      name: 'NAMEUNIQUE1',
-      address: 'ADDRESS',
-      coordinates: 'COORDINATES',
-      creationTime: 'CREATED',
-      endpoint: 'CAMERA',
-      lastUpdate: 'LAST UPDATE'
-    },
-    {
-      name: 'NAMEUNIQUE2',
-      address: 'ADDRESS',
-      coordinates: 'COORDINATES',
-      creationTime: 'CREATED',
-      endpoint: 'CAMERA ENDPOINT',
-      lastUpdate: 'UPDATE'
-    }
-  ];
-  let formModalOpen = false;
-  let deletionConfirmModalOpen = false;
-
   const onAddParking = () => {
+    formFields.forEach(obj => (obj.value = ''));
+    onConfirmForm = (body: AddParkingPayload) => {
+      console.log('Hello');
+      addParking(body)
+        .then((parking: ParkingResponse) => {
+          parkingsRaw.push(parking);
+          const newTableData = {
+            id: parking.id,
+            name: parking.title,
+            address: parking.address,
+            coordinates: `${parking.latitude}, ${parking.longitude}`,
+            creationTime: parking.inserted_at,
+            endpoint: parking.camera_endpoint,
+            lastUpdate: parking.updated_at
+          };
+          tableData.push(newTableData);
+          tableData = tableData;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      formModalOpen = false;
+    };
     formModalOpen = true;
   };
-  const onEditParking = () => {
+  const onEditParking = (id: string) => {
+    const thisParkingRaw = parkingsRaw.find(parkingRaw => id === parkingRaw.id);
+    if(!thisParkingRaw){
+      console.error("NO PARKING ITH SUCH ID");
+      return;
+    }
+    formFields.find(field => field.name === 'title')!.value = thisParkingRaw.title;
+    formFields.find(field => field.name === 'address')!.value = thisParkingRaw.address;
+    formFields.find(field => field.name === 'latitude')!.value = String(
+      thisParkingRaw.latitude
+    );
+    formFields.find(field => field.name === 'longitude')!.value = String(
+      thisParkingRaw.longitude
+    );
+    formFields.find(field => field.name === 'camera_endpoint')!.value =
+      thisParkingRaw.camera_endpoint;
+
+    onConfirmForm = (body: AddParkingPayload) => {
+      editParking(id, body)
+        .then((parking: ParkingResponse) => {
+          const parkingRawId = parkingsRaw.findIndex(
+            parkingRaw => parking.id === parkingRaw.id
+          );
+          parkingsRaw[parkingRawId] = parking;
+          const newTableData = {
+            id: parking.id,
+            name: parking.title,
+            address: parking.address,
+            coordinates: `${parking.latitude}, ${parking.longitude}`,
+            creationTime: parking.inserted_at,
+            endpoint: parking.camera_endpoint,
+            lastUpdate: parking.updated_at
+          };
+          const tableDataId = tableData.findIndex(data => data.id === parking.id);
+          tableData[tableDataId] = newTableData;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      formModalOpen = false;
+    };
     formModalOpen = true;
   };
-  const onDeleteParking = () => {
+  const onDeleteParking = (id: string) => {
     deletionConfirmModalOpen = true;
+    onConfirmDeletion = () => {
+      deleteParking(id)
+        .then(() => {
+          tableData.splice(
+            tableData.findIndex(data => data.id === id),
+            1
+          );
+          tableData = tableData;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      deletionConfirmModalOpen = false;
+    };
   };
   const onCloseForm = () => {
     formModalOpen = false;
@@ -65,6 +160,13 @@
   const onCancelDeletion = () => {
     deletionConfirmModalOpen = false;
   };
+  let formFields = [
+    { name: 'title', type: 'text', value: '' },
+    { name: 'address', type: 'text', value: '' },
+    { name: 'latitude', type: 'latitude', value: '' },
+    { name: 'longitude', type: 'longitude', value: '' },
+    { name: 'camera_endpoint', type: 'endpoint', value: '' }
+  ];
 </script>
 
 <svelte:head>
@@ -75,61 +177,62 @@
 <section class="console">
   <div class="content-wrapper">
     {#if !adminChecked}
-      <Loader/>
+      <Loader />
     {:else}
-    <Modal open={formModalOpen} onCloseCallback={onCloseForm}>
-      <AdminConsoleParkingCreationForm />
-    </Modal>
-    <ConfirmationModal
-      open={deletionConfirmModalOpen}
-      onClose={onCancelDeletion}
-      onConfirm={onCancelDeletion}
-    />
-    <div class="head-wrapper">
-      <h1 class="console-head">PARKINGS</h1>
-      <div class="btn-wrapper">
-        <Button onClick={onAddParking}>Add New</Button>
+      <Modal open={formModalOpen} onCloseCallback={onCloseForm}>
+        <AdminConsoleParkingCreationForm
+          bind:fields={formFields}
+          submitCallback={onConfirmForm}
+        />
+      </Modal>
+      <ConfirmationModal
+        open={deletionConfirmModalOpen}
+        onClose={onCancelDeletion}
+        onConfirm={onConfirmDeletion}
+      />
+      <div class="head-wrapper">
+        <h1 class="console-head">PARKINGS</h1>
+        <div class="btn-wrapper">
+          <Button onClick={onAddParking}>Add New</Button>
+        </div>
       </div>
-    </div>
-    <table class="console-table">
-      <thead>
-        <td>NAME</td>
-        <td>ADDRESS</td>
-        <td>COORDINATES</td>
-        <td>CREATED</td>
-        <td>CAMERA ENDPOINT</td>
-        <td>LAST UPDATE</td>
-        <td />
-      </thead>
-      {#each tableData as { name, address, coordinates, creationTime, endpoint, lastUpdate }, i (name)}
+      <table class="console-table">
+        <thead>
+          <td>NAME</td>
+          <td>ADDRESS</td>
+          <td>COORDINATES</td>
+          <td>CREATED</td>
+          <td>CAMERA ENDPOINT</td>
+          <td>LAST UPDATE</td>
+          <td />
+        </thead>
+        {#each tableData as { id, name, address, coordinates, creationTime, endpoint, lastUpdate } (name)}
+          <tr>
+            <td>{name}</td>
+            <td>{address}</td>
+            <td>{coordinates}</td>
+            <td>{creationTime}</td>
+            <td>{endpoint}</td>
+            <td>{lastUpdate}</td>
+            <td class="console-tools">
+              <IconButton onClick={() => onEditParking(id)} icon="pencil" />
+              <IconButton onClick={() => onDeleteParking(id)} icon="trash" />
+            </td>
+          </tr>
+        {/each}
         <tr>
-          <td>{name}</td>
-          <td>{address}</td>
-          <td>{coordinates}</td>
-          <td>{creationTime}</td>
-          <td>{endpoint}</td>
-          <td>{lastUpdate}</td>
-          <td class="console-tools">
-            <IconButton onClick={() => onEditParking()} icon="pencil" />
-            <IconButton onClick={() => onDeleteParking()} icon="trash" />
-          </td>
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
         </tr>
-      {/each}
-      <tr>
-        <td />
-        <td />
-        <td />
-        <td />
-        <td />
-        <td />
-        <td />
-      </tr>
-    </table>
+      </table>
     {/if}
   </div>
 </section>
-
-
 
 <style lang="scss">
   .console {
