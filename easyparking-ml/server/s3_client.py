@@ -21,5 +21,6 @@ class S3Client:
         if not os.path.exists(img_path):
             raise ValueError("Incorrect image path")
         if not self.client.bucket_exists(bucket):
+            print(f"Creating bucket {bucket}")
             self.client.make_bucket(bucket)
         return self.client.fput_object(bucket, image_name, img_path)
