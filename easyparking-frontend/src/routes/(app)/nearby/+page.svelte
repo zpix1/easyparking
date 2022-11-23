@@ -1,78 +1,21 @@
 <script lang="ts">
   import ParkingListCard from '$lib/widgets/ParkingListCard.svelte';
   import Button from '$lib/shared/ui/Button.svelte';
-
-  type ParkingInfo = {
-    address: string;
-    freeLots: number;
-  };
+  import { getParkings } from '$lib/entities/UserParking';
+  import type { UserParking } from '$lib/entities/UserParking';
 
   const parkingsStep = 5;
-  let parkingsActive: ParkingInfo[] = [
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    }
-  ];
+  let parkingsActive: UserParking[] = [];
+  let parkings: UserParking[] = [];
 
-  const parkings: ParkingInfo[] = [
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    }
-  ];
+  getParkings()
+    .then(data => {
+      parkings = data.parkings;
+      parkingsActive = parkings.slice(0, parkingsStep);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 
   const onShowMore = () => {
     if (parkings.length === parkingsActive.length) {
@@ -97,8 +40,10 @@
     {#each parkingsActive as parking, i}
       <ParkingListCard
         style={i % 2 === 0 ? 'light' : 'dark'}
-        address={parking.address}
-        freeLots={parking.freeLots}
+        updateTime={parking.updateTime}
+        image={parking.parkingImage}
+        address={parking.parkingAdress}
+        freeLots={parking.numEmptySpaces}
       />
     {/each}
   </div>

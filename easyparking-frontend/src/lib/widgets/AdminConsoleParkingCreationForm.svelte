@@ -1,12 +1,12 @@
 <script lang="ts">
   import Form from '$lib/shared/ui/Form.svelte';
-  import {parkingCreationError} from '../entities/Parking';
-  import type {AddParkingPayload}  from '../entities/Parking';
+  import { parkingCreationError } from '../entities/Parking';
+  import type { AddParkingPayload } from '../entities/Parking';
 
   export let fields: {
-    name: string,
-    type: string,
-    value: string
+    name: string;
+    type: string;
+    value: string;
   }[];
   export let submitCallback: (body: AddParkingPayload) => void;
 
