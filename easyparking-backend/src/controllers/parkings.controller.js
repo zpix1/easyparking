@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { hashSync, compareSync } from 'bcrypt';
 import { User } from '../models/user.js';
+import axios from 'axios';
 
 export function getFavoriteParkings(req, res) {
   User.findById(req.user._id, {
@@ -62,43 +63,49 @@ export function removeFavoriteParking(req, res) {
   });
 }
 
-function Parking(parkingId, parkingAdress, numEmptySpaces, parkingImage, updateTime) {
-  this.parkingId = parkingId;
-  this.parkingAdress = parkingAdress;
-  this.numEmptySpaces = numEmptySpaces;
-  this.parkingImage = parkingImage;
-  this.updateTime = updateTime;
-}
-
-function getParkingInfoFromServer(parkingId){
-  const parkingAdress = "Пирогова 1";
-  const numEmptySpaces = 0;
-  const parkingImage = "Image";
-  const updateTime = "18:23:47 08.11.2022"
-  return new Parking(parkingId, parkingAdress, numEmptySpaces, parkingImage, updateTime);
-}
-
 export function getParkingById(req, res) {
-  const parkingId = req.params.parkingId;
-  const parking = getParkingInfoFromServer(parkingId);
-  return res.status(200).json({
-    parkingId: parking.parkingId,
-    parkngAdress: parking.parkingAdress,
-    numEmptySpaces: parking.numEmptySpaces,
-    parkingImage: parking.parkingImage,
-    updateTime: parking.updateTime
-  });
-}
-
-function getParkingsInfoFromServer(){
-  const parking1 = new Parking("1","Пирогова 1", 0, "Image1", "18:23:47 08.11.2022");
-  const parking2 = new Parking("2","Пирогова 2", 1, "Image2", "22:37:09 08.11.2022");
-  return [parking1, parking2];
+  axios.get(`http://localhost:4000/api/v1/parkings-by-ids?ids[]=${req.params.parkingId}`)
+  .then(resp =>{
+    resp.data.map((parking)=>{
+      return res.status(200).json({
+        id: parking.id,
+        address: parking.address,
+        image_url: parking.image_url,
+        processed_image_url: parking.processed_image_url, 
+        latitude: parking.latitude, 
+        longitude: parking.longitude, 
+        title: parking.title
+      });
+    })
+    return;
+  })
+  .catch((err)=>{
+    res.status(500).send({
+      message: err,
+    });
+    return;
+  })
+  
 }
 
 export function getParkings(req, res){
-  const parkings = getParkingsInfoFromServer();
-  return res.status(200).json({
-    parkings
-  });
+  const user_latitude = req.body.latitude || 33.5854;
+  const user_longitude = req.body.longitude || -15.3333;
+  const offset = parseInt(req.body.offset) || 0;
+  const count = parseInt(req.body.count) || 10;
+  const page = parseInt(offset/count) + 1;
+  const page_size = (offset%count) + count;
+  axios.get(`http://localhost:4000/api/v1/parking?user_latitude=${user_latitude}&user_longitude=${user_longitude}&page=${page}&page_size=${page_size}`)
+  .then(resp => {
+    const entries_paginated = resp.data.entries.slice(offset%count);
+    return res.status(200).json({
+      entries: entries_paginated
+    })
+  })
+  .catch((err)=>{
+    res.status(500).send({
+      message: err,
+    });
+    return;
+  })
 }
