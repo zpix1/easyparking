@@ -4,7 +4,7 @@ defmodule PoolerWeb.ParkingView do
 
   def render("parkings_pagination.json", %{pagination_info: %Scrivener.Page{} = pagination_info}) do
     %{
-      "page_numer" => pagination_info.page_number,
+      "page_number" => pagination_info.page_number,
       "page_size" => pagination_info.page_size,
       "total_pages" => pagination_info.total_pages,
       "total_entries" => pagination_info.total_entries,
