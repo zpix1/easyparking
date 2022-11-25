@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { hashSync, compareSync } from 'bcrypt';
 import { User } from '../models/user.js';
 import axios from 'axios';
+import ADMIN_BACKEND_URL from '../config.js';
 
 export function getFavoriteParkings(req, res) {
   User.findById(req.user._id, {
@@ -65,7 +66,7 @@ export function removeFavoriteParking(req, res) {
 
 export function getParkingById(req, res) {
   axios
-    .get(`http://localhost:4000/api/v1/parkings-by-ids?ids[]=${req.params.parkingId}`)
+    .get(ADMIN_BACKEND_URL + '/api/v1/parkings-by-ids', { params: { 'ids[]': req.params.parkingId } })
     .then((resp) => {
       resp.data.map((parking) => {
         return res.status(200).json({
@@ -88,21 +89,43 @@ export function getParkingById(req, res) {
     });
 }
 
+function PageSizeConversion(offset, limit) {
+  var window, leftShift;
+  for (window = limit; window <= offset + limit; window++) {
+    for (leftShift = 0; leftShift <= window - limit; leftShift++) {
+      if ((offset - leftShift) % window == 0) {
+        this.pageSize = window;
+        this.page = (offset - leftShift) / this.pageSize;
+
+        this.headWaste = leftShift;
+        this.tailWaste = (this.page + 1) * this.pageSize - (offset + limit);
+        return;
+      }
+    }
+  }
+}
+
 export function getParkings(req, res) {
-  const user_latitude = req.body.latitude || 33.5854;
-  const user_longitude = req.body.longitude || -15.3333;
+  const user_latitude = parseFloat(req.body.latitude) || 33.5854;
+  const user_longitude = parseFloat(req.body.longitude) || -15.3333;
   const offset = parseInt(req.body.offset) || 0;
   const count = parseInt(req.body.count) || 10;
-  const page = parseInt(offset / count) + 1;
-  const page_size = (offset % count) + count;
+  const conversion = new PageSizeConversion(offset, count);
+  const page = conversion.page + 1;
+  const page_size = conversion.pageSize;
+  const params = {
+    user_latitude: user_latitude,
+    user_longitude: user_longitude,
+    page: page,
+    page_size: page_size,
+  };
   axios
-    .get(
-      `http://localhost:4000/api/v1/parking?user_latitude=${user_latitude}&user_longitude=${user_longitude}&page=${page}&page_size=${page_size}`,
-    )
+    .get(ADMIN_BACKEND_URL + '/api/v1/parking', { params })
     .then((resp) => {
-      const entries_paginated = resp.data.entries.slice(offset % count);
+      const entries_sliced = resp.data.entries.slice(conversion.headWaste, page_size - conversion.tailWaste);
       return res.status(200).json({
-        entries: entries_paginated,
+        entries: entries_sliced,
+        total_entries: resp.data.total_entries,
       });
     })
     .catch((err) => {
