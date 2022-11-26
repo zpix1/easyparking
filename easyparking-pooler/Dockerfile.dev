@@ -10,6 +10,13 @@ COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV
 RUN mkdir config
 
+ARG S3_ACCESS_KEY
+ARG S3_SECRET_KEY
+ARG MINIO_HOST
+ENV S3_ACCESS_KEY=${S3_ACCESS_KEY} \
+  S3_SECRET_KEY=${S3_SECRET_KEY} \
+  MINIO_HOST=${MINIO_HOST}
+
 COPY config/config.exs config/${MIX_ENV}.exs config/
 RUN mix deps.compile
 

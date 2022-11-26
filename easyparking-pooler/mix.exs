@@ -47,10 +47,16 @@ defmodule Pooler.MixProject do
       {:corsica, "~> 1.3.0"},
       # static code analysis - types
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      # AWS
+      {:ex_aws, "~> 2.4"},
+      # S3
+      {:ex_aws_s3, "~> 2.3"},
       # docs generation
       {:ex_doc, "~> 0.28.4", only: :dev, runtime: false},
       # test coverage
       {:excoveralls, "~> 0.14.6", only: :test},
+      # HTTP Client
+      {:finch, "~> 0.13.0"},
       # documentation checks
       {:inch_ex, github: "rrrene/inch_ex", only: [:dev, :test]},
       # Database
@@ -63,10 +69,13 @@ defmodule Pooler.MixProject do
       {:scrivener_list, "~> 2.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
+      # JSON Parser
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       # Auth
       {:pow, "~> 1.0.27"},
+      # Tasks scheduling
+      {:quantum, "~> 3.5"},
       {:tzdata, "~> 1.1"},
       {:uuid, "~> 1.1"}
     ]

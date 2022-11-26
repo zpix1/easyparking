@@ -25,3 +25,5 @@ pooler-*.tar
 openapi.*
 
 /.mnesia/
+
+.env

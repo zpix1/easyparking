@@ -12,3 +12,6 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :pooler, :parking_images_client, client: nil
+config :pooler, :s3_client, client: nil

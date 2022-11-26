@@ -15,7 +15,7 @@ defmodule Pooler.Parking do
       :updated_at
     ],
     index: [:title],
-    type: :ordered_set
+    type: :set
 
   @type t :: %__MODULE__{
           id: String.t(),
@@ -33,7 +33,7 @@ defmodule Pooler.Parking do
 
   alias Pooler.Auxiliary
 
-  @spec create(map()) :: t()
+  @spec create(map()) :: {:ok, t()} | {:error, :title_not_unique}
   def create(%{} = params) do
     date_time_now = Auxiliary.Time.get_date_time_now()
 
@@ -42,34 +42,58 @@ defmodule Pooler.Parking do
 
     parking = struct(%__MODULE__{}, params)
 
-    Memento.transaction!(fn ->
-      Memento.Query.write(parking)
+    Memento.Transaction.execute_sync!(fn ->
+      case check_constraints(parking) do
+        :ok -> {:ok, Memento.Query.write(parking)}
+        error -> error
+      end
     end)
   end
 
-  @spec update(String.t(), map()) :: {:ok, t()} | {:error, :not_found}
+  @spec update(String.t(), map()) :: {:ok, t()} | {:error, :not_found | :title_not_unique}
   def update(parking_id, %{} = params) when is_binary(parking_id) do
     date_time_now = Auxiliary.Time.get_date_time_now()
     params = Map.put(params, :updated_at, date_time_now)
 
     Memento.transaction!(fn ->
-      case Memento.Query.read(__MODULE__, parking_id, lock: :write) do
-        %__MODULE__{} = parking ->
-          parking
-          |> struct(params)
-          |> Memento.Query.write()
-          |> then(&{:ok, &1})
-
+      with %__MODULE__{} = parking <- Memento.Query.read(__MODULE__, parking_id, lock: :write),
+           new_parking = struct(parking, params),
+           :ok <- check_constraints(new_parking) do
+        new_parking
+        |> Memento.Query.write()
+        |> then(&{:ok, &1})
+      else
         nil ->
           {:error, :not_found}
+
+        error ->
+          error
       end
     end)
   end
 
-  @spec delete(String.t()) :: t()
+  @spec delete(String.t()) :: :ok
   def delete(parking_id) when is_binary(parking_id) do
     Memento.transaction!(fn ->
       Memento.Query.delete(__MODULE__, parking_id)
+    end)
+  end
+
+  @spec get_by_id(String.t()) :: {:ok, t()} | {:error, :parking_not_found}
+  def get_by_id(parking_id) do
+    Memento.transaction!(fn ->
+      Memento.Query.read(__MODULE__, parking_id)
+    end)
+    |> case do
+      nil -> {:error, :parking_not_found}
+      parking -> {:ok, parking}
+    end
+  end
+
+  @spec list_all() :: [t()]
+  def list_all do
+    Memento.transaction!(fn ->
+      Memento.Query.all(__MODULE__)
     end)
   end
 
@@ -78,9 +102,7 @@ defmodule Pooler.Parking do
   """
   @spec list_all_order_by_title() :: [t()]
   def list_all_order_by_title do
-    Memento.transaction!(fn ->
-      Memento.Query.all(__MODULE__)
-    end)
+    list_all()
     |> Enum.sort_by(& &1.title, :asc)
   end
 
@@ -91,5 +113,13 @@ defmodule Pooler.Parking do
     end)
     |> Enum.filter(&(&1.id in ids))
     |> Enum.sort_by(fn parking -> Enum.find_index(ids, &(&1 == parking.id)) end, :asc)
+  end
+
+  defp check_constraints(%__MODULE__{id: id, title: title}) do
+    case Memento.Query.select(__MODULE__, {:==, :title, title}) do
+      [] -> :ok
+      [%__MODULE__{id: ^id, title: ^title}] -> :ok
+      _ -> {:error, :title_not_unique}
+    end
   end
 end

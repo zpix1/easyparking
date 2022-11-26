@@ -16,7 +16,28 @@ config :pooler, PoolerWeb.Endpoint,
   secret_key_base: "qxdnKkJfLzKEBLZJcIrMEU947t1zs112yEg+yp7JdMwAN3MF7QpMiaD2ttdbMOGq",
   watchers: []
 
-config :pooler, admin_email: "admin", admin_password: "admin"
+config :pooler,
+  admin_email: "admin",
+  admin_password: "admin",
+  images_bucket: "images",
+  processed_images_bucket: "processedimages"
+
+config :pooler, :parking_images_client, client: Pooler.Clients.ParkingImages.Real
+config :pooler, :s3_client, client: Pooler.Clients.S3.Real
+
+config :pooler, Pooler.Scheduler,
+  # не начинать джобу, если предыдущая не закончила работу
+  overlap: false,
+  jobs: [
+    pool_images: [
+      # Every min 
+      schedule: "* * * * *",
+      run_strategy: Quantum.RunStrategy.Local,
+      task:
+        {Pooler.Parking.PoolImages, :pool_images,
+         [Pooler.Clients.ParkingImages.Real, Pooler.Clients.S3.Real]}
+    ]
+  ]
 
 # ## SSL Support
 #
@@ -51,5 +72,15 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :ex_aws,
+  json_codec: Jason,
+  access_key_id: System.fetch_env!("S3_ACCESS_KEY"),
+  secret_access_key: System.fetch_env!("S3_SECRET_KEY")
+
+config :ex_aws, :s3,
+  scheme: "http://",
+  host: System.fetch_env!("MINIO_HOST"),
+  port: 9000
 
 config :open_api_spex, :cache_adapter, OpenApiSpex.Plug.NoneCache
