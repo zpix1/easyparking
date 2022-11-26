@@ -15,7 +15,7 @@ defmodule Pooler.Mnesia do
 
     Enum.each(@schemas, fn schema ->
       Memento.Table.wait(schema)
-      Memento.Table.create(schema, disc_only_copies: nodes)
+      Memento.Table.create(schema, disc_copies: nodes)
     end)
   end
 
@@ -27,7 +27,7 @@ defmodule Pooler.Mnesia do
     Enum.each(@schemas, fn schema ->
       Memento.Table.wait(schema)
       Memento.Table.delete(schema)
-      Memento.Table.create!(schema, disc_only_copies: nodes)
+      Memento.Table.create!(schema, disc_copies: nodes)
     end)
   end
 end

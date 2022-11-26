@@ -15,7 +15,7 @@ defmodule Pooler.Parking do
       :updated_at
     ],
     index: [:title],
-    type: :set
+    type: :ordered_set
 
   @type t :: %__MODULE__{
           id: String.t(),
