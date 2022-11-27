@@ -79,7 +79,12 @@ services:
       - MINIO_SERVER_SECRET_KEY=0dKIYnyLtnMIa9h8uJsYLkpgM9qJPI6V
 
   pooler:
+    container_name: 'pooler'
     build:
+      args:
+        - MINIO_HOST=minio
+        - S3_ACCESS_KEY
+        - S3_SECRET_KEY
       context: ./easyparking-pooler
       dockerfile: Dockerfile.dev
     networks:

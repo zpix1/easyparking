@@ -5,11 +5,16 @@ defmodule Pooler.Application do
 
   use Application
 
+  alias Pooler.Clients.ParkingImages
+
   @impl true
   def start(_type, _args) do
     Pooler.Mnesia.setup([node()])
 
     children = [
+      ParkingImages.child_spec(),
+      {Task.Supervisor, name: Pooler.TaskSupervisor},
+      Pooler.Scheduler,
       # Start the Telemetry supervisor
       PoolerWeb.Telemetry,
       # Start the PubSub system

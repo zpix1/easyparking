@@ -69,7 +69,7 @@ defmodule PoolerWeb.OpenAPI.Admin.Schemas do
         title: %Schema{type: :string, minLength: 5, maxLength: 255},
         camera_endpoint: %Schema{
           type: :string,
-          format: ~r/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/[\d\w\/_-]*$/
+          format: ~r/^http[s]?:\/\/((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/[\d\w\/_-]*$/
         },
         latitude: %Schema{type: :number, minimum: -90, maximum: 90},
         longitude: %Schema{type: :number, minimum: -180, maximum: 180}
