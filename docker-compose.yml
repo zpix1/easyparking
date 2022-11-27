@@ -52,6 +52,8 @@ services:
     restart: always
     networks:
       - easyparking-network
+    volumes:
+      - miniodata:/data
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -101,3 +103,4 @@ networks:
 volumes:
   mongodata:
   mnesiadata:
+  miniodata:
