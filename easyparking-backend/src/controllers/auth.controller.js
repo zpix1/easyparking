@@ -6,7 +6,7 @@ export function signup(req, res) {
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       return res.status(400).send({
-        message: 'User with this email already exists'
+        message: 'User with this email already exists',
       });
     }
 
@@ -14,7 +14,7 @@ export function signup(req, res) {
       email: req.body.email,
       password: hashSync(req.body.password, 8),
     });
-  
+
     newUser.save((err, user) => {
       if (err) {
         res.status(500).send({
@@ -24,9 +24,7 @@ export function signup(req, res) {
         signin(req, res);
       }
     });
-  })
-
-  
+  });
 }
 
 export function signin(req, res) {
@@ -36,7 +34,7 @@ export function signin(req, res) {
     },
     {
       password: true,
-      email: true
+      email: true,
     },
   ).exec((err, user) => {
     if (err) {
@@ -62,7 +60,7 @@ export function signin(req, res) {
     const token = jwt.sign(
       {
         id: user.id,
-        email: user.email
+        email: user.email,
       },
       process.env.API_SECRET,
       {
@@ -80,12 +78,11 @@ export function signin(req, res) {
   });
 }
 
-
 export function userInfo(req, res) {
   return res.status(200).send({
     user: {
       id: req.user._id,
-      email: req.user.email
-    }
+      email: req.user.email,
+    },
   });
 }
