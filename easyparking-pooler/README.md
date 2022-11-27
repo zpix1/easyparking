@@ -23,7 +23,11 @@ docker exec -it pooler /bin/sh
 ```
 iex --sname console --cookie monster --remsh dev
 ```
-3. Вызовем функцию для популяции базы данных парковок
+3. Сделаем ресет
+```
+Pooler.Mnesia.reset([node()])
+```
+4. Вызовем функцию для популяции базы данных парковок
 ```
 Pooler.Helper.Seeds.seed
 ```
