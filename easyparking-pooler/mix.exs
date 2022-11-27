@@ -29,7 +29,7 @@ defmodule Pooler.MixProject do
   def application do
     [
       mod: {Pooler.Application, []},
-      extra_applications: [:logger, :runtime_tools, :memento]
+      extra_applications: [:logger, :runtime_tools, :amqp, :memento]
     ]
   end
 
@@ -42,6 +42,11 @@ defmodule Pooler.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # RabbitMQ
+      {:amqp, "~> 3.0"},
+      # Producer - Consumer
+      {:broadway, "~> 1.0.5"},
+      {:broadway_rabbitmq, "~> 0.7.2"},
       # static code analysis - code consistency
       {:credo, "~> 1.6", only: :dev, runtime: false},
       {:corsica, "~> 1.3.0"},

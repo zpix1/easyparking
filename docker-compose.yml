@@ -82,11 +82,16 @@ services:
 
   pooler:
     container_name: 'pooler'
+    environment:
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+      - PROCESS_IMAGE_ROUTING_KEY=images_to_process
+      - POOLER_QUEUE=processed_images
+      - MINIO_HOST=minio
+      - RMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - IMAGES_BUCKET=images
+      - PROCESSED_IMAGES_BUCKET=processedimages
     build:
-      args:
-        - MINIO_HOST=minio
-        - S3_ACCESS_KEY=${S3_ACCESS_KEY}
-        - S3_SECRET_KEY=${S3_SECRET_KEY}
       context: ./easyparking-pooler
       dockerfile: Dockerfile.dev
     networks:

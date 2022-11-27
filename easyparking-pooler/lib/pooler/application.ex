@@ -25,6 +25,13 @@ defmodule Pooler.Application do
       # {Pooler.Worker, arg}
     ]
 
+    children =
+      if Pooler.env() != :test do
+        [Pooler.Broadway | children]
+      else
+        children
+      end
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Pooler.Supervisor]

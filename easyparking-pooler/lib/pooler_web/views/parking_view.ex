@@ -27,6 +27,7 @@ defmodule PoolerWeb.ParkingView do
       "longitude" => longitude,
       "image_url" => parking.image_url,
       "processed_image_url" => parking.processed_image_url,
+      "cars_found" => parking.cars_found,
       "distance_from_user" => get_in(parking, [Access.key(:distance_from_user)])
     }
   end

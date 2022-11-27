@@ -16,7 +16,7 @@ defmodule Pooler.Clients.ParkingImages do
 
   @callback get_parking_image(url :: String.t()) :: binary()
 
-  @client Application.compile_env!(:pooler, :parking_images_client)[:client]
+  @client Application.compile_env!(:pooler, __MODULE__)[:client]
 
   @doc """
   Получает модуль - реализацию клиента из конфигуарции.

@@ -73,7 +73,6 @@ def main():
     recv_channel = mq_connection.channel()
     recv_channel.queue_declare(queue=IMAGES_TO_PROCESS_QUEUE)
     send_channel = mq_connection.channel()
-    send_channel.queue_declare(queue=PROCESSED_IMAGES_QUEUE)
 
     def on_message(ch, method, properties, body):
         try:

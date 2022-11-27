@@ -11,14 +11,6 @@ defmodule Pooler.Clients.S3.Real do
     :ok
   end
 
-  @spec upload_processed_image!(binary_image :: binary(), s3_path :: String.t()) :: :ok
-  def upload_processed_image!(binary_image, s3_path) do
-    ExAws.S3.put_object(processed_images_bucket(), s3_path, binary_image)
-    |> ExAws.request!()
-
-    :ok
-  end
-
   @spec delete_image!(s3_path :: String.t()) :: :ok
   def delete_image!(s3_path) do
     ExAws.S3.delete_object(images_bucket(), s3_path)
@@ -35,6 +27,8 @@ defmodule Pooler.Clients.S3.Real do
     :ok
   end
 
-  defp images_bucket, do: Application.fetch_env!(:pooler, :images_bucket)
-  defp processed_images_bucket, do: Application.fetch_env!(:pooler, :processed_images_bucket)
+  defp images_bucket, do: Application.fetch_env!(:pooler, __MODULE__)[:images_bucket]
+
+  defp processed_images_bucket,
+    do: Application.fetch_env!(:pooler, __MODULE__)[:processed_images_bucket]
 end
