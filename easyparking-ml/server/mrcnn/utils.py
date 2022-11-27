@@ -14,9 +14,6 @@ import math
 import random
 import numpy as np
 import tensorflow as tf
-import scipy
-import skimage.color
-import skimage.io
 import skimage.transform
 import urllib.request
 import shutil
@@ -352,19 +349,6 @@ class Dataset(object):
         """
         return self.image_info[image_id]["path"]
 
-    def load_image(self, image_id):
-        """Load the specified image and return a [H,W,3] Numpy array.
-        """
-        # Load image
-        image = skimage.io.imread(self.image_info[image_id]['path'])
-        # If grayscale. Convert to RGB for consistency.
-        if image.ndim != 3:
-            image = skimage.color.gray2rgb(image)
-        # If has an alpha channel, remove it for consistency
-        if image.shape[-1] == 4:
-            image = image[..., :3]
-        return image
-
     def load_mask(self, image_id):
         """Load instance masks for the given image.
 
@@ -490,28 +474,6 @@ def resize_image(image, min_dim=None, max_dim=None, min_scale=None, mode="square
     else:
         raise Exception("Mode {} not supported".format(mode))
     return image.astype(image_dtype), window, scale, padding, crop
-
-
-def resize_mask(mask, scale, padding, crop=None):
-    """Resizes a mask using the given scale and padding.
-    Typically, you get the scale and padding from resize_image() to
-    ensure both, the image and the mask, are resized consistently.
-
-    scale: mask scaling factor
-    padding: Padding to add to the mask in the form
-            [(top, bottom), (left, right), (0, 0)]
-    """
-    # Suppress warning from scipy 0.13.0, the output shape of zoom() is
-    # calculated with round() instead of int()
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        mask = scipy.ndimage.zoom(mask, zoom=[scale, scale, 1], order=0)
-    if crop is not None:
-        y, x, h, w = crop
-        mask = mask[y:y + h, x:x + w]
-    else:
-        mask = np.pad(mask, padding, mode='constant', constant_values=0)
-    return mask
 
 
 def minimize_mask(bbox, mask, mini_shape):
