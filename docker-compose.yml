@@ -8,8 +8,8 @@ services:
       - 27017:27017
     networks:
       - easyparking-network
-    # TODO
-    # volumes:
+    volumes:
+      - mongodata:/data/db
 
   backend:
     depends_on:
@@ -46,12 +46,14 @@ services:
       - '9000:9000'
       - '9001:9001'
     environment:
-      - MINIO_ROOT_USER=uQqbdgRyi3oxPS1m
-      - MINIO_ROOT_PASSWORD=0dKIYnyLtnMIa9h8uJsYLkpgM9qJPI6V
+      - MINIO_ROOT_USER=${S3_ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${S3_SECRET_KEY}
       - MINIO_DEFAULT_BUCKETS=images,processedimages
     restart: always
     networks:
       - easyparking-network
+    volumes:
+      - miniodata:/data
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -75,27 +77,30 @@ services:
       - RABBITMQ_PORT=5672
       - MINIO_URL=minio
       - MINIO_PORT=9000
-      - MINIO_SERVER_ACCESS_KEY=uQqbdgRyi3oxPS1m
-      - MINIO_SERVER_SECRET_KEY=0dKIYnyLtnMIa9h8uJsYLkpgM9qJPI6V
+      - MINIO_SERVER_ACCESS_KEY=${S3_ACCESS_KEY}
+      - MINIO_SERVER_SECRET_KEY=${S3_SECRET_KEY}
 
   pooler:
     container_name: 'pooler'
     build:
       args:
         - MINIO_HOST=minio
-        - S3_ACCESS_KEY
-        - S3_SECRET_KEY
+        - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+        - S3_SECRET_KEY=${S3_SECRET_KEY}
       context: ./easyparking-pooler
       dockerfile: Dockerfile.dev
     networks:
     - easyparking-network
     ports:
       - 4000:4000
+    volumes:
+      - mnesiadata:/app/.mnesia
 
 networks:
   easyparking-network:
     driver: bridge
 
-# TODO
-# volumes:
-#   db:
+volumes:
+  mongodata:
+  mnesiadata:
+  miniodata:

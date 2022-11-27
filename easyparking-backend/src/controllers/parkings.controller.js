@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
-import { hashSync, compareSync } from 'bcrypt';
+import { ADMIN_BACKEND_URL } from '../config.js';
 import { User } from '../models/user.js';
+
 import axios from 'axios';
-import ADMIN_BACKEND_URL from '../config.js';
 
 export function getFavoriteParkings(req, res) {
   User.findById(req.user._id, {
@@ -16,13 +15,36 @@ export function getFavoriteParkings(req, res) {
     }
     const offset = parseInt(req.body.offset) || 0;
     const count = parseInt(req.body.count) || 5;
-    // TODO Find a way to do it from mongo
+
     const pagedFavoriteParkings = favoriteParkings.slice(offset, offset + count);
-    return res.status(200).json({
-      favoriteParkings: pagedFavoriteParkings,
-      offset,
-      count,
-    });
+
+    axios
+      .get(ADMIN_BACKEND_URL + '/api/v1/parkings-by-ids', { params: { 'ids[]': pagedFavoriteParkings } })
+      .then((resp) => {
+        const parkings = resp.data.map((parking) => ({
+          id: parking.id,
+          address: parking.address,
+          image_url: parking.image_url,
+          processed_image_url: parking.processed_image_url,
+          latitude: parking.latitude,
+          longitude: parking.longitude,
+          title: parking.title,
+        }));
+
+        res.status(200).json({
+          entries: parkings,
+          total_entries: parkings.length,
+          offset,
+          count,
+        });
+        return;
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err,
+        });
+        return;
+      });
   });
 }
 
@@ -125,6 +147,8 @@ export function getParkings(req, res) {
       const entries_sliced = resp.data.entries.slice(conversion.headWaste, page_size - conversion.tailWaste);
       return res.status(200).json({
         entries: entries_sliced,
+        offset,
+        count,
         total_entries: resp.data.total_entries,
       });
     })
