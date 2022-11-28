@@ -87,15 +87,16 @@ services:
       - S3_SECRET_KEY=${S3_SECRET_KEY}
       - DOWNLOAD_HOST=${DOWNLOAD_HOST}
       - DOWNLOAD_PORT=${DOWNLOAD_PORT}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - POOLER_ADMIN_PASSWORD=admin
+      - POOLER_ADMIN_EMAIL=admin
       - PROCESS_IMAGE_ROUTING_KEY=images_to_process
       - POOLER_QUEUE=processed_images
       - MINIO_HOST=minio
       - RMQ_URL=amqp://guest:guest@rabbitmq:5672
       - IMAGES_BUCKET=images
       - PROCESSED_IMAGES_BUCKET=processedimages
-    build:
-      context: ./easyparking-pooler
-      dockerfile: Dockerfile.dev
+    build: ./easyparking-pooler
     networks:
     - easyparking-network
     ports:

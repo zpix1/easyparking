@@ -20,7 +20,7 @@ if System.get_env("PHX_SERVER") do
   config :pooler, PoolerWeb.Endpoint, server: true
 end
 
-if config_env() == :dev do
+if config_env() in [:dev, :prod] do
   # amqp приложение само создает соединения и каналы и пытается восстановить их, если соединениe потеряно
   # https://hexdocs.pm/amqp/AMQP.Application.html
   config :amqp,
@@ -34,10 +34,6 @@ if config_env() == :dev do
       # В него мы будем отправлять сообщения
       producer: [connection: :default]
     ]
-
-  config :pooler,
-    admin_email: System.get_env("POOLER_ADMIN_EMAIL", "admin"),
-    admin_password: System.get_env("POOLER_ADMIN_PASSWORD", "admin")
 
   config :pooler, Pooler.Broadway,
     queue: System.fetch_env!("POOLER_QUEUE"),
@@ -62,6 +58,10 @@ if config_env() == :dev do
   config :pooler, Pooler.Clients.ProcessImage.Real,
     exchange: System.get_env("RMQ_EXCHANGE", ""),
     routing_key: System.fetch_env!("PROCESS_IMAGE_ROUTING_KEY")
+
+  config :pooler,
+    admin_password: System.fetch_env!("POOLER_ADMIN_PASSWORD"),
+    admin_email: System.fetch_env!("POOLER_ADMIN_EMAIL")
 end
 
 if config_env() == :prod do
@@ -91,8 +91,4 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
-
-  config :pooler,
-    admin_password: System.fetch_env!("POOLER_ADMIN_PASSWORD"),
-    admin_email: System.fetch_env!("POOLER_ADMIN_EMAIL")
 end

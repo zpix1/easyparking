@@ -5,7 +5,7 @@ defmodule Pooler.MixProject do
     [
       app: :pooler,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14.2",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -19,6 +19,11 @@ defmodule Pooler.MixProject do
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test
+      ],
+      releases: [
+        pooler: [
+          include_executables_for: [:unix]
+        ]
       ]
     ]
   end
