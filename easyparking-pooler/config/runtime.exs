@@ -45,7 +45,9 @@ if config_env() == :dev do
 
   config :pooler, Pooler.Clients.S3.Real,
     images_bucket: System.fetch_env!("IMAGES_BUCKET"),
-    processed_images_bucket: System.fetch_env!("PROCESSED_IMAGES_BUCKET")
+    processed_images_bucket: System.fetch_env!("PROCESSED_IMAGES_BUCKET"),
+    download_host: System.fetch_env!("DOWNLOAD_HOST"),
+    download_port: System.fetch_env!("DOWNLOAD_PORT") |> String.to_integer()
 
   config :ex_aws,
     json_codec: Jason,
