@@ -4,11 +4,10 @@ defmodule Pooler.Clients.S3 do
   """
 
   @callback upload_image!(binary_image :: binary(), s3_path :: String.t()) :: :ok
-  @callback upload_processed_image!(binary_image :: binary(), s3_path :: String.t()) :: :ok
   @callback delete_image!(s3_path :: String.t()) :: :ok
   @callback delete_processed_image!(s3_path :: String.t()) :: :ok
 
-  @client Application.compile_env!(:pooler, :s3_client)[:client]
+  @client Application.compile_env!(:pooler, __MODULE__)[:client]
 
   @doc """
   Получает модуль - реализацию клиента из конфигуарции.

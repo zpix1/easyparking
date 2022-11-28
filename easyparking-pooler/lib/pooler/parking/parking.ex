@@ -11,6 +11,7 @@ defmodule Pooler.Parking do
       :coordinates,
       :image_url,
       :processed_image_url,
+      :cars_found,
       :inserted_at,
       :updated_at
     ],
@@ -27,6 +28,7 @@ defmodule Pooler.Parking do
           image_url: String.t() | nil,
           # путь на S3 к обработанной картинке с камеры
           processed_image_url: String.t() | nil,
+          cars_found: non_neg_integer() | nil,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }

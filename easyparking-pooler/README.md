@@ -3,6 +3,13 @@
 ## Environment Variables
 * `S3_ACCESS_KEY`, `S3_SECRET_KEY` - токены авторизации в minio.
 Для локальной разработки: запускаем minio, заходим на `localhost:9001/access-keys` и добавляем ключ.
+* `PROCESS_IMAGE_ROUTING_KEY`
+* `POOLER_QUEUE`
+* `MINIO_HOST`
+* `RMQ_URL`
+* `IMAGES_BUCKET`
+* `PROCESSED_IMAGES_BUCKET`
+
 
 ## Setup For Development In Docker
 Команды выполнять из директории `easyparking-pooler`.
