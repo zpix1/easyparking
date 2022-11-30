@@ -13,9 +13,9 @@
   } from '$lib/entities/Parking';
   import type { AddParkingPayload } from '$lib/entities/Parking';
   import type { ParkingResponse } from '$lib/entities/Parking';
-  import type { gotoFunc } from "../Admin";
-  import {isAdmin} from "../Admin";
-  import {onMount} from "svelte";
+  import type { gotoFunc } from '../Admin';
+  import { isAdmin } from '../Admin';
+  import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
 
   onMount(() => {
@@ -96,8 +96,8 @@
   };
   const onEditParking = (id: string) => {
     const thisParkingRaw = parkingsRaw.find(parkingRaw => id === parkingRaw.id);
-    if(!thisParkingRaw){
-      console.error("NO PARKING ITH SUCH ID");
+    if (!thisParkingRaw) {
+      console.error('NO PARKING ITH SUCH ID');
       return;
     }
     formFields.find(field => field.name === 'title')!.value = thisParkingRaw.title;
