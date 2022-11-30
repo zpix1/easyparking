@@ -1,6 +1,6 @@
 FROM nginx
 
-EXPOSE 12345
+EXPOSE 80
 
 COPY nginx.conf /etc/nginx/nginx.conf
 

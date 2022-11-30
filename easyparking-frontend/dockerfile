@@ -15,7 +15,7 @@ COPY . .
 EXPOSE 5173
 # # ENV HOST=0.0.0.0
 
-ENV VITE_ADMIN_BASE_URL http://localhost:12345/pooler/api
-ENV VITE_BASE_URL http://localhost:12345/api/
+ENV VITE_ADMIN_BASE_URL http://localhost/pooler/api
+ENV VITE_BASE_URL http://localhost/api/
 
 ENTRYPOINT ["npm","run", "dev"]
