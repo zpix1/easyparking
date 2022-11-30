@@ -44,9 +44,7 @@ export async function deleteParking(id: string) {
 export async function addParking(payload: AddParkingPayload): Promise<ParkingResponse> {
   return adminClient
     .post<ParkingResponse>(`v1/admin/parking`, payload)
-    .then(response => {
-      return response.data;
-    })
+    .then(response => response.data)
     .catch(error => {
       console.trace(error);
       throw new Error('STRANGE ERROR');
