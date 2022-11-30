@@ -25,9 +25,7 @@ export type AddParkingPayload = {
 export async function getParkings(): Promise<Array<ParkingResponse>> {
   return adminClient
     .get<Array<ParkingResponse>>(`v1/admin/parking`)
-    .then(response => {
-      return response.data;
-    })
+    .then(response => response.data)
     .catch(error => {
       console.trace(error);
       throw new Error('STRANGE ERROR');
