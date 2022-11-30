@@ -57,9 +57,7 @@ export async function editParking(
 ): Promise<ParkingResponse> {
   return adminClient
     .put<ParkingResponse>(`v1/admin/parking/${id}`, payload)
-    .then(response => {
-      return response.data;
-    })
+    .then(response => response.data)
     .catch(error => {
       console.trace(error);
       throw new Error('STRANGE ERROR');
