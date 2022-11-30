@@ -28,7 +28,7 @@ docker exec -it pooler /bin/sh
 ```
 2. Подключимся к консоли и получим доступ к рантайму.
 ```
-iex --sname console --cookie monster --remsh dev
+/bin/pooler remote
 ```
 3. Сделаем ресет
 ```
