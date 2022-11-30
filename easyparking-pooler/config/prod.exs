@@ -14,6 +14,28 @@ config :pooler, PoolerWeb.Endpoint, cache_static_manifest: "priv/static/cache_ma
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :pooler, Pooler.Clients.ParkingImages, client: Pooler.Clients.ParkingImages.Real
+config :pooler, Pooler.Clients.S3, client: Pooler.Clients.S3.Real
+config :pooler, Pooler.Clients.ProcessImage, client: Pooler.Clients.ProcessImage.Real
+
+config :pooler, Pooler.Scheduler,
+  # не начинать джобу, если предыдущая не закончила работу
+  overlap: false,
+  jobs: [
+    pool_images: [
+      # Every min 
+      schedule: "* * * * *",
+      run_strategy: Quantum.RunStrategy.Local,
+      task:
+        {Pooler.Parking.PoolImages, :pool_images,
+         [
+           Pooler.Clients.ParkingImages.Real,
+           Pooler.Clients.S3.Real,
+           Pooler.Clients.ProcessImage.Real
+         ]}
+    ]
+  ]
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

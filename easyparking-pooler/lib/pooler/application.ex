@@ -5,11 +5,16 @@ defmodule Pooler.Application do
 
   use Application
 
+  alias Pooler.Clients.ParkingImages
+
   @impl true
   def start(_type, _args) do
     Pooler.Mnesia.setup([node()])
 
     children = [
+      ParkingImages.child_spec(),
+      {Task.Supervisor, name: Pooler.TaskSupervisor},
+      Pooler.Scheduler,
       # Start the Telemetry supervisor
       PoolerWeb.Telemetry,
       # Start the PubSub system
@@ -19,6 +24,13 @@ defmodule Pooler.Application do
       # Start a worker by calling: Pooler.Worker.start_link(arg)
       # {Pooler.Worker, arg}
     ]
+
+    children =
+      if Pooler.env() != :test do
+        [Pooler.Broadway | children]
+      else
+        children
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

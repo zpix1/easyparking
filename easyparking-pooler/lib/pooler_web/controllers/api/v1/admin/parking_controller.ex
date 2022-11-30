@@ -45,8 +45,15 @@ defmodule PoolerWeb.API.V1.Admin.ParkingController do
       coordinates: {parking_params.latitude, parking_params.longitude}
     }
 
-    %Parking{} = parking = Parking.create(create_params)
-    render(conn, "parking.json", parking: parking)
+    case Parking.create(create_params) do
+      {:ok, %Parking{} = parking} ->
+        render(conn, "parking.json", parking: parking)
+
+      {:error, error} when is_atom(error) ->
+        conn
+        |> put_status(400)
+        |> json(%{"error" => %{"message" => to_string(error)}})
+    end
   end
 
   operation :update,
@@ -82,10 +89,10 @@ defmodule PoolerWeb.API.V1.Admin.ParkingController do
       {:ok, %Parking{} = parking} ->
         render(conn, "parking.json", parking: parking)
 
-      {:error, :not_found} ->
+      {:error, error} when is_atom(error) ->
         conn
         |> put_status(400)
-        |> json(%{"error" => %{"message" => "Parking not found"}})
+        |> json(%{"error" => %{"message" => to_string(error)}})
     end
   end
 
@@ -106,7 +113,7 @@ defmodule PoolerWeb.API.V1.Admin.ParkingController do
 
   @spec delete(Conn.t(), any()) :: Conn.t()
   def delete(%Conn{params: %{id: parking_id}} = conn, _) do
-    Parking.delete(parking_id)
+    Parking.Delete.delete_by_id(parking_id)
 
     json(conn, %{"status" => "ok"})
   end

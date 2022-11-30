@@ -15,6 +15,6 @@ router.get('/favorite', verifyToken, getFavoriteParkings);
 router.post('/favorite', verifyToken, addParkingToFavorite);
 router.delete('/favorite', verifyToken, removeFavoriteParking);
 router.get('/parking/:parkingId', verifyToken, getParkingById);
-router.get('/', verifyToken, getParkings)
+router.get('/', verifyToken, getParkings);
 
 export default router;

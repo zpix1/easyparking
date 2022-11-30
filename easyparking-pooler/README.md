@@ -1,16 +1,47 @@
 # Pooler
 
+## Environment Variables
+* `S3_ACCESS_KEY`, `S3_SECRET_KEY` - токены авторизации в minio.
+Для локальной разработки: запускаем minio, заходим на `localhost:9001/access-keys` и добавляем ключ.
+* `PROCESS_IMAGE_ROUTING_KEY`
+* `POOLER_QUEUE`
+* `MINIO_HOST`
+* `RMQ_URL`
+* `IMAGES_BUCKET`
+* `PROCESSED_IMAGES_BUCKET`
+
+
 ## Setup For Development In Docker
 Команды выполнять из директории `easyparking-pooler`.
 ```
-docker build -f Dockerfile.dev -t pooler .
+docker build --build-arg S3_ACCESS_KEY=... --build-arg S3_SECRET_KEY=... -f Dockerfile.dev -t pooler .
 docker run --name pooler -v $(pwd)/.mnesia:/app/.mnesia -p 4000:4000 -d pooler:latest
 ```
 Посмотреть документацию и потестить API можно на `localhost:4000/swaggerui`.
 
-При обновлении схемы БД может иметь смысл сделать reset. Для этого можно запустить контейнер и выполнить
+## DB Reset
+При обновлении схемы БД может иметь смысл сделать reset. Также при ресете создаются тестовые данные парковок.
+
+1. Подключимся к контейнеру
 ```
-docker exec -it pooler mix mnesia.reset
+docker exec -it pooler /bin/sh
+```
+2. Подключимся к консоли и получим доступ к рантайму.
+```
+iex --sname console --cookie monster --remsh dev
+```
+3. Сделаем ресет
+```
+Pooler.Mnesia.reset([node()])
+```
+4. Вызовем функцию для популяции базы данных парковок
+```
+Pooler.Helper.Seeds.seed
+```
+
+Тут же можно убедиться, что парковки были созданы
+```
+Pooler.Parking.list_all
 ```
  
 ## Commands

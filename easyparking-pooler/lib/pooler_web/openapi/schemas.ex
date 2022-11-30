@@ -77,6 +77,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
         title: %Schema{type: :string, minLength: 5, maxLength: 255},
         latitude: %Schema{type: :number, minimum: -90, maximum: 90},
         longitude: %Schema{type: :number, minimum: -180, maximum: 180},
+        cars_found: %Schema{type: :number, minimum: 0, nullable: true},
         distance_from_user: %Schema{
           type: :number,
           nullable: true,
@@ -102,6 +103,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
         "title" => "Парковка у Бизнес центра",
         "latitude" => 37.0123,
         "longitude" => -102.3242,
+        "cars_found" => 10,
         "image_url" => "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/image.png",
         "procesed_image_url" =>
           "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/processed_image.png"
@@ -167,6 +169,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
             "title" => "Парковка у Бизнес центра",
             "latitude" => 37.0123,
             "longitude" => -102.3242,
+            "cars_found" => 3,
             "image_url" => "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/image.png",
             "procesed_image_url" =>
               "parkings/cdfdaf44-ee35-11e3-846b-14109ff1a304/processed_image.png"

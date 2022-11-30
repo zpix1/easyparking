@@ -15,5 +15,6 @@ RUN mix deps.compile
 
 COPY ./lib ./lib
 RUN mix compile
+COPY ./config/runtime.exs ./config/runtime.exs
 
 CMD elixir --sname dev --cookie monster -S mix phx.server

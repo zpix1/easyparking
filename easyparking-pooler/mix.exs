@@ -5,7 +5,7 @@ defmodule Pooler.MixProject do
     [
       app: :pooler,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14.2",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -19,6 +19,11 @@ defmodule Pooler.MixProject do
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test
+      ],
+      releases: [
+        pooler: [
+          include_executables_for: [:unix]
+        ]
       ]
     ]
   end
@@ -29,7 +34,7 @@ defmodule Pooler.MixProject do
   def application do
     [
       mod: {Pooler.Application, []},
-      extra_applications: [:logger, :runtime_tools, :memento]
+      extra_applications: [:logger, :runtime_tools, :amqp, :memento]
     ]
   end
 
@@ -42,15 +47,26 @@ defmodule Pooler.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # RabbitMQ
+      {:amqp, "~> 3.0"},
+      # Producer - Consumer
+      {:broadway, "~> 1.0.5"},
+      {:broadway_rabbitmq, "~> 0.7.2"},
       # static code analysis - code consistency
       {:credo, "~> 1.6", only: :dev, runtime: false},
       {:corsica, "~> 1.3.0"},
       # static code analysis - types
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      # AWS
+      {:ex_aws, "~> 2.4"},
+      # S3
+      {:ex_aws_s3, "~> 2.3"},
       # docs generation
       {:ex_doc, "~> 0.28.4", only: :dev, runtime: false},
       # test coverage
       {:excoveralls, "~> 0.14.6", only: :test},
+      # HTTP Client
+      {:finch, "~> 0.13.0"},
       # documentation checks
       {:inch_ex, github: "rrrene/inch_ex", only: [:dev, :test]},
       # Database
@@ -63,10 +79,13 @@ defmodule Pooler.MixProject do
       {:scrivener_list, "~> 2.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
+      # JSON Parser
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       # Auth
       {:pow, "~> 1.0.27"},
+      # Tasks scheduling
+      {:quantum, "~> 3.5"},
       {:tzdata, "~> 1.1"},
       {:uuid, "~> 1.1"}
     ]
