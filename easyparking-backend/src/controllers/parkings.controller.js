@@ -87,28 +87,39 @@ export function removeFavoriteParking(req, res) {
 }
 
 export function getParkingById(req, res) {
-  axios
-    .get(ADMIN_BACKEND_URL + '/api/v1/parkings-by-ids', { params: { 'ids[]': req.params.parkingId } })
-    .then((resp) => {
-      resp.data.map((parking) => {
-        return res.status(200).json({
-          id: parking.id,
-          address: parking.address,
-          image_url: parking.image_url,
-          processed_image_url: parking.processed_image_url,
-          latitude: parking.latitude,
-          longitude: parking.longitude,
-          title: parking.title,
-        });
-      });
-      return;
-    })
-    .catch((err) => {
+  User.findById(req.user._id, {
+    favoriteParkings: true,
+  }).exec((err, { favoriteParkings }) => {
+    if (err) {
       res.status(500).send({
         message: err,
       });
       return;
-    });
+    }
+    axios
+      .get(ADMIN_BACKEND_URL + '/api/v1/parkings-by-ids', { params: { 'ids[]': req.params.parkingId } })
+      .then((resp) => {
+        resp.data.map((parking) => {
+          return res.status(200).json({
+            id: parking.id,
+            address: parking.address,
+            image_url: parking.image_url,
+            processed_image_url: parking.processed_image_url,
+            latitude: parking.latitude,
+            longitude: parking.longitude,
+            title: parking.title,
+            is_favorite: favoriteParkings.includes(parking.id),
+          });
+        });
+        return;
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err,
+        });
+        return;
+      });
+  });
 }
 
 function PageSizeConversion(offset, limit) {
@@ -128,34 +139,49 @@ function PageSizeConversion(offset, limit) {
 }
 
 export function getParkings(req, res) {
-  const user_latitude = parseFloat(req.body.latitude) || 33.5854;
-  const user_longitude = parseFloat(req.body.longitude) || -15.3333;
-  const offset = parseInt(req.body.offset) || 0;
-  const count = parseInt(req.body.count) || 10;
-  const conversion = new PageSizeConversion(offset, count);
-  const page = conversion.page + 1;
-  const page_size = conversion.pageSize;
-  const params = {
-    user_latitude: user_latitude,
-    user_longitude: user_longitude,
-    page: page,
-    page_size: page_size,
-  };
-  axios
-    .get(ADMIN_BACKEND_URL + '/api/v1/parking', { params })
-    .then((resp) => {
-      const entries_sliced = resp.data.entries.slice(conversion.headWaste, page_size - conversion.tailWaste);
-      return res.status(200).json({
-        entries: entries_sliced,
-        offset,
-        count,
-        total_entries: resp.data.total_entries,
-      });
-    })
-    .catch((err) => {
+  User.findById(req.user._id, {
+    favoriteParkings: true,
+  }).exec((err, { favoriteParkings }) => {
+    if (err) {
       res.status(500).send({
         message: err,
       });
       return;
-    });
+    }
+    const fpSet = new Set(...favoriteParkings);
+    const user_latitude = parseFloat(req.body.latitude) || 33.5854;
+    const user_longitude = parseFloat(req.body.longitude) || -15.3333;
+    const offset = parseInt(req.body.offset) || 0;
+    const count = parseInt(req.body.count) || 10;
+    const conversion = new PageSizeConversion(offset, count);
+    const page = conversion.page + 1;
+    const page_size = conversion.pageSize;
+    const params = {
+      user_latitude: user_latitude,
+      user_longitude: user_longitude,
+      page: page,
+      page_size: page_size,
+    };
+    axios
+      .get(ADMIN_BACKEND_URL + '/api/v1/parking', { params })
+      .then((resp) => {
+        const entries_sliced = resp.data.entries.slice(conversion.headWaste, page_size - conversion.tailWaste);
+        const entries_sliced_with_favorite = entries_sliced.map((entry) => ({
+          ...entry,
+          is_favorite: fpSet.has(entry.id),
+        }));
+        return res.status(200).json({
+          entries: entries_sliced_with_favorite,
+          offset,
+          count,
+          total_entries: resp.data.total_entries,
+        });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err,
+        });
+        return;
+      });
+  });
 }
