@@ -16,13 +16,11 @@ defmodule PoolerWeb.Router do
     plug Pow.Plug.RequireAuthenticated, error_handler: PoolerWeb.Plug.AuthErrorHandler
   end
 
-  if Pooler.env() in [:dev, :test] do
-    scope "/" do
-      # Use the default browser stack
-      pipe_through :browser
+  scope "/" do
+    # Use the default browser stack
+    pipe_through :browser
 
-      get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/v1/openapi"
-    end
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/v1/openapi"
   end
 
   scope "/api/v1" do

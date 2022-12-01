@@ -24,9 +24,6 @@ config :phoenix, :json_library, Jason
 
 config :pooler, :pow, users_context: Pooler.Accounts.UsersContext
 
-config :mnesia,
-  dir: '.mnesia/#{Mix.env()}/#{node()}'
-
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 timezone = "Asia/Novosibirsk"
