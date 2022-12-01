@@ -28,7 +28,7 @@ docker exec -it pooler /bin/sh
 ```
 2. Подключимся к консоли и получим доступ к рантайму.
 ```
-/bin/pooler remote
+bin/pooler remote
 ```
 3. Сделаем ресет
 ```
