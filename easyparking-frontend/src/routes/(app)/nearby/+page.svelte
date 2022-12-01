@@ -10,7 +10,7 @@
 
   getParkings()
     .then(data => {
-      parkings = data.parkings;
+      parkings = data.entries;
       parkingsActive = parkings.slice(0, parkingsStep);
     })
     .catch(error => {
@@ -40,10 +40,10 @@
     {#each parkingsActive as parking, i}
       <ParkingListCard
         style={i % 2 === 0 ? 'light' : 'dark'}
-        updateTime={parking.updateTime}
-        image={parking.parkingImage}
-        address={parking.parkingAdress}
-        freeLots={parking.numEmptySpaces}
+        updateTime={''}
+        image={parking.processed_image_url}
+        address={parking.address}
+        freeLots={parking.cars_found}
       />
     {/each}
   </div>
