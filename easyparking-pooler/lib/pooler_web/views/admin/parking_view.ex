@@ -21,6 +21,7 @@ defmodule PoolerWeb.Admin.ParkingView do
       "address" => parking.address,
       "latitude" => latitude,
       "longitude" => longitude,
+      "camera_endpoint" => parking.camera_endpoint,
       "updated_at" => DateTime.to_iso8601(parking.updated_at),
       "inserted_at" => DateTime.to_iso8601(parking.inserted_at)
     }
