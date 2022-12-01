@@ -1,12 +1,14 @@
 <script lang="ts">
   import IconButton from '$lib/shared/ui/IconButton.svelte';
-  import { nop } from '$lib/shared/utils/utils.js';
+  import { generateMessageFromDate, nop } from '$lib/shared/utils/utils.js';
 
   type ParkingCardStyle = 'light' | 'dark';
 
   export let style: ParkingCardStyle;
   export let address: string;
   export let freeLots: number;
+  export let updateTime: string;
+  export let image: string;
 </script>
 
 <div class="parking-card" class:light={style === 'light'} class:dark={style === 'dark'}>
@@ -16,14 +18,11 @@
       <IconButton icon="star-inactive" onClick={nop} />
     </div>
     <div class="parking-info-2">
-      <div class="last-updated">Last updated 5 minutes ago</div>
+      <div class="last-updated">{generateMessageFromDate(updateTime)}</div>
       <div class="free-lots">{freeLots} Free lots</div>
     </div>
   </div>
-  <img
-    src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png"
-    alt="kazino"
-  />
+  <img src={image} alt="parking" />
 </div>
 
 <style lang="scss">

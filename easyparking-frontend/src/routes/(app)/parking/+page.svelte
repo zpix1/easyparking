@@ -1,20 +1,23 @@
 <script lang="ts">
   import ParkingCard from '$lib/widgets/ParkingCard.svelte';
   import BackArrowComponent from '$lib/shared/ui/BackArrowComponent.svelte';
+  import { getParkingById } from '$lib/entities/UserParking';
+  import type { UserParking } from '$lib/entities/UserParking';
 
-  type ParkingInfo = {
-    address: string;
-    freeLots: number;
-  };
+  export let parkingId: number;
 
-  let parking: ParkingInfo = {
-    address: 'Pirogova 1',
-    freeLots: 15
-  };
+  getParkingById(parkingId)
+    .then(data => {
+      parking = data;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  let parking: UserParking;
 </script>
 
 <svelte:head>
-  <title>Nearby parkings</title>
+  <title>Parking</title>
   <meta name="description" content="EasyParking nearby parkings around you" />
 </svelte:head>
 
@@ -25,7 +28,15 @@
       <h1 class="parking-header">All Parkings</h1>
     </div>
   </a>
-  <ParkingCard style={'light'} address={parking.address} freeLots={parking.freeLots} />
+  {#if parking}
+    <ParkingCard
+      style={'light'}
+      address={parking.parkingAdress}
+      freeLots={parking.numEmptySpaces}
+      updateTime={parking.updateTime}
+      image={parking.parkingImage}
+    />
+  {/if}
 </div>
 
 <style lang="scss">

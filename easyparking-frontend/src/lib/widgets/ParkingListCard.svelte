@@ -4,11 +4,13 @@
 
 <script lang="ts">
   import IconButton from '$lib/shared/ui/IconButton.svelte';
-  import { nop } from '$lib/shared/utils/utils.js';
+  import { generateMessageFromDate, nop } from '$lib/shared/utils/utils.js';
 
   export let style: ParkingCardStyle;
   export let address: string;
   export let freeLots: number;
+  export let updateTime: string;
+  export let image: string;
 
   const onClick = () => {
     window.location.href = '/parking';
@@ -21,19 +23,14 @@
   class:dark={style === 'dark'}
   on:click={onClick}
 >
-  <img
-    src="https://memepedia.ru/wp-content/uploads/2018/03/ebanyy-rot-etogo-kazino.png"
-    width="100px"
-    height="100px"
-    alt="kazino"
-  />
+  <img src={image} width="100px" height="100px" alt="parking" />
   <div class="inner-flex">
     <div class="parking-info-1">
       <div class="address">{address}</div>
       <IconButton icon="star-active" onClick={nop} />
     </div>
     <div class="parking-info-2">
-      <div class="last-updated">Last updated 5 minutes ago</div>
+      <div class="last-updated">{generateMessageFromDate(updateTime)}</div>
       <div class="free-lots">{freeLots} Free lots</div>
     </div>
   </div>
