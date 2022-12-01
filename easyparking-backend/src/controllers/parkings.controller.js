@@ -148,7 +148,7 @@ export function getParkings(req, res) {
       });
       return;
     }
-    const fpSet = new Set(...favoriteParkings);
+    const fpSet = new Set(favoriteParkings);
     const user_latitude = parseFloat(req.body.latitude) || 33.5854;
     const user_longitude = parseFloat(req.body.longitude) || -15.3333;
     const offset = parseInt(req.body.offset) || 0;
