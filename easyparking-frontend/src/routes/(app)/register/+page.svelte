@@ -2,7 +2,7 @@
   import Link from '$lib/shared/ui/Link.svelte';
   import { register, registerError } from '$lib/entities/User';
   import Form from '$lib/shared/ui/Form.svelte';
-    import type { ButtonSize } from '$lib/shared/types/ButtonTypes';
+  import type { ButtonSize } from '$lib/shared/types/ButtonTypes';
 
   let buttonLabel = 'register';
   let totalError = registerError;

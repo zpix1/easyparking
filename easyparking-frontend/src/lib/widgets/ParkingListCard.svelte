@@ -47,7 +47,6 @@
     column-gap: 1rem;
     border-radius: 10px;
     cursor: pointer;
-    
 
     &.light {
       background: rgb(89, 82, 112);
