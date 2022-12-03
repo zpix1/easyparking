@@ -77,6 +77,7 @@ defmodule PoolerWeb.OpenAPI.Schemas do
         title: %Schema{type: :string, minLength: 5, maxLength: 255},
         latitude: %Schema{type: :number, minimum: -90, maximum: 90},
         longitude: %Schema{type: :number, minimum: -180, maximum: 180},
+        updated_at: %Schema{type: :string, format: :"date-time"},
         cars_found: %Schema{type: :number, minimum: 0, nullable: true},
         distance_from_user: %Schema{
           type: :number,

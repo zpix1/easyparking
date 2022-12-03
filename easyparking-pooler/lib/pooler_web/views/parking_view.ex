@@ -47,6 +47,7 @@ defmodule PoolerWeb.ParkingView do
       "latitude" => latitude,
       "longitude" => longitude,
       "image_url" => image_presigned_url,
+      "updated_at" => DateTime.to_iso8601(parking.updated_at),
       "processed_image_url" => processed_image_presigned_url,
       "cars_found" => parking.cars_found,
       "distance_from_user" => get_in(parking, [Access.key(:distance_from_user)])

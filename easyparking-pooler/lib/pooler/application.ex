@@ -2,6 +2,7 @@ defmodule Pooler.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
+  @dialyzer {:nowarn_function, start: 2}
 
   use Application
 
