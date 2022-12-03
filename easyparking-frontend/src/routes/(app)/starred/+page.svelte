@@ -3,78 +3,20 @@
   import Link from '$lib/shared/ui/Link.svelte';
   import ParkingListCard from '$lib/widgets/ParkingListCard.svelte';
   import Button from '$lib/shared/ui/Button.svelte';
-
-  type ParkingInfo = {
-    address: string;
-    freeLots: number;
-  };
+  import { getFavourite, type UserParking } from '$lib/entities/UserParking';
 
   const parkingsStep = 5;
-  let parkingsActive: ParkingInfo[] = [
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    }
-  ];
-
-  const parkings: ParkingInfo[] = [
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    },
-    {
-      address: 'Pirogova 1',
-      freeLots: 15
-    }
-  ];
+  let isFavorite = true;
+  let parkingsActive: UserParking[] = [];
+  let parkings: UserParking[] = [];
+  getFavourite()
+    .then(data => {
+      parkings = data.entries;
+      parkingsActive = parkings.slice(0, parkingsStep);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 
   const onShowMore = () => {
     if (parkings.length === parkingsActive.length) {
@@ -95,12 +37,16 @@
 <section class="container">
   {#if $user}
     <h1>Welcome, {$user.email.split('@')[0]}, your favorites:</h1>
-    <div class="parkings-list">
+      <div class="parkings-list">
       {#each parkingsActive as parking, i}
         <ParkingListCard
           style={i % 2 === 0 ? 'light' : 'dark'}
+          id={parking.id}
+          updateTime={parking.updated_at}
+          image={parking.processed_image_url}
           address={parking.address}
-          freeLots={parking.freeLots}
+          freeLots={parking.cars_found}
+          is_favorite={isFavorite}
         />
       {/each}
     </div>

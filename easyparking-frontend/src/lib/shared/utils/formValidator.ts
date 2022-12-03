@@ -1,6 +1,7 @@
 const EMAIL_MAX_LEN = 50;
 const MAX_LATITUDE = 90;
 const MAX_LONGITUDE = 180;
+const MIN_LONGITUDE = -180;
 const MAX_PORT = 65535;
 const IP_LEN = 4;
 const MAX_IP_NUMBER = 255;
@@ -53,7 +54,9 @@ class Validator {
       field: 'longitude',
       name: 'longitude',
       message:
-        !isNaN(longitude) && longitude >= 0 && longitude <= MAX_LONGITUDE ? '' : message
+        !isNaN(longitude) && longitude >= MIN_LONGITUDE && longitude <= MAX_LONGITUDE
+          ? ''
+          : message
     };
   }
   endpoint(value: string, message: string) {

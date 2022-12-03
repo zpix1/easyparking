@@ -1,25 +1,38 @@
 <script lang="ts">
+    import { addFavourite, deleteFavourite } from '$lib/entities/UserParking';
   import IconButton from '$lib/shared/ui/IconButton.svelte';
   import { generateMessageFromDate, nop } from '$lib/shared/utils/utils.js';
 
   type ParkingCardStyle = 'light' | 'dark';
 
+  export let id: string;
   export let style: ParkingCardStyle;
   export let address: string;
   export let freeLots: number;
   export let updateTime: string;
   export let image: string;
+  export let is_favorite: boolean;
+
+  const toggleFavourite = (e: MouseEvent) => {
+    e.stopPropagation();
+    if(is_favorite){
+      deleteFavourite(id);
+    } else {
+      addFavourite(id);
+    }
+    is_favorite = !is_favorite;
+  }
 </script>
 
 <div class="parking-card" class:light={style === 'light'} class:dark={style === 'dark'}>
   <div class="inner-flex">
     <div class="parking-info-1">
       <div class="address">{address}</div>
-      <IconButton icon="star-inactive" onClick={nop} />
+      <IconButton icon={`${is_favorite ? 'star-active' : 'star-inactive'}`} onClick={toggleFavourite} />
     </div>
     <div class="parking-info-2">
-      <div class="last-updated">{generateMessageFromDate(updateTime)}</div>
-      <div class="free-lots">{freeLots} Free lots</div>
+      <div class="last-updated">{updateTime ? generateMessageFromDate(updateTime) : ''}</div>
+      <div class="free-lots">{freeLots ?? '???'} Free lots</div>
     </div>
   </div>
   <img src={image} alt="parking" />
