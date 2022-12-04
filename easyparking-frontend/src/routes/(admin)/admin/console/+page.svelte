@@ -13,15 +13,30 @@
   } from '$lib/entities/Parking';
   import type { AddParkingPayload } from '$lib/entities/Parking';
   import type { ParkingResponse } from '$lib/entities/Parking';
-  import type { gotoFunc } from '../Admin';
-  import { isAdmin } from '../Admin';
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
 
   onMount(() => {
-    if (!isAdmin()) {
-      (goto as gotoFunc)('/admin');
-    }
+    void getParkings()
+            .then((data: Array<ParkingResponse>) => {
+              parkingsRaw = data;
+              data.forEach(parking => {
+                const newTableData = {
+                  id: parking.id,
+                  name: parking.title,
+                  address: parking.address,
+                  coordinates: `${parking.latitude}, ${parking.longitude}`,
+                  creationTime: parking.inserted_at,
+                  endpoint: parking.camera_endpoint,
+                  lastUpdate: parking.updated_at
+                };
+                tableData.push(newTableData);
+              });
+              tableData = tableData;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+
     adminChecked = true;
   });
 
@@ -29,34 +44,13 @@
   let tableData: TableRowData[] = [];
   let formModalOpen = false;
   let deletionConfirmModalOpen = false;
-  let adminChecked = true;
+  let adminChecked = false;
   let onConfirmDeletion = () => {
     deletionConfirmModalOpen = false;
   };
   let onConfirmForm: (body: AddParkingPayload) => void = () => {
     formModalOpen = false;
   };
-
-  void getParkings()
-    .then((data: Array<ParkingResponse>) => {
-      parkingsRaw = data;
-      data.forEach(parking => {
-        const newTableData = {
-          id: parking.id,
-          name: parking.title,
-          address: parking.address,
-          coordinates: `${parking.latitude}, ${parking.longitude}`,
-          creationTime: parking.inserted_at,
-          endpoint: parking.camera_endpoint,
-          lastUpdate: parking.updated_at
-        };
-        tableData.push(newTableData);
-      });
-      tableData = tableData;
-    })
-    .catch(error => {
-      console.log(error);
-    });
 
   interface TableRowData {
     id: string;
