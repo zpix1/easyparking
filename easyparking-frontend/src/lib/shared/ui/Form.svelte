@@ -73,7 +73,6 @@
       margin-top: 20px;
       background: rgba(217, 217, 217, 0.7);
       font: var(--font-l);
-      font-weight: 900;
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
@@ -109,7 +108,6 @@
       border-radius: 10px;
       background: rgba(217, 217, 217, 0.7);
       font: var(--font-l);
-      font-weight: 900;
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
@@ -126,6 +124,11 @@
       text-align: center;
       font: var(--font-m);
       color: rgb(237, 110, 110);
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    .total-error {
+      text-align: left;
     }
   }
   @media (max-width: 768px) {
@@ -134,7 +137,6 @@
       input {
         width: 100%;
         font: var(--font-m);
-        font-weight: 900;
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);
@@ -148,7 +150,6 @@
       input {
         width: 100%;
         font: var(--font-m);
-        font-weight: 900;
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);

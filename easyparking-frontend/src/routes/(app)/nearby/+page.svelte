@@ -1,7 +1,7 @@
 <script lang="ts">
   import ParkingListCard from '$lib/widgets/ParkingListCard.svelte';
   import Button from '$lib/shared/ui/Button.svelte';
-  import { getParkings } from '$lib/entities/UserParking';
+  import {getParkings, GetParkingsResponse} from '$lib/entities/UserParking';
   import type { UserParking } from '$lib/entities/UserParking';
 
   const parkingsStep = 5;
@@ -9,8 +9,8 @@
   let parkings: UserParking[] = [];
 
   getParkings()
-    .then(data => {
-      parkings = data.entries;
+    .then((data: GetParkingsResponse) => {
+      parkings = data.parkings;
       parkingsActive = parkings.slice(0, parkingsStep);
     })
     .catch(error => {
@@ -34,7 +34,6 @@
 </svelte:head>
 
 <div class="nearby-page">
-  <input class="parkings-input" placeholder="Search parking" />
   <div class="parkings-header">Nearby Parkings</div>
   <div class="parkings-list">
     {#each parkingsActive as parking, i}
@@ -69,21 +68,6 @@
     @media (max-width: 768px) {
       width: 90%;
       padding: 0;
-    }
-  }
-
-  .parkings-input {
-    width: 50%;
-    align-self: center;
-    border-radius: 10px;
-    padding: 0.5rem 1.5rem;
-    margin-bottom: 1rem;
-    background: rgba(217, 217, 217, 0.7);
-    font: var(--font-l);
-    transition: all 0.5s;
-    &:focus {
-      outline: 3px solid var(--primary-color);
-      filter: drop-shadow(2px 2px 5px #a09ef0) drop-shadow(-2px -2px 5px #831dd6);
     }
   }
 

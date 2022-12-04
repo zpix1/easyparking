@@ -35,7 +35,7 @@
 <style lang="scss">
   .container {
     width: 50%;
-    padding: 0 10px 50px;
+    padding: 20px 50px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -43,8 +43,8 @@
   }
   h1 {
     text-align: center;
-    font-size: 64px;
-    line-height: 80px;
+    font-size: 50px;
+    line-height: 64px;
   }
   form {
     min-width: 70%;
@@ -62,7 +62,6 @@
       margin-top: 20px;
       background: rgba(217, 217, 217, 0.7);
       font: var(--font-l);
-      font-weight: 900;
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);

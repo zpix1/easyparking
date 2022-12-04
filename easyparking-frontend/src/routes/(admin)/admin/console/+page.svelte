@@ -289,6 +289,10 @@
       }
     }
 
+    tr:hover {
+      background: rgba(140, 140, 166, 0.4);
+    }
+
     tr,
     thead {
       display: table-row;
@@ -312,6 +316,7 @@
     tr:last-child {
       display: table-row;
       height: 100%;
+      background: rgba(0, 0, 0, 0);
     }
   }
 </style>
