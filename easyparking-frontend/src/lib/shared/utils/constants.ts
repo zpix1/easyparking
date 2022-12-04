@@ -1,0 +1,1 @@
+export const HTTP_UNPROCESSABLE_ENTITY = 422;
