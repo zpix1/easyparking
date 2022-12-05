@@ -6,12 +6,12 @@
   export let data;
   let parking: UserParking;
   getParkingById(data.id)
-    .then(data => {
-      parking = data;
-    })
-    .catch(error => {
-      console.error(error);
-    });
+  .then(data => {
+    parking = data;
+  })
+  .catch(error => {
+    console.error(error);
+  });
 </script>
 
 <svelte:head>

@@ -96,7 +96,7 @@
   .parkings-header {
     margin-bottom: 1rem;
     font: var(--font-xl);
-    font-weight: bold;
+    font-weight: 900;
   }
 
   .parkings-list {

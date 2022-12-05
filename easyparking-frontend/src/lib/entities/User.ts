@@ -22,15 +22,19 @@ interface AuthResponse {
 interface getUserResponse {
   user: User;
 }
-
 interface DataMessage {
-  message: string;
+  message: MessageObject;
+}
+
+interface MessageObject {
+  name: string;
+  _message: string;
 }
 
 export const isAuthenticated = writable(false);
 export const user = writable<null | User>(null);
 export const userLoading = writable(false);
-export const registerError = writable<string>('');
+export const registerError = writable<string | MessageObject>('');
 export const loginError = writable<string>('');
 
 export function logOut() {
@@ -70,9 +74,14 @@ export async function register(body: Record<string, string>) {
     (goto as gotoFunc)('/');
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(err?.response?.status, err?.response?.data);
-      const serverMessage: string = (err?.response?.data as DataMessage).message;
-      registerError.set(serverMessage ?? 'Registration error');
+      let serverMessage: string | MessageObject;
+      const responseObject = (err?.response?.data as DataMessage).message;
+      if (typeof responseObject !== 'string') {
+        serverMessage = (err?.response?.data as DataMessage).message._message;
+      } else {
+        serverMessage = (err?.response?.data as DataMessage).message;
+      }
+      registerError.set(serverMessage ?? 'Server Error');
     } else {
       console.log(err);
       registerError.set('Registration error');
