@@ -7,6 +7,7 @@
   import type { Writable } from 'svelte/store';
   import { nop } from '$lib/shared/utils/utils.js';
   import type { ButtonSize } from '../types/ButtonTypes';
+  import {parkingCreationError} from "$lib/entities/Parking";
   export let className = '';
   export let submitBtnStyle = '';
   export let submitBtnSize: ButtonSize = 's';
@@ -16,6 +17,12 @@
   export let fields: Field[] = [];
   export let fieldsErrors: Record<string, string> = {};
   export let fieldsRules: Rule[] = [];
+
+  let totalErrorMessage = ``;
+  parkingCreationError.subscribe((error) => {
+    totalErrorMessage = error;
+  });
+
   const submitHandler = () => {
     const body: Record<string, string> = {};
     for (const item of fields) {
@@ -46,7 +53,7 @@
       <div class="error">{fieldsErrors[fields[i].name]}</div>
     </div>
   {/each}
-  <div class="error">{$totalError}</div>
+  <div class="error">{totalErrorMessage}</div>
   <Button type="submit" size={submitBtnSize} classNames={submitBtnStyle} onClick={nop}>
     {#if $userLoading}
       <Loader />

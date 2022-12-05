@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import adminClient from '$lib/shared/config/axiosAdminBackendConfig';
 
 export const parkingCreationError = writable('');
+parkingCreationError.set(``);
 
 export type ParkingResponse = {
   address: string;
@@ -25,30 +26,18 @@ export type AddParkingPayload = {
 export async function getParkings(): Promise<Array<ParkingResponse>> {
   return adminClient
     .get<Array<ParkingResponse>>(`v1/admin/parking`)
-    .then(response => response.data)
-    .catch(error => {
-      console.trace(error);
-      throw new Error('STRANGE ERROR');
-    });
+    .then(response => response.data);
 }
 
 export async function deleteParking(id: string) {
   return adminClient
-    .delete<Array<ParkingResponse>>(`v1/admin/parking/${id}`)
-    .catch(error => {
-      console.trace(error);
-      throw new Error('STRANGE ERROR');
-    });
+    .delete<Array<ParkingResponse>>(`v1/admin/parking/${id}`);
 }
 
 export async function addParking(payload: AddParkingPayload): Promise<ParkingResponse> {
   return adminClient
     .post<ParkingResponse>(`v1/admin/parking`, payload)
-    .then(response => response.data)
-    .catch(error => {
-      console.trace(error);
-      throw new Error('STRANGE ERROR');
-    });
+    .then(response => response.data);
 }
 
 export async function editParking(
@@ -57,9 +46,5 @@ export async function editParking(
 ): Promise<ParkingResponse> {
   return adminClient
     .put<ParkingResponse>(`v1/admin/parking/${id}`, payload)
-    .then(response => response.data)
-    .catch(error => {
-      console.trace(error);
-      throw new Error('STRANGE ERROR');
-    });
+    .then(response => response.data);
 }

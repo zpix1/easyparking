@@ -3,17 +3,21 @@
   import Modal from '$lib/shared/ui/Modal.svelte';
   import IconButton from '$lib/shared/ui/IconButton.svelte';
   import AdminConsoleParkingCreationForm from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
+  import type {AdminParkingFormType} from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
   import ConfirmationModal from '$lib/widgets/ConfirmationModal.svelte';
   import Loader from '$lib/shared/ui/Loader.svelte';
   import {
     addParking,
     deleteParking,
     editParking,
-    getParkings
+    getParkings, parkingCreationError
   } from '$lib/entities/Parking';
   import type { AddParkingPayload } from '$lib/entities/Parking';
   import type { ParkingResponse } from '$lib/entities/Parking';
   import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import {AxiosError} from "axios";
+  import {HTTP_UNPROCESSABLE_ENTITY} from "$lib/shared/utils/constants";
 
   onMount(() => {
     void getParkings()
@@ -44,6 +48,7 @@
   let tableData: TableRowData[] = [];
   let formModalOpen = false;
   let deletionConfirmModalOpen = false;
+  let adminFormType: AdminParkingFormType = 'add';
   let adminChecked = false;
   let onConfirmDeletion = () => {
     deletionConfirmModalOpen = false;
@@ -64,8 +69,8 @@
 
   const onAddParking = () => {
     formFields.forEach(obj => (obj.value = ''));
+    adminFormType = 'add';
     onConfirmForm = (body: AddParkingPayload) => {
-      console.log('Hello');
       addParking(body)
         .then((parking: ParkingResponse) => {
           parkingsRaw.push(parking);
@@ -80,16 +85,20 @@
           };
           tableData.push(newTableData);
           tableData = tableData;
+          formModalOpen = false;
+          parkingCreationError.set(``);
         })
-        .catch(error => {
-          console.log(error);
+        .catch((error: AxiosError) => {
+          if(error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
+            parkingCreationError.set("Could not add parking");
+          }
         });
-      formModalOpen = false;
     };
     formModalOpen = true;
   };
   const onEditParking = (id: string) => {
     const thisParkingRaw = parkingsRaw.find(parkingRaw => id === parkingRaw.id);
+    adminFormType = 'edit';
     if (!thisParkingRaw) {
       console.error('NO PARKING ITH SUCH ID');
       return;
@@ -123,11 +132,14 @@
           };
           const tableDataId = tableData.findIndex(data => data.id === parking.id);
           tableData[tableDataId] = newTableData;
+          formModalOpen = false;
+          parkingCreationError.set(``);
         })
-        .catch(error => {
-          console.log(error);
+        .catch((error: AxiosError) => {
+          if(error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
+            parkingCreationError.set("Could not edit parking");
+          }
         });
-      formModalOpen = false;
     };
     formModalOpen = true;
   };
@@ -149,6 +161,7 @@
     };
   };
   const onCloseForm = () => {
+    parkingCreationError.set(``);
     formModalOpen = false;
   };
   const onCancelDeletion = () => {
@@ -177,6 +190,7 @@
         <AdminConsoleParkingCreationForm
           bind:fields={formFields}
           submitCallback={onConfirmForm}
+          formType={adminFormType}
         />
       </Modal>
       <ConfirmationModal
