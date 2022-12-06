@@ -6,7 +6,7 @@
   import { addFavourite, deleteFavourite } from '$lib/entities/UserParking';
 
   import IconButton from '$lib/shared/ui/IconButton.svelte';
-  import { generateMessageFromDate, nop } from '$lib/shared/utils/utils.js';
+  import { generateMessageFromDate } from '$lib/shared/utils/utils.js';
 
   export let id: string;
   export let style: ParkingCardStyle;
@@ -19,15 +19,15 @@
   const onClick = () => {
     window.location.href = `/parking/${id}`;
   };
-  const toggleFavourite = (e: MouseEvent) => {
+  const toggleFavourite = async (e: MouseEvent) => {
     e.stopPropagation();
     if(is_favorite){
-      deleteFavourite(id);
+      await deleteFavourite(id);
     } else {
-      addFavourite(id);
+      await addFavourite(id);
     }
     is_favorite = !is_favorite;
-  }
+  };
 </script>
 
 <div

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { addFavourite, deleteFavourite } from '$lib/entities/UserParking';
   import IconButton from '$lib/shared/ui/IconButton.svelte';
-  import { generateMessageFromDate, nop } from '$lib/shared/utils/utils.js';
+  import { generateMessageFromDate } from '$lib/shared/utils/utils.js';
 
   type ParkingCardStyle = 'light' | 'dark';
 
@@ -13,15 +13,15 @@
   export let image: string;
   export let is_favorite: boolean;
 
-  const toggleFavourite = (e: MouseEvent) => {
+  const toggleFavourite = async (e: MouseEvent) => {
     e.stopPropagation();
     if(is_favorite){
-      deleteFavourite(id);
+      await deleteFavourite(id);
     } else {
-      addFavourite(id);
+      await addFavourite(id);
     }
     is_favorite = !is_favorite;
-  }
+  };
 </script>
 
 <div class="parking-card" class:light={style === 'light'} class:dark={style === 'dark'}>
