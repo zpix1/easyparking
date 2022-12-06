@@ -7,6 +7,7 @@
   import type { Writable } from 'svelte/store';
   import { nop } from '$lib/shared/utils/utils.js';
   import type { ButtonSize } from '../types/ButtonTypes';
+  import { parkingCreationError } from '$lib/entities/Parking';
   export let className = '';
   export let submitBtnStyle = '';
   export let submitBtnSize: ButtonSize = 's';
@@ -16,6 +17,12 @@
   export let fields: Field[] = [];
   export let fieldsErrors: Record<string, string> = {};
   export let fieldsRules: Rule[] = [];
+
+  let totalErrorMessage = ``;
+  parkingCreationError.subscribe(error => {
+    totalErrorMessage = error;
+  });
+
   const submitHandler = () => {
     const body: Record<string, string> = {};
     for (const item of fields) {
@@ -46,7 +53,7 @@
       <div class="error">{fieldsErrors[fields[i].name]}</div>
     </div>
   {/each}
-  <div class="error">{$totalError}</div>
+  <div class="error">{totalErrorMessage}</div>
   <Button type="submit" size={submitBtnSize} classNames={submitBtnStyle} onClick={nop}>
     {#if $userLoading}
       <Loader />
@@ -73,7 +80,6 @@
       margin-top: 20px;
       background: rgba(217, 217, 217, 0.7);
       font: var(--font-l);
-      font-weight: 900;
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
@@ -109,7 +115,6 @@
       border-radius: 10px;
       background: rgba(217, 217, 217, 0.7);
       font: var(--font-l);
-      font-weight: 900;
       transition: all 0.5s;
       &:focus {
         outline: 3px solid var(--primary-color);
@@ -126,6 +131,11 @@
       text-align: center;
       font: var(--font-m);
       color: rgb(237, 110, 110);
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    .total-error {
+      text-align: left;
     }
   }
   @media (max-width: 768px) {
@@ -134,7 +144,6 @@
       input {
         width: 100%;
         font: var(--font-m);
-        font-weight: 900;
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);
@@ -148,7 +157,6 @@
       input {
         width: 100%;
         font: var(--font-m);
-        font-weight: 900;
         transition: all 0.5s;
         &:focus {
           outline: 3px solid var(--primary-color);

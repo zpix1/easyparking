@@ -45,7 +45,7 @@
     padding: 1rem;
     row-gap: 1rem;
     border-radius: 10px;
-    max-height: 50vh;
+    aspect-ratio: 16 / 9;
 
     &.light {
       background: rgb(89, 82, 112);
@@ -58,6 +58,12 @@
     img {
       z-index: 1;
       min-height: 0;
+      transition: 0.5s;
+      border-radius: 20px;
+      &:hover{
+        transform: scale(1.05);
+        filter: drop-shadow(5px 5px 20px #a09ef0) drop-shadow(-5px -5px 10px #831dd6);
+      }
     }
   }
 

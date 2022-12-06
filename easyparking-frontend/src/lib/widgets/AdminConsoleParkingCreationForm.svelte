@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+  export type AdminParkingFormType = 'add' | 'edit';
+</script>
+
 <script lang="ts">
   import Form from '$lib/shared/ui/Form.svelte';
   import { parkingCreationError } from '../entities/Parking';
@@ -9,8 +13,8 @@
     value: string;
   }[];
   export let submitCallback: (body: AddParkingPayload) => void;
+  export let formType: AdminParkingFormType;
 
-  let totalError = parkingCreationError;
   const fieldsErrors = {
     title: '',
     address: '',
@@ -42,8 +46,8 @@
 <section>
   <Form
     className="compact"
-    buttonLabel="create parking"
-    {totalError}
+    buttonLabel={formType === 'add' ? 'create parking' : 'edit parking'}
+    totalError={parkingCreationError}
     bind:fields
     {fieldsErrors}
     {fieldsRules}

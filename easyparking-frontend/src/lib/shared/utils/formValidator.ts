@@ -1,5 +1,5 @@
 const EMAIL_MAX_LEN = 50;
-const MAX_LATITUDE = 90;
+const MAX_LATITUDE = 91;
 const MAX_LONGITUDE = 180;
 const MIN_LONGITUDE = -180;
 const MAX_PORT = 65535;
