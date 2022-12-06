@@ -3,43 +3,44 @@
   import Modal from '$lib/shared/ui/Modal.svelte';
   import IconButton from '$lib/shared/ui/IconButton.svelte';
   import AdminConsoleParkingCreationForm from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
-  import type {AdminParkingFormType} from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
+  import type { AdminParkingFormType } from '$lib/widgets/AdminConsoleParkingCreationForm.svelte';
   import ConfirmationModal from '$lib/widgets/ConfirmationModal.svelte';
   import Loader from '$lib/shared/ui/Loader.svelte';
   import {
     addParking,
     deleteParking,
     editParking,
-    getParkings, parkingCreationError
+    getParkings,
+    parkingCreationError
   } from '$lib/entities/Parking';
   import type { AddParkingPayload } from '$lib/entities/Parking';
   import type { ParkingResponse } from '$lib/entities/Parking';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import {AxiosError} from "axios";
-  import {HTTP_UNPROCESSABLE_ENTITY} from "$lib/shared/utils/constants";
+  import { AxiosError } from 'axios';
+  import { HTTP_UNPROCESSABLE_ENTITY } from '$lib/shared/utils/constants';
 
   onMount(() => {
     void getParkings()
-            .then((data: Array<ParkingResponse>) => {
-              parkingsRaw = data;
-              data.forEach(parking => {
-                const newTableData = {
-                  id: parking.id,
-                  name: parking.title,
-                  address: parking.address,
-                  coordinates: `${parking.latitude}, ${parking.longitude}`,
-                  creationTime: parking.inserted_at,
-                  endpoint: parking.camera_endpoint,
-                  lastUpdate: parking.updated_at
-                };
-                tableData.push(newTableData);
-              });
-              tableData = tableData;
-            })
-            .catch(error => {
-              console.log(error);
-            });
+      .then((data: Array<ParkingResponse>) => {
+        parkingsRaw = data;
+        data.forEach(parking => {
+          const newTableData = {
+            id: parking.id,
+            name: parking.title,
+            address: parking.address,
+            coordinates: `${parking.latitude}, ${parking.longitude}`,
+            creationTime: parking.inserted_at,
+            endpoint: parking.camera_endpoint,
+            lastUpdate: parking.updated_at
+          };
+          tableData.push(newTableData);
+        });
+        tableData = tableData;
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     adminChecked = true;
   });
@@ -89,8 +90,8 @@
           parkingCreationError.set(``);
         })
         .catch((error: AxiosError) => {
-          if(error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
-            parkingCreationError.set("Could not add parking");
+          if (error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
+            parkingCreationError.set('Could not add parking');
           }
         });
     };
@@ -136,8 +137,8 @@
           parkingCreationError.set(``);
         })
         .catch((error: AxiosError) => {
-          if(error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
-            parkingCreationError.set("Could not edit parking");
+          if (error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
+            parkingCreationError.set('Could not edit parking');
           }
         });
     };

@@ -46,7 +46,7 @@
 <section>
   <Form
     className="compact"
-    buttonLabel={formType === 'add' ? "create parking" : "edit parking"}
+    buttonLabel={formType === 'add' ? 'create parking' : 'edit parking'}
     totalError={parkingCreationError}
     bind:fields
     {fieldsErrors}

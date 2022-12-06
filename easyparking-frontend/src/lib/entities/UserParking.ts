@@ -13,7 +13,7 @@ export type UserParking = {
 };
 
 export type GetParkingsResponse = {
-  parkings: Array<UserParking>;
+  entries: Array<UserParking>;
 };
 
 export async function getParkings(): Promise<GetParkingsResponse> {

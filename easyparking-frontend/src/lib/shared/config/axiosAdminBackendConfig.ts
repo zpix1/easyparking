@@ -1,8 +1,8 @@
-import axios, {AxiosError} from 'axios';
-import {HTTP_UNAUTHORIZED} from "$lib/shared/utils/constants";
-import {goto} from "$app/navigation";
-import type {gotoFunc} from "../../../routes/(admin)/admin/Admin";
-import {nop} from "$lib/shared/utils/utils";
+import axios, { AxiosError } from 'axios';
+import { HTTP_UNAUTHORIZED } from '$lib/shared/utils/constants';
+import { goto } from '$app/navigation';
+import type { gotoFunc } from '../../../routes/(admin)/admin/Admin';
+import { nop } from '$lib/shared/utils/utils';
 
 const adminClient = axios.create({
   // svelte vite moment
@@ -23,7 +23,7 @@ adminClient.interceptors.request.use(config => {
 });
 
 adminClient.interceptors.response.use(undefined, (error: AxiosError) => {
-  if(error.response?.status === HTTP_UNAUTHORIZED) {
+  if (error.response?.status === HTTP_UNAUTHORIZED) {
     (goto as gotoFunc)('/admin');
   }
 });

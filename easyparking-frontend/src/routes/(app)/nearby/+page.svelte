@@ -1,7 +1,7 @@
 <script lang="ts">
   import ParkingListCard from '$lib/widgets/ParkingListCard.svelte';
   import Button from '$lib/shared/ui/Button.svelte';
-  import {getParkings, GetParkingsResponse} from '$lib/entities/UserParking';
+  import { getParkings } from '$lib/entities/UserParking';
   import type { UserParking } from '$lib/entities/UserParking';
 
   const parkingsStep = 5;
@@ -9,8 +9,8 @@
   let parkings: UserParking[] = [];
 
   getParkings()
-    .then((data: GetParkingsResponse) => {
-      parkings = data.parkings;
+    .then(data => {
+      parkings = data.entries;
       parkingsActive = parkings.slice(0, parkingsStep);
     })
     .catch(error => {
@@ -39,7 +39,7 @@
     {#each parkingsActive as parking, i}
       <ParkingListCard
         style={i % 2 === 0 ? 'light' : 'dark'}
-        updateTime={''}
+        updateTime={parking.updated_at}
         image={parking.processed_image_url}
         address={parking.address}
         freeLots={parking.cars_found}

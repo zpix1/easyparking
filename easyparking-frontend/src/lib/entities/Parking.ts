@@ -30,8 +30,7 @@ export async function getParkings(): Promise<Array<ParkingResponse>> {
 }
 
 export async function deleteParking(id: string) {
-  return adminClient
-    .delete<Array<ParkingResponse>>(`v1/admin/parking/${id}`);
+  return adminClient.delete<Array<ParkingResponse>>(`v1/admin/parking/${id}`);
 }
 
 export async function addParking(payload: AddParkingPayload): Promise<ParkingResponse> {
