@@ -56,7 +56,7 @@
         align-items: center;
         font-size: 40px;
         line-height: 50px;
-        font-weight: 800;
+        font-weight: 900;
         text-decoration: none;
         color: var(--color-text);
         cursor: pointer;

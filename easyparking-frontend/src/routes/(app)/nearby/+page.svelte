@@ -3,11 +3,11 @@
   import Button from '$lib/shared/ui/Button.svelte';
   import { getParkings } from '$lib/entities/UserParking';
   import type { UserParking } from '$lib/entities/UserParking';
+    import Loader from '$lib/shared/ui/Loader.svelte';
 
   const parkingsStep = 5;
   let parkingsActive: UserParking[] = [];
   let parkings: UserParking[] = [];
-
   getParkings()
     .then(data => {
       parkings = data.entries;
@@ -35,21 +35,27 @@
 
 <div class="nearby-page">
   <div class="parkings-header">Nearby Parkings</div>
-  <div class="parkings-list">
-    {#each parkingsActive as parking, i}
-      <ParkingListCard
-        style={i % 2 === 0 ? 'light' : 'dark'}
-        updateTime={parking.updated_at}
-        image={parking.processed_image_url}
-        address={parking.address}
-        freeLots={parking.cars_found}
-      />
-    {/each}
-  </div>
-  {#if parkings.length !== parkingsActive.length}
-    <div class="btn-wrapper">
-      <Button onClick={() => onShowMore()} size="xl" classNames="mb-50">Load More</Button>
+  {#if parkingsActive}
+    <div class="parkings-list">
+      {#each parkingsActive as parking, i}
+        <ParkingListCard
+          style={i % 2 === 0 ? 'light' : 'dark'}
+          id={parking.id}
+          updateTime={parking.updated_at}
+          image={parking.processed_image_url}
+          address={parking.address}
+          freeLots={parking.cars_found}
+          is_favorite={parking.is_favorite}
+        />
+      {/each}
     </div>
+    {#if parkings.length !== parkingsActive.length}
+      <div class="btn-wrapper">
+        <Button onClick={() => onShowMore()} size="xl" classNames="mb-50">Load More</Button>
+      </div>
+    {/if}
+  {:else}
+    <Loader/>
   {/if}
 </div>
 
@@ -74,7 +80,7 @@
   .parkings-header {
     margin-bottom: 1rem;
     font: var(--font-xl);
-    font-weight: bold;
+    font-weight: 900;
   }
 
   .parkings-list {

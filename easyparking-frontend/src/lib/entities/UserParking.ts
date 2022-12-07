@@ -5,11 +5,12 @@ export type ParkingIdPayload = {
 };
 
 export type UserParking = {
-  numEmptySpaces: number;
-  parkingAdress: string;
-  parkingId: string;
-  parkingImage: string;
-  updateTime: string;
+  cars_found: number;
+  address: string;
+  id: string;
+  processed_image_url: string;
+  updated_at: string;
+  is_favorite: boolean;
 };
 
 export type GetParkingsResponse = {
@@ -40,9 +41,21 @@ export async function getParkingById(id: number): Promise<UserParking> {
     });
 }
 
-export async function addFavourite(id: number) {
+export async function getFavourite(): Promise<GetParkingsResponse> {
   return backendClient
-    .post(`parkings/favourite`, {
+    .get<GetParkingsResponse>(`parkings/favorite`)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.trace(error);
+      throw new Error('STRANGE ERROR');
+    });
+}
+
+export async function addFavourite(id: string) {
+  return backendClient
+    .post<ParkingIdPayload>(`parkings/favorite`, {
       parkingId: id
     })
     .catch(error => {
@@ -51,10 +64,10 @@ export async function addFavourite(id: number) {
     });
 }
 
-export async function deleteFavourite(id: number) {
+export async function deleteFavourite(id: string) {
   return backendClient
-    .post(`parkings/favourite`, {
-      parkingId: id
+    .delete<ParkingIdPayload>(`parkings/favorite`, {
+      data: { parkingId: id }
     })
     .catch(error => {
       console.trace(error);

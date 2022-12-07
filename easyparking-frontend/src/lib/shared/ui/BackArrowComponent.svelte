@@ -2,6 +2,7 @@
 </script>
 
 <div class="back-arrow" />
+<h1 class="parking-header">Back</h1>
 
 <style lang="scss">
   .back-arrow {

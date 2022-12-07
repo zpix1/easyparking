@@ -3,17 +3,30 @@
 </script>
 
 <script lang="ts">
-  import IconButton from '$lib/shared/ui/IconButton.svelte';
-  import { generateMessageFromDate, nop } from '$lib/shared/utils/utils.js';
+  import { addFavourite, deleteFavourite } from '$lib/entities/UserParking';
 
+  import IconButton from '$lib/shared/ui/IconButton.svelte';
+  import { generateMessageFromDate } from '$lib/shared/utils/utils.js';
+
+  export let id: string;
   export let style: ParkingCardStyle;
   export let address: string;
   export let freeLots: number;
   export let updateTime: string;
   export let image: string;
+  export let is_favorite: boolean;
 
   const onClick = () => {
-    window.location.href = '/parking';
+    window.location.href = `/parking/${id}`;
+  };
+  const toggleFavourite = async (e: MouseEvent) => {
+    e.stopPropagation();
+    if(is_favorite){
+      await deleteFavourite(id);
+    } else {
+      await addFavourite(id);
+    }
+    is_favorite = !is_favorite;
   };
 </script>
 
@@ -27,11 +40,11 @@
   <div class="inner-flex">
     <div class="parking-info-1">
       <div class="address">{address}</div>
-      <IconButton icon="star-active" onClick={nop} />
+      <IconButton icon={`${is_favorite ? 'star-active' : 'star-inactive'}`} onClick={toggleFavourite} />
     </div>
     <div class="parking-info-2">
-      <div class="last-updated">{generateMessageFromDate(updateTime)}</div>
-      <div class="free-lots">{freeLots} Free lots</div>
+      <div class="last-updated">{updateTime ? generateMessageFromDate(updateTime) : ''}</div>
+      <div class="free-lots">{freeLots ?? '???'} Free lots</div>
     </div>
   </div>
 </div>

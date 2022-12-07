@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit/Outfit-Regular.eot');
+  src: local('☺'), url('/fonts/Outfit/Outfit-Regular.woff') format('woff'),
+    url('/fonts/Outfit/Outfit-Regular.ttf') format('truetype'),
+    url('/fonts/Outfit/Outfit-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit/Outfit-SemiBold.eot');
+  src: local('☺'), url('/fonts/Outfit/Outfit-SemiBold.woff') format('woff'),
+    url('/fonts/Outfit/Outfit-SemiBold.ttf') format('truetype'),
+    url('/fonts/Outfit/Outfit-SemiBold.svg') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit/Outfit-Bold.eot');
+  src: local('☺'), url('/fonts/Outfit/Outfit-Bold.woff') format('woff'),
+    url('/fonts/Outfit/Outfit-Bold.ttf') format('truetype'),
+    url('/fonts/Outfit/Outfit-Bold.svg') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('/fonts/Ubuntu/UbuntuMono-Regular.eot');
+  src: local('☺'), url('/fonts/Ubuntu/UbuntuMono-Regular.woff') format('woff'),
+    url('/fonts/Ubuntu/UbuntuMono-Regular.ttf') format('truetype'),
+    url('/fonts/Ubuntu/UbuntuMono-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

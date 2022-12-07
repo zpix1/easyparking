@@ -43,8 +43,10 @@
     background: rgb(162, 162, 175);
     z-index: 1;
     svg {
-      fill: rgb(60, 60, 60);
       cursor: pointer;
+      &.star-inactive{
+        fill: rgb(60, 60, 60);
+      }
       &.star-active {
         fill: rgb(255, 255, 0);
       }
