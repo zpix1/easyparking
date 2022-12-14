@@ -4,8 +4,6 @@ services:
   mongodb:
     image: mongo:5.0.2
     restart: unless-stopped
-    ports:
-      - 27017:27017
     networks:
       - easyparking-network
     volumes:
@@ -16,15 +14,11 @@ services:
       - mongodb
     build: ./easyparking-backend
     restart: unless-stopped
-    ports:
-      - 8080:8080
     networks:
       - easyparking-network
 
   frontend:
     build: ./easyparking-frontend
-    ports:
-      - 5173:5173
     networks:
     - easyparking-network
     
@@ -42,9 +36,9 @@ services:
 
   minio:
     image: 'bitnami/minio:latest'
+    container_name: 'minio'
     ports:
       - '9000:9000'
-      - '9001:9001'
     environment:
       - MINIO_ROOT_USER=${S3_ACCESS_KEY}
       - MINIO_ROOT_PASSWORD=${S3_SECRET_KEY}
@@ -58,9 +52,6 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
-    ports:
-        - 5672:5672
-        - 15672:15672
     networks:
         - easyparking-network
 
@@ -100,8 +91,6 @@ services:
     build: ./easyparking-pooler
     networks:
     - easyparking-network
-    ports:
-      - 4000:4000
     volumes:
       - mnesiadata:/app/.mnesia
 
