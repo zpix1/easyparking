@@ -55,11 +55,12 @@ export async function logIn(body: Record<string, string>) {
   } catch (err) {
     if (err instanceof AxiosError) {
       console.log(err?.response?.status, err?.response?.data);
+      loginError.set(err?.response?.data?.message);
     } else {
       console.log(err);
+      loginError.set('invalid login or password');
     }
     userLoading.set(false);
-    loginError.set('invalid login or password');
   }
 }
 

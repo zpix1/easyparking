@@ -7,7 +7,6 @@
   import type { Writable } from 'svelte/store';
   import { nop } from '$lib/shared/utils/utils.js';
   import type { ButtonSize } from '../types/ButtonTypes';
-  import { parkingCreationError } from '$lib/entities/Parking';
   export let className = '';
   export let submitBtnStyle = '';
   export let submitBtnSize: ButtonSize = 's';
@@ -19,7 +18,7 @@
   export let fieldsRules: Rule[] = [];
 
   let totalErrorMessage = ``;
-  parkingCreationError.subscribe(error => {
+  totalError.subscribe(error => {
     totalErrorMessage = error;
   });
 

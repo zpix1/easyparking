@@ -45,7 +45,7 @@
     display: flex;
     flex-flow: column nowrap;
     row-gap: 2rem;
-    width: 55%;
+    width: 60%;
     padding: 3rem;
     align-self: center;
 
