@@ -23,6 +23,7 @@ export function getFavoriteParkings(req, res) {
       .then((resp) => {
         const parkings = resp.data.map((parking) => ({
           id: parking.id,
+          cars_found: parking.cars_found,
           address: parking.address,
           image_url: parking.image_url,
           processed_image_url: parking.processed_image_url,
@@ -102,6 +103,7 @@ export function getParkingById(req, res) {
         resp.data.map((parking) => {
           return res.status(200).json({
             id: parking.id,
+            cars_found: parking.cars_found,
             address: parking.address,
             image_url: parking.image_url,
             processed_image_url: parking.processed_image_url,
