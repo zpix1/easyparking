@@ -32,7 +32,7 @@
     </div>
     <div class="parking-info-2">
       <div class="last-updated">{updateTime ? generateMessageFromDate(updateTime) : ''}</div>
-      <div class="free-lots">{freeLots ?? '???'} Free lots</div>
+      <div class="free-lots">{freeLots ?? '???'} Cars found</div>
     </div>
   </div>
   <img src={image} alt="parking" />
@@ -46,7 +46,6 @@
     row-gap: 1rem;
     border-radius: 10px;
     aspect-ratio: 16 / 9;
-
     &.light {
       background: rgb(89, 82, 112);
     }
@@ -60,6 +59,7 @@
       min-height: 0;
       transition: 0.5s;
       border-radius: 20px;
+      max-width: 100%;
       &:hover{
         transform: scale(1.05);
         filter: drop-shadow(5px 5px 20px #a09ef0) drop-shadow(-5px -5px 10px #831dd6);

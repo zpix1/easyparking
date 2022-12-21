@@ -37,19 +37,23 @@
 <section class="container">
   {#if $user}
     <h1>Welcome, {$user.email.split('@')[0]}, your favorites:</h1>
+    {#if parkings.length !== 0}
       <div class="parkings-list">
-      {#each parkingsActive as parking, i}
-        <ParkingListCard
-          style={i % 2 === 0 ? 'light' : 'dark'}
-          id={parking.id}
-          updateTime={parking.updated_at}
-          image={parking.processed_image_url}
-          address={parking.address}
-          freeLots={parking.cars_found}
-          is_favorite={isFavorite}
-        />
-      {/each}
-    </div>
+        {#each parkingsActive as parking, i}
+          <ParkingListCard
+            style={i % 2 === 0 ? 'light' : 'dark'}
+            id={parking.id}
+            updateTime={parking.updated_at}
+            image={parking.processed_image_url}
+            address={parking.address}
+            freeLots={parking.cars_found}
+            is_favorite={isFavorite}
+          />
+        {/each}
+      </div>
+    {:else} 
+      <p>It looks like you don't have any favorites parkings yet</p>
+    {/if}
     {#if parkings.length !== parkingsActive.length}
       <div class="btn-wrapper">
         <Button onClick={() => onShowMore()} size="xl" classNames="mb-50"
@@ -89,6 +93,16 @@
       font-size: 30px;
       line-height: 38px;
       margin-bottom: 20px;
+    }
+  }
+
+  p {
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    @media (max-width: 426px) {
+      font-size: 16px;
+      line-height: 24px;
     }
   }
   .parkings-list {
