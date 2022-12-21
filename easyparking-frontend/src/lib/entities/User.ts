@@ -54,8 +54,7 @@ export async function logIn(body: Record<string, string>) {
     (goto as gotoFunc)('/');
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(err?.response?.status, err?.response?.data);
-      loginError.set(err?.response?.data?.message);
+      loginError.set(err?.response?.data?.message ?? 'server error');
     } else {
       console.log(err);
       loginError.set('invalid login or password');

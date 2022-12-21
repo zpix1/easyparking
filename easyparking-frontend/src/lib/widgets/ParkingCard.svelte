@@ -32,7 +32,7 @@
     </div>
     <div class="parking-info-2">
       <div class="last-updated">{updateTime ? generateMessageFromDate(updateTime) : ''}</div>
-      <div class="free-lots">{freeLots ?? '???'} Free lots</div>
+      <div class="free-lots">{freeLots ?? '???'} Cars found</div>
     </div>
   </div>
   <img src={image} alt="parking" />
@@ -45,7 +45,7 @@
     padding: 1rem;
     row-gap: 1rem;
     border-radius: 10px;
-    
+    aspect-ratio: 16 / 9;
     &.light {
       background: rgb(89, 82, 112);
     }

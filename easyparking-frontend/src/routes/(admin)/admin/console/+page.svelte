@@ -90,9 +90,7 @@
           parkingCreationError.set(``);
         })
         .catch((error: AxiosError) => {
-          if (error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
-            parkingCreationError.set('Could not add parking');
-          }
+          parkingCreationError.set(error?.errors?.title ?? 'Could not add parking');
         });
     };
     formModalOpen = true;
@@ -137,9 +135,7 @@
           parkingCreationError.set(``);
         })
         .catch((error: AxiosError) => {
-          if (error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
-            parkingCreationError.set('Could not edit parking');
-          }
+          parkingCreationError.set(error?.errors?.title ?? 'Could not edit parking');
         });
     };
     formModalOpen = true;

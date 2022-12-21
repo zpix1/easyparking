@@ -44,7 +44,7 @@
     </div>
     <div class="parking-info-2">
       <div class="last-updated">{updateTime ? generateMessageFromDate(updateTime) : ''}</div>
-      <div class="free-lots">{freeLots ?? '???'} Free lots</div>
+      <div class="free-lots">{freeLots ?? '???'} Cars found</div>
     </div>
   </div>
 </div>

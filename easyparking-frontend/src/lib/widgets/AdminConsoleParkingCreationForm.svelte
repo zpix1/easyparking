@@ -21,7 +21,7 @@
     latitude: '',
     longitude: '',
     // eslint-disable-next-line camelcase
-    camera_endpoint: ''
+    camera_endpoint: '',
   };
   const fieldsRules = [
     {
@@ -39,7 +39,7 @@
       fieldName: 'camera_endpoint',
       message:
         'endpoint must be a string in format  "{camera ip}:{camera port}/#{possibly some path}"'
-    }
+    },
   ];
 </script>
 
